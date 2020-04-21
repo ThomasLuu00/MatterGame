@@ -1,0 +1,203 @@
+{
+    "frames": [
+        {
+            "filename": "flatboy_idle_01",
+            "frame": {
+                "w": 284,
+                "h": 477,
+                "x": 0,
+                "y": 0
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "flatboy_idle_02",
+            "frame": {
+                "w": 284,
+                "h": 476,
+                "x": 284,
+                "y": 0
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "flatboy_idle_03",
+            "frame": {
+                "w": 283,
+                "h": 476,
+                "x": 568,
+                "y": 0
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "flatboy_idle_04",
+            "frame": {
+                "w": 283,
+                "h": 476,
+                "x": 0,
+                "y": 477
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "flatboy_idle_05",
+            "frame": {
+                "w": 282,
+                "h": 475,
+                "x": 283,
+                "y": 477
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "flatboy_idle_06",
+            "frame": {
+                "w": 282,
+                "h": 474,
+                "x": 565,
+                "y": 477
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "flatboy_idle_07",
+            "frame": {
+                "w": 283,
+                "h": 472,
+                "x": 0,
+                "y": 953
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "flatboy_idle_08",
+            "frame": {
+                "w": 284,
+                "h": 471,
+                "x": 283,
+                "y": 953
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "flatboy_idle_09",
+            "frame": {
+                "w": 284,
+                "h": 469,
+                "x": 567,
+                "y": 953
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "flatboy_idle_10",
+            "frame": {
+                "w": 285,
+                "h": 468,
+                "x": 0,
+                "y": 1425
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "flatboy_idle_11",
+            "frame": {
+                "w": 286,
+                "h": 466,
+                "x": 285,
+                "y": 1425
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "flatboy_idle_12",
+            "frame": {
+                "w": 286,
+                "h": 466,
+                "x": 571,
+                "y": 1425
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "flatboy_idle_13",
+            "frame": {
+                "w": 285,
+                "h": 469,
+                "x": 0,
+                "y": 1893
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "flatboy_idle_14",
+            "frame": {
+                "w": 285,
+                "h": 472,
+                "x": 285,
+                "y": 1893
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "flatboy_idle_15",
+            "frame": {
+                "w": 284,
+                "h": 475,
+                "x": 570,
+                "y": 1893
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        }
+    ],
+    "meta": {
+        "description": "Atlas generado con Atlas Packer Gamma V2",
+        "web": "https://gammafp.github.io/atlas-packer-phaser/"
+    }
+}

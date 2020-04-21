@@ -2,7 +2,7 @@ import 'phaser';
 
 export default class MyGame extends Phaser.Scene
 {
-    player : Phaser.Physics.Matter.Sprite;
+    player : any;
     shapes: any;
 
     constructor ()
@@ -12,26 +12,53 @@ export default class MyGame extends Phaser.Scene
 
     preload ()
     {
-        this.load.atlas("dead", "../assets/dead.png", "../assets/dead_atlas.json");
-        this.load.json('shapes', 'assets/test.json')
+        this.load.atlas('dead', '../assets/dead.png', '../assets/dead_atlas.json');
+        this.load.json('shapes', 'assets/dead2.json')
+        this.load.atlas('idle', '../assets/idle.png', '../assets/idle_atlas.json');
+        this.load.json('idle_shapes', 'assets/idle.json')
     }
 
     create ()
     {
+        this.shapes  = this.cache.json.get('idle_shapes');
+		this.anims.create({
+			key: "dying",
+			frames: this.anims.generateFrameNames('dead',{
+                start: 1, end: 1, zeroPad: 2, prefix: 'flatboy_dead_'
+            }),
+			repeat: -1,
+			frameRate: 1
+        });
+        
+        this.anims.create({
+			key: "idle",
+			frames: this.anims.generateFrameNames('idle',{
+                start: 1, end: 15, zeroPad: 2, prefix: 'flatboy_idle_'
+            }),
+			repeat: -1,
+			frameRate: 1
+        });
 
-   
         this.matter.world.setBounds(0, 0, config.width, config.height);
-        this.shapes  = this.cache.json.get('shapes')
-        this.player = this.matter.add.sprite(400,300,'dead','flatboy_dead_01');
-        this.player.setCircle(0); // figure out a better method after
-        let test = this.matter.add.sprite(600,300,'dead','flatboy_dead_01').setVelocityX(-10);
-        let dying = this.anims.generateFrameNames('dead',{
-            start: 1, end: 15, zeroPad: 2, prefix: 'flatboy_dead_'
-        })
 
-        this.matter.add.gameObject(this.player, {shape: this.shapes.dead})
 
-        this.player.setScale(0.5);
+
+        this.player = this.matter.add.sprite(400,300,'dead','flatboy_idle_01');
+        this.player.setBody(this.shapes['flatboy_idle_01'], {shape: this.shapes['flatboy_idle_01']});
+        this.player.play('idle');
+
+        this.player.on('animationupdate-dying', (anim : Phaser.Animations.Animation, frame : Phaser.Animations.AnimationFrame, gameObject : any)  => {
+            let shape = this.shapes[frame.textureFrame];
+            console.log(shape)
+            gameObject.setBody(shape, { shape: shape });
+        },this)
+
+        this.player.on('animationupdate-idle', (anim : Phaser.Animations.Animation, frame : Phaser.Animations.AnimationFrame, gameObject : any)  => {
+            let shape = this.shapes[frame.textureFrame];
+            console.log(shape)
+            gameObject.setBody(shape, { shape: shape });
+        },this)
+        
     }
 }
 
