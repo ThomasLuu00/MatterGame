@@ -1,0 +1,203 @@
+{
+    "frames": [
+        {
+            "filename": "flatboy_dead_01",
+            "frame": {
+                "w": 318,
+                "h": 408,
+                "x": 0,
+                "y": 0
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "flatboy_dead_02",
+            "frame": {
+                "w": 334,
+                "h": 421,
+                "x": 318,
+                "y": 0
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "flatboy_dead_03",
+            "frame": {
+                "w": 355,
+                "h": 427,
+                "x": 652,
+                "y": 0
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "flatboy_dead_04",
+            "frame": {
+                "w": 368,
+                "h": 421,
+                "x": 0,
+                "y": 427
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "flatboy_dead_05",
+            "frame": {
+                "w": 386,
+                "h": 401,
+                "x": 368,
+                "y": 427
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "flatboy_dead_06",
+            "frame": {
+                "w": 405,
+                "h": 376,
+                "x": 754,
+                "y": 427
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "flatboy_dead_07",
+            "frame": {
+                "w": 414,
+                "h": 359,
+                "x": 0,
+                "y": 848
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "flatboy_dead_08",
+            "frame": {
+                "w": 432,
+                "h": 331,
+                "x": 414,
+                "y": 848
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "flatboy_dead_09",
+            "frame": {
+                "w": 446,
+                "h": 304,
+                "x": 846,
+                "y": 848
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "flatboy_dead_10",
+            "frame": {
+                "w": 455,
+                "h": 285,
+                "x": 0,
+                "y": 1207
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "flatboy_dead_11",
+            "frame": {
+                "w": 479,
+                "h": 278,
+                "x": 455,
+                "y": 1207
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "flatboy_dead_12",
+            "frame": {
+                "w": 484,
+                "h": 279,
+                "x": 934,
+                "y": 1207
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "flatboy_dead_13",
+            "frame": {
+                "w": 479,
+                "h": 278,
+                "x": 0,
+                "y": 1492
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "flatboy_dead_14",
+            "frame": {
+                "w": 478,
+                "h": 278,
+                "x": 479,
+                "y": 1492
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "flatboy_dead_15",
+            "frame": {
+                "w": 478,
+                "h": 278,
+                "x": 957,
+                "y": 1492
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        }
+    ],
+    "meta": {
+        "description": "Atlas generado con Atlas Packer Gamma V2",
+        "web": "https://gammafp.github.io/atlas-packer-phaser/"
+    }
+}
