@@ -1,8 +1,9 @@
 import 'phaser';
+import { FlatBoy, preloadFlatBoy} from './flatboy';
 
 export default class MyGame extends Phaser.Scene
 {
-    player : Phaser.Physics.Matter.Sprite;
+    player : FlatBoy;
     shapes: Object;
     curAnim : any;
 
@@ -13,72 +14,40 @@ export default class MyGame extends Phaser.Scene
 
     preload ()
     {
-        this.load.atlas('dead', '../assets/dead.png', '../assets/dead_atlas.json');
-        this.load.json('shapes', 'assets/dead2.json')
-        this.load.atlas('idle', '../assets/idle.png', '../assets/idle_atlas.json');
-        this.load.json('idle_shapes', 'assets/idle.json')
+        this.load.tilemapTiledJSON("map", "../assets/map/map.json")
+        this.load.image("map-tiles","../assets/map/map-tiles.png");
+        preloadFlatBoy(this);
     }
 
     create ()
     {
-        this.shapes  = Object.assign({}, this.cache.json.get('idle_shapes'), this.cache.json.get('shapes'));
-
-		this.anims.create({
-			key: "dying",
-			frames: this.anims.generateFrameNames('dead',{
-                start: 1, end: 15, zeroPad: 2, prefix: 'flatboy_dead_'
-            }),
-			repeat: 0,
-			frameRate: 30
-        });
         
-        this.anims.create({
-			key: "idle",
-			frames: this.anims.generateFrameNames('idle',{
-                start: 1, end: 15, zeroPad: 2, prefix: 'flatboy_idle_'
-            }),
-			repeat: -1,
-			frameRate: 30
-        });
+        //this.matter.world.setBounds(0, 0, Number(config.width),Number(config.height));
 
-        this.matter.world.setBounds(0, 0, Number(config.width),Number(config.height));
+        const map = this.make.tilemap({ key: "map" });
+        const tileset = map.addTilesetImage("map-tiles");
+        const groundLayer = map.createDynamicLayer("Ground", tileset, 0, 0);
+        groundLayer.setCollisionByProperty({ collides: true });
+        this.matter.world.convertTilemapLayer(groundLayer);
 
-        const animationCallBack = (anim : Phaser.Animations.Animation, frame : Phaser.Animations.AnimationFrame, gameObject : Phaser.Physics.Matter.Sprite)  => {
+        
+        this.player = new FlatBoy(this.matter.world, 400, 300);
+        this.player.idle()
+        //this.matter.add.gameObject(this.player);
 
-            let shape = this.shapes[frame.textureFrame];
-            gameObject.setBody(shape);
-            
-        }
-
-        this.player = this.matter.add.sprite(400,300,'idle','flatboy_idle_01');
-        this.player.setBody(this.shapes['flatboy_idle_01']);
-        //this.player.setScale(0.5);
-        //this.player.play('idle');
-
-        this.player.on('animationupdate-dying', (anim : Phaser.Animations.Animation, frame : Phaser.Animations.AnimationFrame, gameObject : Phaser.Physics.Matter.Sprite)  => {
-            let shape = this.shapes[frame.textureFrame];
-            gameObject.setBody(shape);
-        },this)
-
-        this.player.on('animationupdate-idle', animationCallBack,this)
-
-        this.player.on('animationstart-idle', animationCallBack ,this)
-
-
-
-        this.player.on('animationcomplete-idle', (anim : Phaser.Animations.Animation, frame : Phaser.Animations.AnimationFrame, gameObject : any)  => {
-            let shape = frame.textureFrame;
-            console.log('end ' + shape);
-        },this)
+        //this.matter.add.sprite(400,300,'idle','flatboy_idle_01');
+   
 
         this.input.on('pointerdown', function(){
-            this.player.play('idle');
+            this.player.idle();
         }, this);
 
         this.input.keyboard.on('keydown-Z', function (event) {
-            this.player.play('dying');
+            this.player.dead();
         }, this);
-
+        
+    // Smoothly follow the player
+    this.cameras.main.startFollow(this.player, false, 0.5, 0.5);
     }
 }
 
@@ -93,7 +62,7 @@ const config : Phaser.Types.Core.GameConfig = {
         matter: {
             gravity: {
                 x: 0,
-                y: 0
+                y: 1,
             },
             debug: {
                 showStaticBody: false,
