@@ -8,7 +8,7 @@ class FlatBoy extends Phaser.Physics.Matter.Sprite {
         this.addAnimation();
         
         this.setBody(this.shapes['flatboy_idle_01']);
-        this.scene.add.existing(this)
+        this.scene.add.existing(this);
     }
         
     idle(){
@@ -34,8 +34,13 @@ class FlatBoy extends Phaser.Physics.Matter.Sprite {
     private addAnimation = () => {
 
         const animationCallBack = (anim : Phaser.Animations.Animation, frame : Phaser.Animations.AnimationFrame, gameObject : Phaser.Physics.Matter.Sprite)  => {
+            var sx = gameObject.x;
+            var sy = gameObject.y;
+
             //let shape = this.shapes[frame.textureFrame];
             //gameObject.setBody(shape);
+
+            gameObject.setPosition(sx, sy);
         };
 
 		this.scene.anims.create({

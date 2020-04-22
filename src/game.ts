@@ -6,6 +6,7 @@ export default class MyGame extends Phaser.Scene
     player : FlatBoy;
     shapes: Object;
     curAnim : any;
+    controls : any;
 
     constructor ()
     {
@@ -47,7 +48,26 @@ export default class MyGame extends Phaser.Scene
         }, this);
         
     // Smoothly follow the player
-    this.cameras.main.startFollow(this.player, false, 0.5, 0.5);
+
+    
+    var controlConfig = {
+        camera: this.cameras.main,
+        left: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT),
+        right: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT),
+        up: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP),
+        down: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN),
+        speed: 0.5,
+        disableCull: true,
+        zoomIn: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q),
+        zoomOut: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E),
+    };
+    this.controls = new Phaser.Cameras.Controls.FixedKeyControl(controlConfig)
+    
+
+    this.cameras.main.startFollow(this.player, false, 0.5, 0.5).setZoom(0.5);;
+    }
+    update(){
+        this.controls.update();
     }
 }
 
@@ -62,7 +82,7 @@ const config : Phaser.Types.Core.GameConfig = {
         matter: {
             gravity: {
                 x: 0,
-                y: 1,
+                y: 0,
             },
             debug: {
                 showStaticBody: false,
