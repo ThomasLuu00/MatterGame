@@ -31,12 +31,10 @@ export default class MyGame extends Phaser.Scene
         groundLayer.setCollisionByProperty({ collides: true });
         this.matter.world.convertTilemapLayer(groundLayer);
 
-        
-        this.player = new FlatBoy(this.matter.world, 400, 300);
+        const spawnPoint : any = map.findObject("Spawn", obj => obj.name === "Spawn Point");
+        this.player = new FlatBoy(this.matter.world, spawnPoint.x, spawnPoint.y);
         this.player.idle()
-        //this.matter.add.gameObject(this.player);
 
-        //this.matter.add.sprite(400,300,'idle','flatboy_idle_01');
    
 
         this.input.on('pointerdown', function(){
@@ -48,8 +46,6 @@ export default class MyGame extends Phaser.Scene
         }, this);
         
     // Smoothly follow the player
-
-    
     var controlConfig = {
         camera: this.cameras.main,
         left: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT),
@@ -63,7 +59,6 @@ export default class MyGame extends Phaser.Scene
     };
     this.controls = new Phaser.Cameras.Controls.FixedKeyControl(controlConfig)
     
-
     this.cameras.main.startFollow(this.player, false, 0.5, 0.5).setZoom(0.5);;
     }
     update(){
