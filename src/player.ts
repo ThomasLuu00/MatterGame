@@ -13,32 +13,20 @@ export default class Player {
     jumpInput: MultiKey;
     destroyed: Boolean;
     body: any;
-  constructor(scene, x, y) {
+
+  constructor(scene, sprite) {
     this.scene = scene;
 
-    // Create the animations we need from the player spritesheet
-    const anims = scene.anims;
-    anims.create({
-      key: "player-idle",
-      frames: anims.generateFrameNumbers("player", { start: 0, end: 3 }),
-      frameRate: 3,
-      repeat: -1
-    });
-    anims.create({
-      key: "player-run",
-      frames: anims.generateFrameNumbers("player", { start: 8, end: 15 }),
-      frameRate: 12,
-      repeat: -1
-    });
-
     // Create the physics-based sprite that we will move around and animate
-    this.sprite = scene.matter.add.sprite(0, 0, "player", 0);
+    this.sprite = sprite;
     this.body = this.sprite.body;
 
     const MatterPhysics : Phaser.Physics.Matter. MatterPhysics = new Phaser.Physics.Matter.MatterPhysics(this.scene);
     const Bodies = MatterPhysics.bodies;
     const Body = MatterPhysics.body;
     
+
+    /*
     const { width: w, height: h } = this.sprite;
     const mainBody = Bodies.rectangle(0, 0, w * 0.6, h, { chamfer: { radius: 10 } });
     this.sensors = {
@@ -52,10 +40,15 @@ export default class Player {
       frictionAir: 0.02,
       friction: 0.1
     });
+    
+    let sx =  this.sprite.x;
+    let sy = this.sprite.y;
+
     this.sprite.setExistingBody(compoundBody)
     this.sprite.setScale(2).setFixedRotation() // Sets inertia to infinity so the player can't rotate
-      .setPosition(x, y);
+      .setPosition(sx, sy);
 
+      */
     // Track which sensors are touching something
     this.isTouching = { left: false, right: false, ground: false };
 
@@ -65,7 +58,7 @@ export default class Player {
 // 
     // Before matter's update, reset our record of which surfaces the player is touching.
     scene.matter.world.on("beforeupdate", this.resetTouching, this);
-
+    /*
     scene.matterCollision.addOnCollideStart({
       objectA: [this.sensors.bottom, this.sensors.left, this.sensors.right],
       callback: this.onSensorCollide,
@@ -76,7 +69,7 @@ export default class Player {
       callback: this.onSensorCollide,
       context: this
     });
-
+*/
     // Track the keys
     const { LEFT, RIGHT, UP, A, D, W } = Phaser.Input.Keyboard.KeyCodes;
     this.leftInput = new MultiKey(scene, [LEFT, A]);
@@ -168,6 +161,8 @@ export default class Player {
       });
     }
 
+
+    /*
     // Update the animation/texture based on the state of the player's state
     if (isOnGround) {
       if (this.body.force.x !== 0) sprite.anims.play("player-run", true);
@@ -176,6 +171,7 @@ export default class Player {
       sprite.anims.stop();
       sprite.setTexture("player", 10);
     }
+    */
   }
 
   destroy() {}
