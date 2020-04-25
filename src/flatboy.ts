@@ -1,12 +1,12 @@
 class FlatBoy extends Phaser.Physics.Matter.Sprite {
     shapes: Object;
-    sensors: { bottom: MatterJS.BodyType; left: MatterJS.BodyType; right: MatterJS.BodyType; };
+    sensors: { top: MatterJS.BodyType, bottom: MatterJS.BodyType; left: MatterJS.BodyType; right: MatterJS.BodyType; };
     isTouching: { left: boolean; right: boolean; ground: boolean; };
     canJump: boolean;
     jumpCooldownTimer: any;
 
     constructor(world : Phaser.Physics.Matter.World, x : number = 0, y : number = 0){
-        super(world, x, y,'idle','flatboy_idle_01');
+        super(world, x, y,'idle','flatboy_idle_01',{ render: { sprite: { xOffset: 70, yOffset: 0 } }});
         this.shapes  = Object.assign({}, this.scene.cache.json.get('idle_shapes'), this.scene.cache.json.get('dead_shapes'));
         this.addAnimation();
 
@@ -16,22 +16,30 @@ class FlatBoy extends Phaser.Physics.Matter.Sprite {
         const h = this.height;
 
         
-        const mainBody = Bodies.rectangle(0, 0, w * 0.6, h* 0.6, { chamfer: { radius: 10 } });
+        const mainBody = Bodies.rectangle(0, 0, w * 0.3, h* 0.38, { chamfer: { radius: 10 } });
+
+
         this.sensors = {
-          bottom: Bodies.rectangle(0, h , w * 0.25, 2, { isSensor: true }),
-          left: Bodies.rectangle(-w * 0.35, 0, 2, h * 0.5, { isSensor: true }),
-          right: Bodies.rectangle(w * 0.35, 0, 2, h * 0.5, { isSensor: true })
+            top:Bodies.rectangle(0, -h* 0.18 , w * 0.15, 2, { isSensor: true }),
+            bottom: Bodies.rectangle(0, h* 0.18 , w * 0.15, 2, { isSensor: true }),
+            left: Bodies.rectangle(-w * 0.15, 0, 2, h * 0.38, { isSensor: true }),
+            right: Bodies.rectangle(w * 0.15, 0, 2, h * 0.38, { isSensor: true })
 
         };
+
         const compoundBody = Body.create({
-            parts: [mainBody, this.sensors.bottom, this.sensors.right, this.sensors.left],
+            parts: [mainBody, this.sensors.top,this.sensors.right, this.sensors.left,this.sensors.bottom],
         });
 
         this.setExistingBody(compoundBody);
         this.setFixedRotation();
         this.setPosition(x, y);
-        this.toggleFlipX();
+        //this.toggleFlipX();
 
+        let cx = this.centerOfMass.x
+        let cy = this.centerOfMass.y
+        console.log(cx)
+        this.setOrigin(cx - 0.05, cy + 0.31);
         // Track which sensors are touching something
         this.isTouching = { left: false, right: false, ground: false };
 
