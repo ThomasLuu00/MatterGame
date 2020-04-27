@@ -15,13 +15,11 @@ class FlatBoy extends Phaser.Physics.Matter.Sprite {
         const w = this.width;
         const h = this.height;
 
-        
         const mainBody = Bodies.rectangle(0, 0, w * 0.3, h* 0.38, { chamfer: { radius: 10 } });
-
 
         this.sensors = {
             top:Bodies.rectangle(0, -h* 0.18 , w * 0.15, 2, { isSensor: true }),
-            bottom: Bodies.rectangle(0, h* 0.18 , w * 0.15, 2, { isSensor: true }),
+            bottom: Bodies.rectangle(0, h* 0.2 , w * 0.15, 2, { isSensor: true, label: 'bottomSense' }),
             left: Bodies.rectangle(-w * 0.15, 0, 2, h * 0.38, { isSensor: true }),
             right: Bodies.rectangle(w * 0.15, 0, 2, h * 0.38, { isSensor: true })
 
@@ -29,17 +27,17 @@ class FlatBoy extends Phaser.Physics.Matter.Sprite {
 
         const compoundBody = Body.create({
             parts: [mainBody, this.sensors.top,this.sensors.right, this.sensors.left,this.sensors.bottom],
+            inertia: Infinity
         });
 
         this.setExistingBody(compoundBody);
         this.setFixedRotation();
         this.setPosition(x, y);
-        //this.toggleFlipX();
 
         let cx = this.centerOfMass.x
         let cy = this.centerOfMass.y
-        console.log(cx)
         this.setOrigin(cx - 0.05, cy + 0.31);
+
         // Track which sensors are touching something
         this.isTouching = { left: false, right: false, ground: false };
 
@@ -49,15 +47,30 @@ class FlatBoy extends Phaser.Physics.Matter.Sprite {
         
         // Before matter's update, reset the player's count of what surfaces it is touching.
         this.on("beforeupdate", this.resetTouching, this);
+        this.world.on('collisionstart',this.onSensorCollide,this);
 
-        this.on('collidestart',this.onSensorCollide);
-        this.on('collideactive',this.onSensorCollide)
 
    
     }
         
-    onSensorCollide({ bodyA, bodyB, pair }) {
-        console.log('inonsensor')
+    onSensorCollide(event) {
+
+        for (var i = 0; i < event.pairs.length; i++) {
+
+            var bodyA = event.pairs[i].bodyA;
+            var bodyB = event.pairs[i].bodyB;
+ 
+            if (bodyA.isSensor) return; // We only care about collisions with physical objects
+            if (bodyB === this.sensors.left) {
+              this.isTouching.left = true;
+              if (event.pairs[i].separation > 0.5) this.x += event.pairs[i].separation - 0.5;
+            } else if (bodyB === this.sensors.right) {
+              this.isTouching.right = true;
+              if (event.pairs[i].separation > 0.5) this.x -= event.pairs[i].separation - 0.5;
+            } else if (bodyB === this.sensors.bottom) {
+              this.isTouching.ground = true;
+            }
+        }
         // Watch for the player colliding with walls/objects on either side and the ground below, so
         // that we can use that logic inside of update to move the player.
         // Note: we are using the "pair.separation" here. That number tells us how much bodyA and bodyB
@@ -65,16 +78,6 @@ class FlatBoy extends Phaser.Physics.Matter.Sprite {
         // be able to press up against the wall and use friction to hang in midair. This formula leaves
         // 0.5px of overlap with the sensor so that the sensor will stay colliding on the next tick if
         // the player doesn't move.
-        if (bodyB.isSensor) return; // We only care about collisions with physical objects
-        if (bodyA === this.sensors.left) {
-          this.isTouching.left = true;
-          if (pair.separation > 0.5) this.x += pair.separation - 0.5;
-        } else if (bodyA === this.sensors.right) {
-          this.isTouching.right = true;
-          if (pair.separation > 0.5) this.x -= pair.separation - 0.5;
-        } else if (bodyA === this.sensors.bottom) {
-          this.isTouching.ground = true;
-        }
       }
     
       resetTouching() {
@@ -149,6 +152,16 @@ const preloadFlatBoy = (scene : Phaser.Scene) => {
     scene.load.json('dead_shapes', 'assets/dead2.json');
     scene.load.atlas('idle', '../assets/idle.png', '../assets/idle_atlas.json');
     scene.load.json('idle_shapes', 'assets/idle.json');
+}
+
+function getRootBody(body) {
+    if (body.parent === body) {
+        return body;
+    }
+    while (body.parent !== body) {
+        body = body.parent;
+    }
+    return body;
 }
 
 export {FlatBoy, preloadFlatBoy};

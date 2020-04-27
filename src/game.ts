@@ -31,10 +31,9 @@ export default class MyGame extends Phaser.Scene
         const groundLayer = map.createDynamicLayer("Ground", tileset, 0, 0);
         groundLayer.setCollisionByProperty({ collides: true });
         this.matter.world.convertTilemapLayer(groundLayer);
-        
         const spawnPoint : any = map.findObject("Spawn", obj => obj.name === "Spawn Point");
         this.sprite = new FlatBoy(this.matter.world, spawnPoint.x, spawnPoint.y);
-        //this.player = new Player(this, this.sprite);
+        this.player = new Player(this, this.sprite);
         this.add.existing(this.sprite);
 
         // Smoothly follow the player
@@ -56,6 +55,7 @@ export default class MyGame extends Phaser.Scene
 
         this.matter.world.createDebugGraphic();
 
+    
     }
 
     update(){
