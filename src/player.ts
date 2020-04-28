@@ -57,10 +57,10 @@ export default class Player {
 
     if (isLeftKeyDown === isRightKeyDown) {
       sprite.setVelocityX(0);
-      sprite.animate('idle');
+      //sprite.animate('idle');
     }
     else if (isLeftKeyDown) {
-      sprite.animate('dead');
+      //sprite.animate('dead');
       sprite.setFlipX(true);
       // Don't let the player push things left if they in the air
       if (!(isInAir && sprite.isTouching.left)) {
@@ -68,7 +68,7 @@ export default class Player {
         //sprite.applyForce(new Phaser.Math.Vector2(-moveForce, 0))
       }
     } else if (isRightKeyDown) {
-      sprite.animate('dead');
+      //sprite.animate('dead');
       sprite.setFlipX(false);
       // Don't let the player push things right if they in the air
       if (!(isInAir && sprite.isTouching.right)) {

@@ -1,11 +1,13 @@
 import 'phaser';
 import { FlatBoy, preloadFlatBoy} from './flatboy';
+import { NinjaGirl, preloadNinjaGirl} from './ninja-girl';
 import Player from './player';
 
 export default class MyGame extends Phaser.Scene
 {
     player : Player;
     sprite: any;
+    ninja: NinjaGirl;
     shapes: Object;
     curAnim : any;
     controls : any;
@@ -19,7 +21,8 @@ export default class MyGame extends Phaser.Scene
     {
         this.load.tilemapTiledJSON("map", "../assets/map/map.json")
         this.load.image("map-tiles","../assets/map/map-tiles.png");
-        preloadFlatBoy(this);
+        preloadFlatBoy(this); 
+        preloadNinjaGirl(this);
     }
 
     create ()
@@ -33,7 +36,9 @@ export default class MyGame extends Phaser.Scene
         this.matter.world.convertTilemapLayer(groundLayer);
         const spawnPoint : any = map.findObject("Spawn", obj => obj.name === "Spawn Point");
         this.sprite = new FlatBoy(this.matter.world, spawnPoint.x, spawnPoint.y);
-        this.player = new Player(this, this.sprite);
+
+        this.ninja = new NinjaGirl(this.matter.world, spawnPoint.x + 200, spawnPoint.y + 200);
+        this.player = new Player(this, this.ninja);
         this.add.existing(this.sprite);
 
         // Smoothly follow the player
@@ -50,7 +55,7 @@ export default class MyGame extends Phaser.Scene
         };
 
         this.controls = new Phaser.Cameras.Controls.FixedKeyControl(controlConfig)
-        this.cameras.main.startFollow(this.sprite, false, 0.5, 0.5).setZoom(0.5);
+        this.cameras.main.startFollow(this.player.sprite, false, 0.5, 0.5).setZoom(0.5);
         this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
 
         this.matter.world.createDebugGraphic();

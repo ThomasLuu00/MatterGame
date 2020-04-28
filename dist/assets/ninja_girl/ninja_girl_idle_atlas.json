@@ -1,7 +1,7 @@
 {
     "frames": [
         {
-            "filename": "idle__000",
+            "filename": "ninja_girl_idle_00",
             "frame": {
                 "w": 290,
                 "h": 500,
@@ -14,7 +14,7 @@
             }
         },
         {
-            "filename": "idle__001",
+            "filename": "ninja_girl_idle_01",
             "frame": {
                 "w": 290,
                 "h": 500,
@@ -27,7 +27,7 @@
             }
         },
         {
-            "filename": "idle__002",
+            "filename": "ninja_girl_idle_02",
             "frame": {
                 "w": 290,
                 "h": 500,
@@ -40,7 +40,7 @@
             }
         },
         {
-            "filename": "idle__003",
+            "filename": "ninja_girl_idle_03",
             "frame": {
                 "w": 290,
                 "h": 500,
@@ -53,7 +53,7 @@
             }
         },
         {
-            "filename": "idle__004",
+            "filename": "ninja_girl_idle_04",
             "frame": {
                 "w": 290,
                 "h": 500,
@@ -66,7 +66,7 @@
             }
         },
         {
-            "filename": "idle__005",
+            "filename": "ninja_girl_idle_05",
             "frame": {
                 "w": 290,
                 "h": 500,
@@ -79,7 +79,7 @@
             }
         },
         {
-            "filename": "idle__006",
+            "filename": "ninja_girl_idle_06",
             "frame": {
                 "w": 290,
                 "h": 500,
@@ -92,7 +92,7 @@
             }
         },
         {
-            "filename": "idle__007",
+            "filename": "ninja_girl_idle_07",
             "frame": {
                 "w": 290,
                 "h": 500,
@@ -105,7 +105,7 @@
             }
         },
         {
-            "filename": "idle__008",
+            "filename": "ninja_girl_idle_08",
             "frame": {
                 "w": 290,
                 "h": 500,
@@ -118,7 +118,7 @@
             }
         },
         {
-            "filename": "idle__009",
+            "filename": "ninja_girl_idle_09",
             "frame": {
                 "w": 290,
                 "h": 500,

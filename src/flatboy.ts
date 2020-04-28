@@ -28,7 +28,6 @@ class FlatBoy extends Phaser.Physics.Matter.Sprite{
         const h = this.height;
 
         const mainBody = Bodies.rectangle(0, 0, w * 0.3, h* 0.38, { chamfer: { radius: 10 } });
-
         this.sensors = {
             top:Bodies.rectangle(0, -h* 0.18 , w * 0.15, 2, { isSensor: true, label: 'top'}),
             bottom: Bodies.rectangle(0, h* 0.2 , w * 0.15, 2, { isSensor: true, label: 'bottom' }),
