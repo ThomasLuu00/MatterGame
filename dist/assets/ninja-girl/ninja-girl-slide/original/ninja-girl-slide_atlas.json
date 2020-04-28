@@ -1,0 +1,138 @@
+{
+    "frames": [
+        {
+            "filename": "slide__000",
+            "frame": {
+                "w": 397,
+                "h": 401,
+                "x": 0,
+                "y": 0
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "slide__004",
+            "frame": {
+                "w": 397,
+                "h": 401,
+                "x": 397,
+                "y": 0
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "slide__002",
+            "frame": {
+                "w": 397,
+                "h": 401,
+                "x": 794,
+                "y": 0
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "slide__001",
+            "frame": {
+                "w": 397,
+                "h": 401,
+                "x": 0,
+                "y": 401
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "slide__003",
+            "frame": {
+                "w": 397,
+                "h": 401,
+                "x": 397,
+                "y": 401
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "slide__005",
+            "frame": {
+                "w": 397,
+                "h": 401,
+                "x": 794,
+                "y": 401
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "slide__006",
+            "frame": {
+                "w": 397,
+                "h": 401,
+                "x": 0,
+                "y": 802
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "slide__007",
+            "frame": {
+                "w": 397,
+                "h": 401,
+                "x": 397,
+                "y": 802
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "slide__008",
+            "frame": {
+                "w": 397,
+                "h": 401,
+                "x": 794,
+                "y": 802
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "slide__009",
+            "frame": {
+                "w": 397,
+                "h": 401,
+                "x": 0,
+                "y": 1203
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        }
+    ],
+    "meta": {
+        "description": "Atlas generado con Atlas Packer Gamma V2",
+        "web": "https://gammafp.github.io/atlas-packer-phaser/"
+    }
+}

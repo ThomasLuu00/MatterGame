@@ -1,0 +1,138 @@
+{
+    "frames": [
+        {
+            "filename": "glide_000",
+            "frame": {
+                "w": 505,
+                "h": 474,
+                "x": 0,
+                "y": 0
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "glide_001",
+            "frame": {
+                "w": 505,
+                "h": 474,
+                "x": 505,
+                "y": 0
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "glide_007",
+            "frame": {
+                "w": 505,
+                "h": 474,
+                "x": 1010,
+                "y": 0
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "glide_002",
+            "frame": {
+                "w": 505,
+                "h": 474,
+                "x": 0,
+                "y": 474
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "glide_003",
+            "frame": {
+                "w": 505,
+                "h": 474,
+                "x": 505,
+                "y": 474
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "glide_008",
+            "frame": {
+                "w": 505,
+                "h": 474,
+                "x": 1010,
+                "y": 474
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "glide_004",
+            "frame": {
+                "w": 505,
+                "h": 474,
+                "x": 0,
+                "y": 948
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "glide_005",
+            "frame": {
+                "w": 505,
+                "h": 474,
+                "x": 505,
+                "y": 948
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "glide_006",
+            "frame": {
+                "w": 505,
+                "h": 474,
+                "x": 1010,
+                "y": 948
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "glide_009",
+            "frame": {
+                "w": 505,
+                "h": 474,
+                "x": 0,
+                "y": 1422
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        }
+    ],
+    "meta": {
+        "description": "Atlas generado con Atlas Packer Gamma V2",
+        "web": "https://gammafp.github.io/atlas-packer-phaser/"
+    }
+}

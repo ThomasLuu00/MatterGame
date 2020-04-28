@@ -1,15 +1,27 @@
-class FlatBoy extends Phaser.Physics.Matter.Sprite {
+class FlatBoy extends Phaser.Physics.Matter.Sprite{
     shapes: Object;
-    sensors: { top: MatterJS.BodyType, bottom: MatterJS.BodyType; left: MatterJS.BodyType; right: MatterJS.BodyType; };
-    isTouching: { left: boolean; right: boolean; ground: boolean; };
+    sensors: { 
+        top: MatterJS.BodyType, 
+        bottom: MatterJS.BodyType,
+        left: MatterJS.BodyType,
+        right: MatterJS.BodyType
+    };
+    isTouching: { 
+        top: boolean,
+        left: boolean,
+        right: boolean,
+        ground: boolean,
+    };
     canJump: boolean;
     jumpCooldownTimer: any;
+    animation: string 
+    animations: Array<string>;
 
     constructor(world : Phaser.Physics.Matter.World, x : number = 0, y : number = 0){
         super(world, x, y,'idle','flatboy_idle_01',{ render: { sprite: { xOffset: 70, yOffset: 0 } }});
         this.shapes  = Object.assign({}, this.scene.cache.json.get('idle_shapes'), this.scene.cache.json.get('dead_shapes'));
         this.addAnimation();
-
+        this.animations = ['idle', 'walk', 'run', 'dead']
         const Bodies = this.scene.matter.bodies;
         const Body = this.scene.matter.body;
         const w = this.width;
@@ -18,11 +30,10 @@ class FlatBoy extends Phaser.Physics.Matter.Sprite {
         const mainBody = Bodies.rectangle(0, 0, w * 0.3, h* 0.38, { chamfer: { radius: 10 } });
 
         this.sensors = {
-            top:Bodies.rectangle(0, -h* 0.18 , w * 0.15, 2, { isSensor: true }),
-            bottom: Bodies.rectangle(0, h* 0.2 , w * 0.15, 2, { isSensor: true, label: 'bottomSense' }),
-            left: Bodies.rectangle(-w * 0.15, 0, 2, h * 0.38, { isSensor: true }),
-            right: Bodies.rectangle(w * 0.15, 0, 2, h * 0.38, { isSensor: true })
-
+            top:Bodies.rectangle(0, -h* 0.18 , w * 0.15, 2, { isSensor: true, label: 'top'}),
+            bottom: Bodies.rectangle(0, h* 0.2 , w * 0.15, 2, { isSensor: true, label: 'bottom' }),
+            left: Bodies.rectangle(-w * 0.15, 0, 2, h * 0.38, { isSensor: true, label: 'left' }),
+            right: Bodies.rectangle(w * 0.15, 0, 2, h * 0.38, { isSensor: true, label: 'right'})
         };
 
         const compoundBody = Body.create({
@@ -39,7 +50,7 @@ class FlatBoy extends Phaser.Physics.Matter.Sprite {
         this.setOrigin(cx - 0.05, cy + 0.31);
 
         // Track which sensors are touching something
-        this.isTouching = { left: false, right: false, ground: false };
+        this.isTouching = { top: false, left: false, right: false, ground: false };
 
         // Jumping is going to have a cooldown
         this.canJump = true;
@@ -49,8 +60,6 @@ class FlatBoy extends Phaser.Physics.Matter.Sprite {
         this.on("beforeupdate", this.resetTouching, this);
         this.world.on('collisionstart',this.onSensorCollide,this);
 
-
-   
     }
         
     onSensorCollide(event) {
@@ -71,39 +80,19 @@ class FlatBoy extends Phaser.Physics.Matter.Sprite {
               this.isTouching.ground = true;
             }
         }
-        // Watch for the player colliding with walls/objects on either side and the ground below, so
-        // that we can use that logic inside of update to move the player.
-        // Note: we are using the "pair.separation" here. That number tells us how much bodyA and bodyB
-        // overlap. We want to teleport the sprite away from walls just enough so that the player won't
-        // be able to press up against the wall and use friction to hang in midair. This formula leaves
-        // 0.5px of overlap with the sensor so that the sensor will stay colliding on the next tick if
-        // the player doesn't move.
       }
     
-      resetTouching() {
+      resetTouching(){
+        this.isTouching.top = false;
         this.isTouching.left = false;
         this.isTouching.right = false;
         this.isTouching.ground = false;
-      }
-    
-    idle(){
-        this.play('idle');
     }
-
-    walk(){
-        this.play('walk');
-    }
-
-    jump(){
-        this.play('jump');
-    }
-
-    run(){
-        this.play('run');
-    }
-
-    dead(){
-        this.play('dead');
+    animate(name : string){
+        if (name != this.animation){
+            this.anims.play(name);
+            this.animation = name;
+        }
     }
 
     private addAnimation = () => {
@@ -115,7 +104,10 @@ class FlatBoy extends Phaser.Physics.Matter.Sprite {
             //let shape = this.shapes[frame.textureFrame];
             //gameObject.setBody(shape);
 
-            gameObject.setPosition(sx, sy);
+            //gameObject.setPosition(sx, sy);
+            let cx = gameObject.centerOfMass.x
+            let cy = gameObject.centerOfMass.y
+            this.setOrigin(cx - 0.05, cy + 0.31);
         };
 
 		this.scene.anims.create({
@@ -152,16 +144,6 @@ const preloadFlatBoy = (scene : Phaser.Scene) => {
     scene.load.json('dead_shapes', 'assets/dead2.json');
     scene.load.atlas('idle', '../assets/idle.png', '../assets/idle_atlas.json');
     scene.load.json('idle_shapes', 'assets/idle.json');
-}
-
-function getRootBody(body) {
-    if (body.parent === body) {
-        return body;
-    }
-    while (body.parent !== body) {
-        body = body.parent;
-    }
-    return body;
 }
 
 export {FlatBoy, preloadFlatBoy};
