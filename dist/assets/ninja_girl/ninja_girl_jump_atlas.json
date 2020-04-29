@@ -1,133 +1,133 @@
 {
     "frames": [
         {
-            "filename": "run__000",
+            "filename": "ninjagirl-jump_00",
             "frame": {
-                "w": 376,
-                "h": 520,
+                "w": 399,
+                "h": 543,
                 "x": 0,
                 "y": 0
             },
             "anchor": {
                 "x": 0.5,
-                "y": 0.5
+                "y": 0.65
             }
         },
         {
-            "filename": "run__001",
+            "filename": "ninjagirl-jump_01",
             "frame": {
-                "w": 376,
-                "h": 520,
-                "x": 376,
+                "w": 399,
+                "h": 543,
+                "x": 399,
                 "y": 0
             },
             "anchor": {
                 "x": 0.5,
-                "y": 0.5
+                "y": 0.65
             }
         },
         {
-            "filename": "run__002",
+            "filename": "ninjagirl-jump_02",
             "frame": {
-                "w": 376,
-                "h": 520,
-                "x": 752,
+                "w": 399,
+                "h": 543,
+                "x": 798,
                 "y": 0
             },
             "anchor": {
                 "x": 0.5,
-                "y": 0.5
+                "y": 0.65
             }
         },
         {
-            "filename": "run__003",
+            "filename": "ninjagirl-jump_03",
             "frame": {
-                "w": 376,
-                "h": 520,
+                "w": 399,
+                "h": 543,
                 "x": 0,
-                "y": 520
+                "y": 543
             },
             "anchor": {
                 "x": 0.5,
-                "y": 0.5
+                "y": 0.65
             }
         },
         {
-            "filename": "run__004",
+            "filename": "ninjagirl-jump_04",
             "frame": {
-                "w": 376,
-                "h": 520,
-                "x": 376,
-                "y": 520
+                "w": 399,
+                "h": 543,
+                "x": 399,
+                "y": 543
             },
             "anchor": {
                 "x": 0.5,
-                "y": 0.5
+                "y": 0.65
             }
         },
         {
-            "filename": "run__005",
+            "filename": "ninjagirl-jump_05",
             "frame": {
-                "w": 376,
-                "h": 520,
-                "x": 752,
-                "y": 520
+                "w": 399,
+                "h": 543,
+                "x": 798,
+                "y": 543
             },
             "anchor": {
                 "x": 0.5,
-                "y": 0.5
+                "y": 0.65
             }
         },
         {
-            "filename": "run__006",
+            "filename": "ninjagirl-jump_06",
             "frame": {
-                "w": 376,
-                "h": 520,
+                "w": 399,
+                "h": 543,
                 "x": 0,
-                "y": 1040
+                "y": 1086
             },
             "anchor": {
                 "x": 0.5,
-                "y": 0.5
+                "y": 0.65
             }
         },
         {
-            "filename": "run__007",
+            "filename": "ninjagirl-jump_07",
             "frame": {
-                "w": 376,
-                "h": 520,
-                "x": 376,
-                "y": 1040
+                "w": 399,
+                "h": 543,
+                "x": 399,
+                "y": 1086
             },
             "anchor": {
                 "x": 0.5,
-                "y": 0.5
+                "y": 0.65
             }
         },
         {
-            "filename": "run__008",
+            "filename": "ninjagirl-jump_08",
             "frame": {
-                "w": 376,
-                "h": 520,
-                "x": 752,
-                "y": 1040
+                "w": 399,
+                "h": 543,
+                "x": 798,
+                "y": 1086
             },
             "anchor": {
                 "x": 0.5,
-                "y": 0.5
+                "y": 0.65
             }
         },
         {
-            "filename": "run__009",
+            "filename": "ninjagirl-jump_09",
             "frame": {
-                "w": 376,
-                "h": 520,
+                "w": 399,
+                "h": 543,
                 "x": 0,
-                "y": 1560
+                "y": 1629
             },
             "anchor": {
                 "x": 0.5,
-                "y": 0.5
+                "y": 0.65
             }
         }
     ],

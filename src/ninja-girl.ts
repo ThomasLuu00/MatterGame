@@ -2,59 +2,78 @@ import Character from './character';
 
 class NinjaGirl extends Character{
     constructor(world: Phaser.Physics.Matter.World, x: number, y: number){
-        super(world, x, y, 'ninjagirlidle', 'ninja_girl_idle_00');
+        super(world, x, y, 'ninjagirl-idle', 0);
         this.scene.add.existing(this);
-        this.addAnimation();
-        this.animations = ['idle'];
+        this.animations = ['idle', 'run'];
+        this.name = 'ninjagirl'
 
         const Bodies = this.scene.matter.bodies;
         const Body = this.scene.matter.body;
-        const w = this.width;
-        const h = this.height;
+        const w = this.width * 0.5;
+        const h = this.height * 0.7;
 
-        const mainBody = Bodies.rectangle(0, 0, w * 0.3, h* 0.38, { chamfer: { radius: 10 } });
+        const mainBody = Bodies.rectangle(-w/2, -h/2, w, h, { chamfer: { radius: 10 } });
         this.sensors = {
-            top:Bodies.rectangle(0, -h* 0.18 , w * 0.15, 2, { isSensor: true, label: 'top'}),
-            bottom: Bodies.rectangle(0, h* 0.2 , w * 0.15, 2, { isSensor: true, label: 'bottom' }),
-            left: Bodies.rectangle(-w * 0.15, 0, 2, h * 0.38, { isSensor: true, label: 'left' }),
-            right: Bodies.rectangle(w * 0.15, 0, 2, h * 0.38, { isSensor: true, label: 'right'})
+            top:Bodies.rectangle(-w/2, -h , w, 2, { isSensor: true, label: 'top'}),
+            bottom: Bodies.rectangle(-w/2, 0, w, 2, { isSensor: true, label: 'bottom' }),
+            left: Bodies.rectangle(-w, -h/2, 2, h, { isSensor: true, label: 'left' }),
+            right: Bodies.rectangle(0, -h/2, 2, h, { isSensor: true, label: 'right'})
         };
 
         const compoundBody = Body.create({
-            parts: [mainBody, this.sensors.top,this.sensors.right, this.sensors.left,this.sensors.bottom],
+            parts: [mainBody, this.sensors.top, this.sensors.bottom, this.sensors.left, this.sensors.right],
             inertia: Infinity
         });
 
-        this.setExistingBody(compoundBody);
-        this.setFixedRotation();
         this.setPosition(x, y);
-
+        this.setScale(0.7);
         let cx = this.centerOfMass.x
         let cy = this.centerOfMass.y
-        this.setOrigin(cx - 0.05, cy + 0.31);
+        this.setOrigin(cx, cy);
+        this.setExistingBody(compoundBody);
+        
+        this.anims.play('ninjagirl-idle')
     }
 
     addAnimation(): void {
         
         // Need to reset the origin whenever the frame changes
         const animationCallBack = (anim : Phaser.Animations.Animation, frame : Phaser.Animations.AnimationFrame, gameObject : Phaser.Physics.Matter.Sprite)  => {
-            let cx = gameObject.centerOfMass.x
-            let cy = gameObject.centerOfMass.y
-            this.setOrigin(cx - 0.05, cy + 0.31);
+
+            let ox = this.originX
+            let oy = this.originY
+            let scale = this.scale
+
+            this.setOrigin(ox, oy);
+            this.setScale(scale);
+            this.setFixedRotation();
         };
 
         this.scene.anims.create({
-			key: "ninjagirlidle",
-			frames: this.scene.anims.generateFrameNames('ninjagirlidle',{
-                start: 1, end: 10, zeroPad: 2, prefix: 'ninja_girl_idle_'
+			key: "ninjagirl-idle",
+			frames: this.scene.anims.generateFrameNames('ninjagirl-idle',{
+                start: 1, end: 10, zeroPad: 2, prefix: 'ninjagirl-idle' + '_'
             }),
-			repeat: 0,
-			frameRate: 30
+			repeat: -1,
+            frameRate: 30,
         });
 
-        this.on('animationstart-ninjagirlidle', animationCallBack, this);
-        this.on('animationupdate-ninjagirlidle', animationCallBack, this);
-        this.on('animationcomplete-ninjagirlidle', () => {}, this);
+        this.on('animationstart-ninjagirl-idle', animationCallBack, this);
+        this.on('animationupdate-ninjagirl-idle', animationCallBack, this);
+        this.on('animationcomplete-ninjagirl-idle', () => {}, this);
+
+        this.scene.anims.create({
+			key: "ninjagirl-run",
+			frames: this.scene.anims.generateFrameNames('ninjagirl-run',{
+                start: 1, end: 10, zeroPad: 2, prefix: 'ninjagirl-run' + '_'
+            }),
+			repeat: -1,
+            frameRate: 30,
+        });
+
+        this.on('animationstart-ninjagirl-run', animationCallBack, this);
+        this.on('animationupdate-ninjagirl-run', animationCallBack, this);
+        this.on('animationcomplete-ninjagirl-run', () => {}, this);
     }
     
     update(): void {
@@ -87,7 +106,8 @@ class NinjaGirl extends Character{
 }
 
 const preloadNinjaGirl = (scene : Phaser.Scene) => {
-    scene.load.atlas('ninjagirlidle', '../assets/ninja_girl/ninja_girl_idle.png', '../assets/ninja_girl/ninja_girl_idle_atlas.json');
+    scene.load.atlas('ninjagirl-idle', '../assets/ninja_girl/ninja_girl_idle.png', '../assets/ninja_girl/ninja_girl_idle_atlas.json');
+    scene.load.atlas('ninjagirl-run', '../assets/ninja_girl/ninja_girl_run.png', '../assets/ninja_girl/ninja_girl_run_atlas.json');
 }
 
 export {NinjaGirl, preloadNinjaGirl};

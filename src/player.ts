@@ -53,14 +53,14 @@ export default class Player {
     // --- Move the player horizontally ---
 
     // Adjust the movement so that the player is slower in the air
-    const moveForce = isOnGround ? 0.01 : 0.005;
+    const moveForce = isOnGround ? 0.e01 : 0.005;
 
     if (isLeftKeyDown === isRightKeyDown) {
       sprite.setVelocityX(0);
-      //sprite.animate('idle');
+      sprite.animate(sprite.name +'-idle');
     }
     else if (isLeftKeyDown) {
-      //sprite.animate('dead');
+      sprite.animate(sprite.name + '-run');
       sprite.setFlipX(true);
       // Don't let the player push things left if they in the air
       if (!(isInAir && sprite.isTouching.left)) {
@@ -68,7 +68,7 @@ export default class Player {
         //sprite.applyForce(new Phaser.Math.Vector2(-moveForce, 0))
       }
     } else if (isRightKeyDown) {
-      //sprite.animate('dead');
+      sprite.animate(sprite.name + '-run');
       sprite.setFlipX(false);
       // Don't let the player push things right if they in the air
       if (!(isInAir && sprite.isTouching.right)) {

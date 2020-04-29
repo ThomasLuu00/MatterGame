@@ -1,7 +1,7 @@
 {
     "frames": [
         {
-            "filename": "ninja_girl_idle_00",
+            "filename": "ninjagirl-idle_00",
             "frame": {
                 "w": 290,
                 "h": 500,
@@ -9,12 +9,12 @@
                 "y": 0
             },
             "anchor": {
-                "x": 0.5,
-                "y": 0.5
+                "x": 0.57,
+                "y": 0.65
             }
         },
         {
-            "filename": "ninja_girl_idle_01",
+            "filename": "ninjagirl-idle_01",
             "frame": {
                 "w": 290,
                 "h": 500,
@@ -22,12 +22,12 @@
                 "y": 0
             },
             "anchor": {
-                "x": 0.5,
-                "y": 0.5
+                "x": 0.57,
+                "y": 0.65
             }
         },
         {
-            "filename": "ninja_girl_idle_02",
+            "filename": "ninjagirl-idle_02",
             "frame": {
                 "w": 290,
                 "h": 500,
@@ -35,12 +35,12 @@
                 "y": 0
             },
             "anchor": {
-                "x": 0.5,
-                "y": 0.5
+                "x": 0.57,
+                "y": 0.65
             }
         },
         {
-            "filename": "ninja_girl_idle_03",
+            "filename": "ninjagirl-idle_03",
             "frame": {
                 "w": 290,
                 "h": 500,
@@ -48,12 +48,12 @@
                 "y": 500
             },
             "anchor": {
-                "x": 0.5,
-                "y": 0.5
+                "x": 0.57,
+                "y": 0.65
             }
         },
         {
-            "filename": "ninja_girl_idle_04",
+            "filename": "ninjagirl-idle_04",
             "frame": {
                 "w": 290,
                 "h": 500,
@@ -61,12 +61,12 @@
                 "y": 500
             },
             "anchor": {
-                "x": 0.5,
-                "y": 0.5
+                "x": 0.57,
+                "y": 0.65
             }
         },
         {
-            "filename": "ninja_girl_idle_05",
+            "filename": "ninjagirl-idle_05",
             "frame": {
                 "w": 290,
                 "h": 500,
@@ -74,12 +74,12 @@
                 "y": 500
             },
             "anchor": {
-                "x": 0.5,
-                "y": 0.5
+                "x": 0.57,
+                "y": 0.65
             }
         },
         {
-            "filename": "ninja_girl_idle_06",
+            "filename": "ninjagirl-idle_06",
             "frame": {
                 "w": 290,
                 "h": 500,
@@ -87,12 +87,12 @@
                 "y": 1000
             },
             "anchor": {
-                "x": 0.5,
-                "y": 0.5
+                "x": 0.57,
+                "y": 0.65
             }
         },
         {
-            "filename": "ninja_girl_idle_07",
+            "filename": "ninjagirl-idle_07",
             "frame": {
                 "w": 290,
                 "h": 500,
@@ -100,12 +100,12 @@
                 "y": 1000
             },
             "anchor": {
-                "x": 0.5,
-                "y": 0.5
+                "x": 0.57,
+                "y": 0.65
             }
         },
         {
-            "filename": "ninja_girl_idle_08",
+            "filename": "ninjagirl-idle_08",
             "frame": {
                 "w": 290,
                 "h": 500,
@@ -113,12 +113,12 @@
                 "y": 1000
             },
             "anchor": {
-                "x": 0.5,
-                "y": 0.5
+                "x": 0.57,
+                "y": 0.65
             }
         },
         {
-            "filename": "ninja_girl_idle_09",
+            "filename": "ninjagirl-idle_09",
             "frame": {
                 "w": 290,
                 "h": 500,
@@ -126,8 +126,8 @@
                 "y": 1500
             },
             "anchor": {
-                "x": 0.5,
-                "y": 0.5
+                "x": 0.57,
+                "y": 0.65
             }
         }
     ],
