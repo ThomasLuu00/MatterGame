@@ -1,7 +1,7 @@
 {
     "frames": [
         {
-            "filename": "throw__000",
+            "filename": "ninjagirl-throw_00",
             "frame": {
                 "w": 383,
                 "h": 514,
@@ -10,11 +10,11 @@
             },
             "anchor": {
                 "x": 0.5,
-                "y": 0.5
+                "y": 0.65
             }
         },
         {
-            "filename": "throw__001",
+            "filename": "ninjagirl-throw_01",
             "frame": {
                 "w": 383,
                 "h": 514,
@@ -23,11 +23,11 @@
             },
             "anchor": {
                 "x": 0.5,
-                "y": 0.5
+                "y": 0.65
             }
         },
         {
-            "filename": "throw__002",
+            "filename": "ninjagirl-throw_02",
             "frame": {
                 "w": 383,
                 "h": 514,
@@ -36,11 +36,11 @@
             },
             "anchor": {
                 "x": 0.5,
-                "y": 0.5
+                "y": 0.65
             }
         },
         {
-            "filename": "throw__003",
+            "filename": "ninjagirl-throw_03",
             "frame": {
                 "w": 383,
                 "h": 514,
@@ -49,11 +49,11 @@
             },
             "anchor": {
                 "x": 0.5,
-                "y": 0.5
+                "y": 0.65
             }
         },
         {
-            "filename": "throw__004",
+            "filename": "ninjagirl-throw_04",
             "frame": {
                 "w": 383,
                 "h": 514,
@@ -62,11 +62,11 @@
             },
             "anchor": {
                 "x": 0.5,
-                "y": 0.5
+                "y": 0.65
             }
         },
         {
-            "filename": "throw__005",
+            "filename": "ninjagirl-throw_05",
             "frame": {
                 "w": 383,
                 "h": 514,
@@ -75,11 +75,11 @@
             },
             "anchor": {
                 "x": 0.5,
-                "y": 0.5
+                "y": 0.65
             }
         },
         {
-            "filename": "throw__006",
+            "filename": "ninjagirl-throw_06",
             "frame": {
                 "w": 383,
                 "h": 514,
@@ -88,11 +88,11 @@
             },
             "anchor": {
                 "x": 0.5,
-                "y": 0.5
+                "y": 0.65
             }
         },
         {
-            "filename": "throw__007",
+            "filename": "ninjagirl-throw_07",
             "frame": {
                 "w": 383,
                 "h": 514,
@@ -101,11 +101,11 @@
             },
             "anchor": {
                 "x": 0.5,
-                "y": 0.5
+                "y": 0.65
             }
         },
         {
-            "filename": "throw__008",
+            "filename": "ninjagirl-throw_08",
             "frame": {
                 "w": 383,
                 "h": 514,
@@ -114,11 +114,11 @@
             },
             "anchor": {
                 "x": 0.5,
-                "y": 0.5
+                "y": 0.65
             }
         },
         {
-            "filename": "throw__009",
+            "filename": "ninjagirl-throw_09",
             "frame": {
                 "w": 383,
                 "h": 514,
@@ -127,7 +127,7 @@
             },
             "anchor": {
                 "x": 0.5,
-                "y": 0.5
+                "y": 0.65
             }
         }
     ],

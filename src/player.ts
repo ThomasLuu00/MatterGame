@@ -10,6 +10,8 @@ export default class Player {
     leftInput: MultiKey;
     rightInput: MultiKey;
     jumpInput: MultiKey;
+    attackInput: MultiKey;
+    throwInput:  MultiKey;
     destroyed: Boolean;
     body: any;
 
@@ -25,11 +27,12 @@ export default class Player {
     this.jumpCooldownTimer = null;
     
     // Track the keys
-    const { LEFT, RIGHT, UP, A, D, W } = Phaser.Input.Keyboard.KeyCodes;
+    const { LEFT, RIGHT, UP, A, D, W, F, G } = Phaser.Input.Keyboard.KeyCodes;
     this.leftInput = new MultiKey(scene, [LEFT, A]);
     this.rightInput = new MultiKey(scene, [RIGHT, D]);
     this.jumpInput = new MultiKey(scene, [UP, W]);
-
+    this.attackInput = new MultiKey(scene, [F]);
+    this.throwInput = new MultiKey(scene, [G]);
 
     this.body.mass = 1;
     this.scene.events.on("update", this.update, this);
@@ -47,6 +50,8 @@ export default class Player {
     const isRightKeyDown = this.rightInput.isDown();
     const isLeftKeyDown = this.leftInput.isDown();
     const isJumpKeyDown = this.jumpInput.isDown();
+    const isAttackKeyDown = this.attackInput.isDown();
+    const isThrowKeyDown = this.throwInput.isDown();
     const isOnGround = sprite.isTouching.ground;
     const isInAir = !isOnGround;
 
@@ -55,60 +60,39 @@ export default class Player {
     // Adjust the movement so that the player is slower in the air
     const moveForce = isOnGround ? 0.e01 : 0.005;
 
-    if (isLeftKeyDown === isRightKeyDown) {
+    if (isInAir) {
+      
+    }
+    else if (isAttackKeyDown){
+      sprite.animate(sprite.name + '-jump');
+    }
+    else if (isThrowKeyDown){
+      sprite.animate(sprite.name + '-throw');
+    }
+    else if (isLeftKeyDown === isRightKeyDown) {
       sprite.setVelocityX(0);
       sprite.animate(sprite.name +'-idle');
     }
     else if (isLeftKeyDown) {
       sprite.animate(sprite.name + '-run');
       sprite.setFlipX(true);
-      // Don't let the player push things left if they in the air
-      if (!(isInAir && sprite.isTouching.left)) {
-        sprite.setVelocityX(-7)
-        //sprite.applyForce(new Phaser.Math.Vector2(-moveForce, 0))
-      }
+      sprite.setVelocityX(-7)
+
     } else if (isRightKeyDown) {
       sprite.animate(sprite.name + '-run');
       sprite.setFlipX(false);
-      // Don't let the player push things right if they in the air
-      if (!(isInAir && sprite.isTouching.right)) {
-        sprite.setVelocityX(7)
-        //sprite.applyForce(new Phaser.Math.Vector2(moveForce, 0))
-      }
+      sprite.setVelocityX(7)
     }
 
-    // Limit horizontal speed, without this the player's velocity would just keep increasing to
-    // absurd speeds. We don't want to touch the vertical velocity though, so that we don't
-    // interfere with gravity.
     if (velocity.x > 7) sprite.setVelocityX(7);
     else if (velocity.x < -7) sprite.setVelocityX(-7);
 
-    // --- Move the player vertically ---
-    //console.log(isOnGround)
+    
     if (isJumpKeyDown && sprite.canJump && isOnGround) {
-      //sprite.applyForce(new Phaser.Math.Vector2(moveForce * 1000, 0))
+      sprite.isOnGround = false;
       sprite.setVelocityY(-11);
       sprite.animate(sprite.name + '-jump');
-      // Add a slight delay between jumps since the bottom sensor will still collide for a few
-      // frames after a jump is initiated
-      this.canJump = false;
-      this.jumpCooldownTimer = this.scene.time.addEvent({
-        delay: 250,
-        callback: () => (this.canJump = true)
-      });
     }
-
-
-    /*
-    // Update the animation/texture based on the state of the player's state
-    if (isOnGround) {
-      if (this.body.force.x !== 0) sprite.anims.play("player-run", true);
-      else sprite.anims.play("player-idle", true);
-    } else {
-      sprite.anims.stop();
-      sprite.setTexture("player", 10);
-    }
-    */
   }
 
   destroy() {}

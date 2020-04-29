@@ -1,7 +1,7 @@
 {
     "frames": [
         {
-            "filename": "jump_attack__000",
+            "filename": "ninjagirl-jump-attack_00",
             "frame": {
                 "w": 495,
                 "h": 583,
@@ -9,12 +9,12 @@
                 "y": 0
             },
             "anchor": {
-                "x": 0.5,
-                "y": 0.5
+                "x": 0.37,
+                "y": 0.6
             }
         },
         {
-            "filename": "jump_attack__001",
+            "filename": "ninjagirl-jump-attack_01",
             "frame": {
                 "w": 495,
                 "h": 583,
@@ -22,12 +22,12 @@
                 "y": 0
             },
             "anchor": {
-                "x": 0.5,
-                "y": 0.5
+                "x": 0.37,
+                "y": 0.6
             }
         },
         {
-            "filename": "jump_attack__002",
+            "filename": "ninjagirl-jump-attack_02",
             "frame": {
                 "w": 495,
                 "h": 583,
@@ -35,12 +35,12 @@
                 "y": 0
             },
             "anchor": {
-                "x": 0.5,
-                "y": 0.5
+                "x": 0.37,
+                "y": 0.6
             }
         },
         {
-            "filename": "jump_attack__003",
+            "filename": "ninjagirl-jump-attack_03",
             "frame": {
                 "w": 495,
                 "h": 583,
@@ -48,12 +48,12 @@
                 "y": 583
             },
             "anchor": {
-                "x": 0.5,
-                "y": 0.5
+                "x": 0.37,
+                "y": 0.6
             }
         },
         {
-            "filename": "jump_attack__004",
+            "filename": "ninjagirl-jump-attack_04",
             "frame": {
                 "w": 495,
                 "h": 583,
@@ -61,12 +61,12 @@
                 "y": 583
             },
             "anchor": {
-                "x": 0.5,
-                "y": 0.5
+                "x": 0.37,
+                "y": 0.6
             }
         },
         {
-            "filename": "jump_attack__005",
+            "filename": "ninjagirl-jump-attack_05",
             "frame": {
                 "w": 495,
                 "h": 583,
@@ -74,12 +74,12 @@
                 "y": 583
             },
             "anchor": {
-                "x": 0.5,
-                "y": 0.5
+                "x": 0.37,
+                "y": 0.6
             }
         },
         {
-            "filename": "jump_attack__006",
+            "filename": "ninjagirl-jump-attack_06",
             "frame": {
                 "w": 495,
                 "h": 583,
@@ -87,12 +87,12 @@
                 "y": 1166
             },
             "anchor": {
-                "x": 0.5,
-                "y": 0.5
+                "x": 0.37,
+                "y": 0.6
             }
         },
         {
-            "filename": "jump_attack__007",
+            "filename": "ninjagirl-jump-attack_07",
             "frame": {
                 "w": 495,
                 "h": 583,
@@ -100,12 +100,12 @@
                 "y": 1166
             },
             "anchor": {
-                "x": 0.5,
-                "y": 0.5
+                "x": 0.37,
+                "y": 0.6
             }
         },
         {
-            "filename": "jump_attack__008",
+            "filename": "ninjagirl-jump-attack_08",
             "frame": {
                 "w": 495,
                 "h": 583,
@@ -113,12 +113,12 @@
                 "y": 1166
             },
             "anchor": {
-                "x": 0.5,
-                "y": 0.5
+                "x": 0.37,
+                "y": 0.6
             }
         },
         {
-            "filename": "jump_attack__009",
+            "filename": "ninjagirl-jump-attack_09",
             "frame": {
                 "w": 495,
                 "h": 583,
@@ -126,8 +126,8 @@
                 "y": 1749
             },
             "anchor": {
-                "x": 0.5,
-                "y": 0.5
+                "x": 0.37,
+                "y": 0.6
             }
         }
     ],

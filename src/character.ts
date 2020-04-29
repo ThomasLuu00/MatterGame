@@ -41,6 +41,7 @@ export default abstract class Character extends Phaser.Physics.Matter.Sprite{
 
         this.scene.events.on("update", this.update, this);
         this.world.on('collisionstart',this.onSensorCollide,this);
+        this.world.on('collisionend',this.onSensorCollideEnd,this);
     }
 
     animate(texture: string){
@@ -53,5 +54,6 @@ export default abstract class Character extends Phaser.Physics.Matter.Sprite{
     abstract addAnimation(): void;
     abstract update(): void;
     abstract onSensorCollide(event: any): void;
+    abstract onSensorCollideEnd(event: any): void;
     
 }
