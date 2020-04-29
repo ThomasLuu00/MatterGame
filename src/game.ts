@@ -59,8 +59,6 @@ export default class MyGame extends Phaser.Scene
         this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
 
         this.matter.world.createDebugGraphic();
-
-    
     }
 
     update(){

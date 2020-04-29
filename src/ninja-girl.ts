@@ -4,9 +4,10 @@ class NinjaGirl extends Character{
     constructor(world: Phaser.Physics.Matter.World, x: number, y: number){
         super(world, x, y, 'ninjagirl-idle', 0);
         this.scene.add.existing(this);
-        this.animations = ['idle', 'run'];
+        this.animations = ['idle', 'run', 'jump'];
         this.name = 'ninjagirl'
 
+        this.addAnimation();
         const Bodies = this.scene.matter.bodies;
         const Body = this.scene.matter.body;
         const w = this.width * 0.5;
@@ -25,13 +26,15 @@ class NinjaGirl extends Character{
             inertia: Infinity
         });
 
-        this.setPosition(x, y);
-        this.setScale(0.7);
         let cx = this.centerOfMass.x
         let cy = this.centerOfMass.y
-        this.setOrigin(cx, cy);
+
         this.setExistingBody(compoundBody);
-        
+        this.setOrigin(cx, cy);
+        this.setScale(0.7);
+        this.setPosition(x, y);
+
+
         this.anims.play('ninjagirl-idle')
     }
 
@@ -49,6 +52,7 @@ class NinjaGirl extends Character{
             this.setFixedRotation();
         };
 
+        /*
         this.scene.anims.create({
 			key: "ninjagirl-idle",
 			frames: this.scene.anims.generateFrameNames('ninjagirl-idle',{
@@ -74,6 +78,22 @@ class NinjaGirl extends Character{
         this.on('animationstart-ninjagirl-run', animationCallBack, this);
         this.on('animationupdate-ninjagirl-run', animationCallBack, this);
         this.on('animationcomplete-ninjagirl-run', () => {}, this);
+*/
+        for (var i in this.animations){
+            var name = this.animations[i];
+            this.scene.anims.create({
+                key: 'ninjagirl-' + name,
+                frames: this.scene.anims.generateFrameNames('ninjagirl-'+ name,{
+                    start: 1, end: 10, zeroPad: 2, prefix: 'ninjagirl-'+ name + '_'
+                }),
+                repeat: -1,
+                frameRate: 30,
+            });
+    
+            this.on('animationstart-ninjagirl-' + name, animationCallBack, this);
+            this.on('animationupdate-ninjagirl-' + name, animationCallBack, this);
+            this.on('animationcomplete-ninjagirl-' + name, () => {}, this);
+        }
     }
     
     update(): void {
@@ -108,6 +128,7 @@ class NinjaGirl extends Character{
 const preloadNinjaGirl = (scene : Phaser.Scene) => {
     scene.load.atlas('ninjagirl-idle', '../assets/ninja_girl/ninja_girl_idle.png', '../assets/ninja_girl/ninja_girl_idle_atlas.json');
     scene.load.atlas('ninjagirl-run', '../assets/ninja_girl/ninja_girl_run.png', '../assets/ninja_girl/ninja_girl_run_atlas.json');
+    scene.load.atlas('ninjagirl-jump', '../assets/ninja_girl/ninja_girl_jump.png', '../assets/ninja_girl/ninja_girl_jump_atlas.json');
 }
 
 export {NinjaGirl, preloadNinjaGirl};

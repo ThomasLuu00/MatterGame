@@ -86,10 +86,9 @@ export default class Player {
     // --- Move the player vertically ---
     //console.log(isOnGround)
     if (isJumpKeyDown && sprite.canJump && isOnGround) {
-      console.log('in')
       //sprite.applyForce(new Phaser.Math.Vector2(moveForce * 1000, 0))
       sprite.setVelocityY(-11);
-
+      sprite.animate(sprite.name + '-jump');
       // Add a slight delay between jumps since the bottom sensor will still collide for a few
       // frames after a jump is initiated
       this.canJump = false;
