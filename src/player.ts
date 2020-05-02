@@ -12,6 +12,7 @@ export default class Player {
     jumpInput: MultiKey;
     attackInput: MultiKey;
     throwInput:  MultiKey;
+    inventoryInput: MultiKey;
     destroyed: Boolean;
     body: any;
 
@@ -27,12 +28,13 @@ export default class Player {
     this.jumpCooldownTimer = null;
     
     // Track the keys
-    const { LEFT, RIGHT, UP, A, D, W, F, G } = Phaser.Input.Keyboard.KeyCodes;
+    const { LEFT, RIGHT, UP, A, D, W, F, G, I } = Phaser.Input.Keyboard.KeyCodes;
     this.leftInput = new MultiKey(scene, [LEFT, A]);
     this.rightInput = new MultiKey(scene, [RIGHT, D]);
     this.jumpInput = new MultiKey(scene, [UP, W]);
     this.attackInput = new MultiKey(scene, [F]);
     this.throwInput = new MultiKey(scene, [G]);
+    this.inventoryInput = new MultiKey(scene, [I]);
 
     this.body.mass = 1;
     this.scene.events.on("update", this.update, this);
