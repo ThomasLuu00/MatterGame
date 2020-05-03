@@ -6,6 +6,7 @@ import Player from './player';
 import Item from './item';
 import Inventory from './inventory';
 import {Kunai, preloadKunai} from './kunai';
+import {Button, preloadButton} from './button';
 
 export default class MyGame extends Phaser.Scene
 {
@@ -31,6 +32,7 @@ export default class MyGame extends Phaser.Scene
         preloadFlatBoy(this); 
         preloadNinjaGirl(this);
         preloadKunai(this);
+        preloadButton(this);
     }
 
     create ()
@@ -48,6 +50,8 @@ export default class MyGame extends Phaser.Scene
         this.player = new Player(this, this.ninja);
 
         let kunai = new Kunai(this.matter.world, spawnPoint.x + 200, spawnPoint.y + 200);
+
+        let button = new Button(this, spawnPoint.x +300, spawnPoint.y +300, 'test');
 
         // Smoothly follow the player
         var controlConfig = {
