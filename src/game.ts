@@ -51,7 +51,9 @@ export default class MyGame extends Phaser.Scene
 
         let kunai = new Kunai(this.matter.world, spawnPoint.x + 200, spawnPoint.y + 200);
 
-        let button = new Button(this, spawnPoint.x +300, spawnPoint.y +300, 'test');
+        let button = new Button(this, spawnPoint.x +300, spawnPoint.y +300, 'swords');
+        new Button(this, spawnPoint.x +350, spawnPoint.y +300, 'swords');
+        new Button(this, spawnPoint.x +400, spawnPoint.y +300, 'swords');
 
         // Smoothly follow the player
         var controlConfig = {
