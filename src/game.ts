@@ -1,5 +1,4 @@
 import 'phaser';
-import { FlatBoy, preloadFlatBoy} from './flatboy';
 import { NinjaGirl, preloadNinjaGirl} from './ninja-girl';
 import UI from './ui';
 import Player from './player';
@@ -29,7 +28,6 @@ export default class MyGame extends Phaser.Scene
     {
         this.load.tilemapTiledJSON("map", "../assets/map/map.json")
         this.load.image("map-tiles","../assets/map/map-tiles.png");
-        preloadFlatBoy(this); 
         preloadNinjaGirl(this);
         preloadKunai(this);
         preloadButton(this);
@@ -46,11 +44,10 @@ export default class MyGame extends Phaser.Scene
         this.matter.world.convertTilemapLayer(groundLayer);
         const spawnPoint : any = map.findObject("Spawn", obj => obj.name === "Spawn Point");
 
+        // Add assets
         this.ninja = new NinjaGirl(this.matter.world, spawnPoint.x, spawnPoint.y);
         this.player = new Player(this, this.ninja);
-
         let kunai = new Kunai(this.matter.world, spawnPoint.x + 200, spawnPoint.y + 200);
-
         let button = new Button(this, spawnPoint.x +300, spawnPoint.y +300, 'swords');
         new Button(this, spawnPoint.x +350, spawnPoint.y +300, 'swords', true);
         new Button(this, spawnPoint.x +400, spawnPoint.y +300, 'swords');
@@ -67,32 +64,41 @@ export default class MyGame extends Phaser.Scene
             zoomIn: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q),
             zoomOut: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E),
         };
-
         this.controls = new Phaser.Cameras.Controls.FixedKeyControl(controlConfig)
         this.cameras.main.startFollow(this.player.sprite, false, 0.5, 0.5).setZoom(0.5);
         this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
 
-        this.matter.world.createDebugGraphic();
+        this.matter.world.createDebugGraphic(); // Shows the hitboxes
         this.createWindow(Inventory);
+
     }
 
     update(){
-        this.controls.update();
+        this.controls.update(); // needed for camera controls
 
         if (Phaser.Input.Keyboard.JustDown(this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.I))){ 
-            console.log('1') 
             this.events.emit('toggleInventory');
+        }
+
+        if(Phaser.Input.Keyboard.JustDown(this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.L))){
+            if (this.scale.isFullscreen) {
+                this.scale.stopFullscreen();
+                // On stop fulll screen
+            } else {
+                this.scale.startFullscreen();
+                // On start fulll screen
+            }
         }
     }
 
     createWindow(func)
     {
-        var x = 300;
-        var y = 300;
+        var x = 0;
+        var y = 0;
 
         var handle = 'window' + this.count++;
 
-        var win = this.add.zone(x, y, 300, 300).setInteractive({ draggable: true }).setOrigin(0);
+        var win = this.add.zone(x, y, 500, 1000).setInteractive({ draggable: true }).setOrigin(0);
         var demo = new func(handle, win);
         
         let scene = this.scene.add(handle, demo, true);
@@ -106,8 +112,8 @@ export default class MyGame extends Phaser.Scene
 const config : Phaser.Types.Core.GameConfig = {
     type: Phaser.AUTO,
     backgroundColor: '#125555',
-    width: 800,
-    height: 600,
+    width: 1920,
+    height: 1080,
     scene: [MyGame, UI],
     physics: {
         default: 'matter',
