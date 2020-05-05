@@ -26,3 +26,14 @@ export default abstract class Item extends Phaser.Physics.Matter.Image{
         this.setPosition(x, y);
     }
 }
+
+class ItemTest {
+    id: string;
+    name: string;
+    type: Array<string>;
+    description: string;
+    texture: string;
+
+    constructor(id: string){
+    }
+}

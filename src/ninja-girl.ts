@@ -110,7 +110,7 @@ class NinjaGirl extends Character{
             var bodyA = event.pairs[i].bodyA;
             var bodyB = event.pairs[i].bodyB;
  
-            if (bodyA.isSensor) return; // We only care about collisions with physical objects
+            //if (bodyA.isSensor) return; // We only care about collisions with physical objects
 
             if (bodyB === this.sensors.left) {
               this.isTouching.left = true;
@@ -134,7 +134,7 @@ class NinjaGirl extends Character{
             var bodyA = event.pairs[i].bodyA;
             var bodyB = event.pairs[i].bodyB;
  
-            if (bodyA.isSensor) return; // We only care about collisions with physical objects
+            //if (bodyA.isSensor) return; // We only care about collisions with physical objects
 /*
             if (bodyB === this.sensors.left) {
               this.isTouching.left = false;
@@ -149,7 +149,7 @@ class NinjaGirl extends Character{
             if (bodyB === this.sensors.bottom) {
               this.isTouching.ground = false;
             }
-            else if (bodyB === this.sensors.bottom) {
+            else if (bodyB === this.sensors.top) {
               this.isTouching.top = false;
             }
         }
