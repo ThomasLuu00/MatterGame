@@ -98,7 +98,7 @@ export default class MyGame extends Phaser.Scene
 
         var handle = 'window' + this.count++;
 
-        var win = this.add.zone(x, y, 500, 1000).setInteractive({ draggable: true }).setOrigin(0);
+        var win = this.add.zone(x, y, Number(config.width), Number(config.height)).setInteractive({ draggable: true }).setOrigin(0);
         var demo = new func(handle, win);
         
         let scene = this.scene.add(handle, demo, true);

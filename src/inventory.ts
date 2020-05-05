@@ -24,41 +24,20 @@ export default class Inventory extends Phaser.Scene{
 
     create ()
     {
-        let itemBox = this.add.image(0, 0, 'panel-blue');
-        let w = itemBox.width;
-        let h = itemBox.height;
-        
-        let scale = 0.5
-        let gw = 4
-        let gh = 5
-
-        let offsetx = 0
-        let offsety = 0
-        let padding = 5
-        let title = this.add.container(0,0);
-        let box = this.add.container(0,42);
-        let count = 0;
-        let items = [0,1,2,3]
-
         this.container = this.add.container(0,0);
 
-        for (let x = 0; x < gw; x++){
-            title.add(this.add.image(x * 28 + 14 , 21, 'sectiontab-grey'));
-        }
-        itemBox.destroy();
-        
         let item = new Item();
-
-        //this.tooltip = new ItemToolTip(this, 0,0);
-        //this.tooltip.tooltip.setVisible(false);
 
         let itemGrid = new ItemGrid(this,0,0);
         let uiBox = new UIBox(this, 0, 0, itemGrid.width, itemGrid.height);
+
+        // Add title
+        
         itemGrid.setPosition(uiBox.padding)
         this.container.add(uiBox);
         this.container.add(itemGrid);
         this.container.setVisible(false);
-        this.cameras.main.setViewport(this.parent.x, this.parent.y, 500, 1000);
+        this.cameras.main.setViewport(this.parent.x, this.parent.y, this.parent.width, this.parent.height);
 
         this.parent.scene.events.on('toggleInventory', () => {
             this.container.setVisible(!this.container.visible);
@@ -193,37 +172,81 @@ class Tooltip extends Phaser.GameObjects.Container{
     }
 }
 
-
 class UIBox extends Phaser.GameObjects.Container{
     
     width: number;
     height: number;
-    padding: number;
+    box: Phaser.GameObjects.Graphics;
 
-    constructor(scene: Phaser.Scene, x: number, y: number, width: number, height: number, padding: number = 10, color: number = 0x222222){
+    color: number = 0xffffff;
+    alpha: number = 1;
+    radius: number = 16;
+    padding: number = 10;
+    lineColor: number = 0x565656;
+    lineWidth: number = 2;
+    lineAlpha: number = 1;
+    shadow: number = 0;
+    shadowColor: number = 0x222222;
+    shadowAlpha: number = 0.5;
+
+    constructor(scene: Phaser.Scene, x: number, y: number, width: number, height: number, config? : UIBoxConfig){
         super(scene,x,y);
 
-        this.width = width;
-        this.height = height;
-        this.padding = padding; 
-    
-        var bubble = scene.add.graphics({ x: 0, y: 0 });
+        if (config){
+            if (config.color) this.color = config.color;
+            if (config.alpha) this.alpha = config.alpha;
+            if (config.radius) this.radius = config.radius;
+            if (config.padding) this.padding = config.padding;
+            if (config.lineColor) this.lineColor = config.lineColor;
+            if (config.lineWidth) this.lineWidth = config.lineWidth;
+            if (config.lineAlpha) this.lineAlpha = config.lineAlpha;
+            if (config.shadow) this.shadow = config.shadow;
+            if (config.shadowColor) this.shadowColor = config.shadowColor;
+            if (config.shadowAlpha) this.shadowAlpha = config.shadowAlpha;
+        }
+        
+        this.width = width + this.padding  * 2;
+        this.height = height + this.padding  * 2;
 
+        let bubble = scene.add.graphics({ x: 0, y: 0 });
+        
         //  Bubble shadow
-        bubble.fillStyle(color, 0.5);
-        bubble.fillRoundedRect(6, 6, this.width  + this.padding * 2, this.height + this.padding * 2, 16);
+        if (this.shadow){
+            bubble.fillStyle(this.shadowColor, this.shadowAlpha);
+            bubble.fillRoundedRect(this.shadow, this.shadow, this.width, this.height, this.radius);
+        }
 
         //  Bubble color
-        bubble.fillStyle(0xffffff, 1);
+        bubble.fillStyle(this.color, this.alpha);
 
         //  Bubble outline line style
-        bubble.lineStyle(4, 0x565656, 1);
+        bubble.lineStyle(this.lineWidth, this.lineColor, this.lineAlpha);
 
         //  Bubble shape and outline
-        bubble.strokeRoundedRect(0, 0, this.width  + this.padding * 2, this.height + this.padding * 2, 16);
-        bubble.fillRoundedRect(0, 0, this.width  + this.padding * 2, this.height + this.padding * 2, 16);
+        bubble.strokeRoundedRect(0, 0, this.width, this.height, this.radius);
+        bubble.fillRoundedRect(0, 0, this.width, this.height, this.radius);
         this.add(bubble);
+        this.box = bubble;
     }
+
+    setOrigin(x: number, y?: number) : UIBox{ 
+        if (!y) y = x;
+        this.setPosition(this.x - this.width * x, this.y - this.height * y)
+        return this;
+    }
+}
+
+type UIBoxConfig = {
+    color?: number,
+    alpha?: number,
+    radius?: number,
+    padding?: number,
+    lineColor?: number,
+    lineWidth?: number,
+    lineAlpha?: number,
+    shadow?: number,
+    shadowColor?: number,
+    shadowAlpha?: number,
 }
 
 class ItemGrid extends Phaser.GameObjects.Container{
@@ -237,21 +260,22 @@ class ItemGrid extends Phaser.GameObjects.Container{
     constructor(scene: Phaser.Scene, x: number, y: number, items?: Array<Item>){
         super(scene, x, y)
         
-        let cellWidth = 100 // have to know this from the image used
+        let cellWidth = 70 // have to know this from the image used
         let item = new Item();
-        this.tooltip = new Tooltip(scene, 0,0, new Item());
         this.width = (cellWidth + this.padding) * this.colCount;
         this.height = (cellWidth + this.padding) * this.rowCount;
 
+
+        this.tooltip = new Tooltip(scene, x + this.width + 100 ,y, new Item());
+        this.tooltip.setVisible(false);
         scene.add.existing(this.tooltip);
 
         for (let rc = 0; rc < this.rowCount; rc++){
             let cx = cellWidth/2;
             let cy = (cellWidth + this.padding) * rc + cellWidth/2;
             for (let cc = 0; cc < this.colCount; cc++){
-                let cell = scene.add.image(cx, cy, 'panel-blue').setOrigin(0.5);
-                
-                let icon = scene.add.image(cx, cy, item.texture);
+                let cell = new UIBox(scene, cx - cellWidth/2, cy - cellWidth/2,  cellWidth - 20, cellWidth - 20, { padding: 10, shadow: 0} )
+                let icon = scene.add.image(cell.width/2, cell.width /2, item.texture);
                 if (icon.height < icon.width){
                     icon.setScale((cellWidth / icon.width) * 0.7);
                 } else {
@@ -260,13 +284,14 @@ class ItemGrid extends Phaser.GameObjects.Container{
 
                 cell.setInteractive();
                 cell.on('pointerover', (pointer: Phaser.Input.Pointer, localX, localY, event) => {
-                    console.log('hovering')
-                    this.tooltip.setPosition(icon.x, icon.y);
-                    this.tooltip.setDepth(1000);
+                    this.tooltip.setVisible(true);
+                }, this);
+                cell.on('pointeroff', (pointer: Phaser.Input.Pointer, localX, localY, event) => {
+                    this.tooltip.setVisible(false);
                 }, this);
 
+                cell.add(icon);
                 this.add(cell);
-                this.add(icon);
 
                 cx += cellWidth + this.padding;
             }
