@@ -24,6 +24,7 @@ class Button extends Phaser.GameObjects.Image{
                 this.setTexture('buttondown-blue');
                 this.icon.setPosition(this.x, this.y);
                 this.isDown = true;
+                this.scene.events.emit('subtractHealth');
             } else if (this.isDown && this.isSticky){
                 this.setTexture('button-blue');
                 this.icon.setPosition(this.x, this.y - this.downDepth/2);
