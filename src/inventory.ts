@@ -27,7 +27,6 @@ export default class Inventory extends Phaser.Scene{
     create ()
     {
         this.container = this.add.container(0,0);
-
         let padding = 10;
 
         let title = this.add.text(padding, padding, 'Inventory', { font: '24px Arial', fill: '#000000' });
@@ -142,7 +141,6 @@ class ItemCell extends Phaser.GameObjects.Container{
         this.on('pointerover', (pointer: Phaser.Input.Pointer, localX, localY, event) => {
             if (this.tooltip && this.item){
                 this.tooltip.setItem(this.item);
-                this.tooltip.setPosition(pointer.x, pointer.y);
                 this.tooltip.setVisible(true);
             }
         }, this);
@@ -195,7 +193,7 @@ class ItemGrid extends Phaser.GameObjects.Container{
         this.height = (this.cellWidth + this.padding) * this.rowCount - this.padding;
         this.items = items;
 
-        this.tooltip = new Tooltip(scene, 500, 500);
+        this.tooltip = new Tooltip(scene, x + this.width, y);
 
         let count = 0;
         for (let cy = 0; cy < this.height; cy+= this.cellWidth + this.padding){
