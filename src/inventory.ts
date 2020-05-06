@@ -3,9 +3,11 @@ import Box from './ui/box';
 
 export default class Inventory extends Phaser.Scene{
     parent : any;
-    container : any;
+    container : Phaser.GameObjects.Container;
     items: any;
-    
+    selected: Item = null;
+    hovered: Item = null;
+
     constructor (handle, parent)
     {
         super(handle);
@@ -27,9 +29,9 @@ export default class Inventory extends Phaser.Scene{
         this.container = this.add.container(0,0);
 
         let padding = 10;
-        let itemGrid = new ItemGrid(this, 0, 0, [new Item('test1'),new Item('test12'),new Item('test13'),new Item('test14'),]);
+
         let title = this.add.text(padding, padding, 'Inventory', { font: '24px Arial', fill: '#000000' });
-        itemGrid.setPosition(padding, padding + title.height)
+        let itemGrid = new ItemGrid(this, padding, padding + title.height, [new Item('test1'),new Item('test12'),new Item('test13'),new Item('test14'),]);
 
         let box = new Box(this, 0, 0, itemGrid.width, itemGrid.height + title.height,{
             radius: 16,
@@ -45,9 +47,11 @@ export default class Inventory extends Phaser.Scene{
         this.parent.scene.events.on('toggleInventory', () => {
             this.container.setVisible(!this.container.visible);
         }, this);
+
+
     }
-    refresh ()
-    {
+
+    refresh(){
         this.cameras.main.setPosition(this.parent.x, this.parent.y);
         this.scene.bringToTop();
     }
@@ -72,54 +76,37 @@ class Item {
 }
 
 class Tooltip extends Phaser.GameObjects.Container{
-    item: Item;
+    width: number;
 
-    constructor(scene: Phaser.Scene, x: number, y: number, item: Item){
+    item: Item;
+    background: Box;
+    nameText: Phaser.GameObjects.Text;
+    statText: Array<Phaser.GameObjects.Text>;
+    
+    constructor(scene: Phaser.Scene, x: number, y: number){
         super(scene, x, y);
 
-        let cx = 0;
-        let cy = 0;
+        // Set the background
+        this.background = new Box(scene, 0, 0, 200, 200,{
+            radius: 16,
+            lineWidth: 5,
 
-        const addRow = () => {
-            let mid = scene.add.image(0, cy, 'dropdownmid').setOrigin(0);
-            this.add(mid);
-            cy += mid.height; 
-        }
-
-        let top = scene.add.image(cx, cy, 'dropdowntop').setOrigin(0);
-        this.add(top);
-        cy += top.height;
-
-        addRow();
-        addRow();
-        addRow();
-
-        let padding = top.height;
-        let panel = scene.add.image(padding, padding, 'panel-blue').setOrigin(0).setScale(0.5);
-        this.add(panel);
-        
-        let title = scene.add.text(padding + 100, padding, item.name, { font: '24px Arial', fill: '#000000' }).setOrigin(0.5);
-        this.add(title)
-        
-        let tagCount = 2;
-        item.tags.forEach((tag)=>{
-            addRow();
-            let title = scene.add.text(padding + 100, padding * tagCount, tag, { font: '12px Arial', fill: '#000000' }).setOrigin(0.5);
-            tagCount+=1;
-            this.add(title);
         });
+        this.add(this.background);
 
-        for (let stat in item.stats){
-            if (item.stats[stat]){
-                addRow();
-                let title = scene.add.text(padding, padding * tagCount, stat + ': ' + item.stats[stat], { font: '12px Arial', fill: '#000000' }).setOrigin(0);
-                tagCount+=1;
-                this.add(title);
-            }
-        }
-
-        let bottom = scene.add.image(0, cy,'dropdownbottom').setOrigin(0);
-        this.add(bottom);
+        this.nameText = scene.add.text(200, 50, 'name', { font: '12px Arial', fill: '#000000' })
+        this.add(this.nameText);
+    }
+    
+    setItem(item: Item){
+        this.item = item;
+        this.nameText.setText(item.name);
+    }
+    
+    destroy(){
+        this.item = null;
+        this.background.destroy();
+        super.destroy();
     }
 }
 
@@ -132,8 +119,9 @@ class ItemCell extends Phaser.GameObjects.Container{
     item: Item = null;
     icon: Phaser.GameObjects.Image = null;
     background: Box;
+    tooltip: Tooltip = null;
 
-    constructor(scene: Phaser.Scene, x: number, y: number, width: number, height: number, item?: Item){
+    constructor(scene: Phaser.Scene, x: number, y: number, width: number, height: number, item: Item = null){
         super(scene, x, y)
         this.width = width;
         this.height = height;
@@ -144,9 +132,26 @@ class ItemCell extends Phaser.GameObjects.Container{
             lineWidth: 5
         });
         this.add(this.background);
-
         // Add the item icon
         this.setItem(item);
+
+        // Set interactions 
+        this.setInteractive();
+        this.input.hitArea.x += this.width / 2;
+        this.input.hitArea.y += this.height / 2;
+        this.on('pointerover', (pointer: Phaser.Input.Pointer, localX, localY, event) => {
+            if (this.tooltip && this.item){
+                this.tooltip.setItem(this.item);
+                this.tooltip.setPosition(pointer.x, pointer.y);
+                this.tooltip.setVisible(true);
+            }
+        }, this);
+
+        this.on('pointerout', (pointer: Phaser.Input.Pointer, localX, localY, event) => {
+            if (this.tooltip){
+                this.tooltip.setVisible(false);
+            }
+        }, this);
     }
     
     swapItem(target: ItemCell){
@@ -165,6 +170,11 @@ class ItemCell extends Phaser.GameObjects.Container{
             this.item = null;
         }
     }
+
+    setTooltip(tooltip: Tooltip){
+        this.tooltip = tooltip;
+        this.tooltip.setVisible(false);
+    }
 }
 
 class ItemGrid extends Phaser.GameObjects.Container{
@@ -178,36 +188,29 @@ class ItemGrid extends Phaser.GameObjects.Container{
     items: Array<Item> = [];
     cells: Array<ItemCell> = [];
 
-    constructor(scene: Phaser.Scene, x: number, y: number, items: Array<Item> = []){
+    constructor(scene: Inventory, x: number, y: number, items: Array<Item> = []){
         super(scene, x, y);
         
         this.width = (this.cellWidth + this.padding) * this.colCount - this.padding;
         this.height = (this.cellWidth + this.padding) * this.rowCount - this.padding;
         this.items = items;
 
-        /*
-        this.tooltip = new Tooltip(scene, x + this.width + 100 ,y, new Item());
-        this.tooltip.setVisible(false);
-        scene.add.existing(this.tooltip);
-*/
+        this.tooltip = new Tooltip(scene, 500, 500);
 
         let count = 0;
         for (let cy = 0; cy < this.height; cy+= this.cellWidth + this.padding){
             for (let cx = 0; cx < this.width; cx+=this.cellWidth + this.padding){
-                let cell = new ItemCell(scene, cx, cy,  this.cellWidth, this.cellWidth, this.items[0])
-                
-                console.log(cx + ' ' + cy)
-                /*
-                cell.on('pointerover', (pointer: Phaser.Input.Pointer, localX, localY, event) => {
-                    this.tooltip.setVisible(true);
-                }, this);
-                cell.on('pointerout', (pointer: Phaser.Input.Pointer, localX, localY, event) => {
-                    this.tooltip.setVisible(false);
-                }, this);
-*/
+
+                let cell : ItemCell = new ItemCell(scene, cx, cy,  this.cellWidth, this.cellWidth, (count < this.items.length) ? this.items[count] : null);
+                cell.setTooltip(this.tooltip);
+                count += 1;
+
                 //this.cells.push(cell);
                 this.add(cell);
             }
         }
+
+        this.add(this.tooltip);
+
     }
 }
