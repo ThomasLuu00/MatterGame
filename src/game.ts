@@ -5,7 +5,7 @@ import Player from './player';
 import Item from './item';
 import Inventory from './inventory';
 import {Kunai, preloadKunai} from './kunai';
-import {Button, preloadButton} from './button';
+import {Button, preloadButton} from './ui/button';
 
 export default class MyGame extends Phaser.Scene
 {
@@ -93,8 +93,8 @@ export default class MyGame extends Phaser.Scene
 
     createWindow(func)
     {
-        var x = 0;
-        var y = 0;
+        var x = 50;
+        var y = 50;
 
         var handle = 'window' + this.count++;
 

@@ -1,10 +1,10 @@
 import 'phaser';
+import Box from './ui/box';
 
 export default class Inventory extends Phaser.Scene{
     parent : any;
     container : any;
     items: any;
-    tooltip: ItemToolTip;
     
     constructor (handle, parent)
     {
@@ -26,15 +26,18 @@ export default class Inventory extends Phaser.Scene{
     {
         this.container = this.add.container(0,0);
 
-        let item = new Item();
-
-        let itemGrid = new ItemGrid(this,0,0);
-        let uiBox = new UIBox(this, 0, 0, itemGrid.width, itemGrid.height);
-
-        // Add title
+        let padding = 10;
+        let itemGrid = new ItemGrid(this, 0, 0, [new Item('test1'),new Item('test12'),new Item('test13'),new Item('test14'),]);
+        let uiBox = new Box(this, 0, 0, itemGrid.width, itemGrid.height + 50,{
+            radius: 16,
+            padding: padding,
+        });
         
-        itemGrid.setPosition(uiBox.padding)
+        let title = this.add.text(padding, padding, 'Inventory', { font: '48px Arial', fill: '#000000' });
+        
+        itemGrid.setPosition(padding, padding + title.height)
         this.container.add(uiBox);
+        this.container.add(title);
         this.container.add(itemGrid);
         this.container.setVisible(false);
         this.cameras.main.setViewport(this.parent.x, this.parent.y, this.parent.width, this.parent.height);
@@ -65,58 +68,6 @@ class Item {
 
     constructor(name = 'name'){
         this.name = name;
-    }
-}
-
-class ItemToolTip{
-    item: Item;
-    tooltip: Phaser.GameObjects.Container;
-
-    constructor(scene: Phaser.Scene, x: number, y: number, item: Item = new Item()) {
-        this.item = item;
-
-        this.tooltip = scene.add.container(x,y);
-        let count = 10;
-        let topCount = 0;
-        let top = scene.add.image(0, topCount, 'dropdowntop').setOrigin(0);
-        this.tooltip.add(top);
-        topCount += top.height;
-        const addRow = () => {
-            let mid = scene.add.image(0, topCount, 'dropdownmid').setOrigin(0);
-            this.tooltip.add(mid);
-            topCount += mid.height; 
-        }
-
-  
-        addRow();
-        addRow();
-        addRow();
-        let padding = top.height;
-        let panel = scene.add.image(padding, padding, 'panel-blue').setOrigin(0).setScale(0.5);
-        this.tooltip.add(panel);
-        
-        let title = scene.add.text(padding + 100, padding, item.name, { font: '24px Arial', fill: '#000000' }).setOrigin(0.5);
-        this.tooltip.add(title)
-        
-        let tagCount = 2;
-        item.tags.forEach((tag)=>{
-            addRow();
-            let title = scene.add.text(padding + 100, padding * tagCount, tag, { font: '12px Arial', fill: '#000000' }).setOrigin(0.5);
-            tagCount+=1;
-            this.tooltip.add(title);
-        });
-
-        for (let stat in item.stats){
-            if (item.stats[stat]){
-                addRow();
-                let title = scene.add.text(padding, padding * tagCount, stat + ': ' + item.stats[stat], { font: '12px Arial', fill: '#000000' }).setOrigin(0);
-                tagCount+=1;
-                this.tooltip.add(title);
-            }
-        }
-
-        let bottom = scene.add.image(0, topCount,'dropdownbottom').setOrigin(0);
-        this.tooltip.add(bottom);
     }
 }
 
@@ -172,81 +123,45 @@ class Tooltip extends Phaser.GameObjects.Container{
     }
 }
 
-class UIBox extends Phaser.GameObjects.Container{
+
+class ItemCell extends Phaser.GameObjects.Container{
     
     width: number;
     height: number;
-    box: Phaser.GameObjects.Graphics;
+    
+    item: Item = null;
+    icon: Phaser.GameObjects.Image = null;
+    background: Box;
 
-    color: number = 0xffffff;
-    alpha: number = 1;
-    radius: number = 16;
-    padding: number = 10;
-    lineColor: number = 0x565656;
-    lineWidth: number = 2;
-    lineAlpha: number = 1;
-    shadow: number = 0;
-    shadowColor: number = 0x222222;
-    shadowAlpha: number = 0.5;
+    constructor(scene: Phaser.Scene, x: number, y: number, width: number, height: number, item?: Item){
+        super(scene, x, y)
+        this.width = width;
+        this.height = height;
 
-    constructor(scene: Phaser.Scene, x: number, y: number, width: number, height: number, config? : UIBoxConfig){
-        super(scene,x,y);
+        // Set the background
+        this.background = new Box(scene, x, y, width, height);
+        this.add(this.background);
 
-        if (config){
-            if (config.color) this.color = config.color;
-            if (config.alpha) this.alpha = config.alpha;
-            if (config.radius) this.radius = config.radius;
-            if (config.padding) this.padding = config.padding;
-            if (config.lineColor) this.lineColor = config.lineColor;
-            if (config.lineWidth) this.lineWidth = config.lineWidth;
-            if (config.lineAlpha) this.lineAlpha = config.lineAlpha;
-            if (config.shadow) this.shadow = config.shadow;
-            if (config.shadowColor) this.shadowColor = config.shadowColor;
-            if (config.shadowAlpha) this.shadowAlpha = config.shadowAlpha;
-        }
-        
-        this.width = width + this.padding  * 2;
-        this.height = height + this.padding  * 2;
-
-        let bubble = scene.add.graphics({ x: 0, y: 0 });
-        
-        //  Bubble shadow
-        if (this.shadow){
-            bubble.fillStyle(this.shadowColor, this.shadowAlpha);
-            bubble.fillRoundedRect(this.shadow, this.shadow, this.width, this.height, this.radius);
-        }
-
-        //  Bubble color
-        bubble.fillStyle(this.color, this.alpha);
-
-        //  Bubble outline line style
-        bubble.lineStyle(this.lineWidth, this.lineColor, this.lineAlpha);
-
-        //  Bubble shape and outline
-        bubble.strokeRoundedRect(0, 0, this.width, this.height, this.radius);
-        bubble.fillRoundedRect(0, 0, this.width, this.height, this.radius);
-        this.add(bubble);
-        this.box = bubble;
+        // Add the item icon
+        this.setItem(item);
+    }
+    
+    swapItem(target: ItemCell){
+        let temp: Item = target.item;
+        target.item = this.item;
+        this.setItem(temp);
     }
 
-    setOrigin(x: number, y?: number) : UIBox{ 
-        if (!y) y = x;
-        this.setPosition(this.x - this.width * x, this.y - this.height * y)
-        return this;
+    setItem(item?: Item){
+        if (item) {
+            this.item = item;
+            this.icon = this.scene.add.image(this.x + this.width/2, this.y + this.height/2, this.item.texture);
+            this.icon.setScale((this.icon.height < this.icon.width) ? (this.width / this.icon.width * 0.7) : (this.height / this.icon.height) * 0.7);
+            this.add(this.icon);
+        } else {
+            this.item = null;
+        }
     }
-}
-
-type UIBoxConfig = {
-    color?: number,
-    alpha?: number,
-    radius?: number,
-    padding?: number,
-    lineColor?: number,
-    lineWidth?: number,
-    lineAlpha?: number,
-    shadow?: number,
-    shadowColor?: number,
-    shadowAlpha?: number,
 }
 
 class ItemGrid extends Phaser.GameObjects.Container{
@@ -256,45 +171,46 @@ class ItemGrid extends Phaser.GameObjects.Container{
     colCount: number = 4;
     padding: number = 5;
     tooltip: Tooltip;
+    items: Array<Item> = [];
+    cells: Array<ItemCell> = [];
 
-    constructor(scene: Phaser.Scene, x: number, y: number, items?: Array<Item>){
-        super(scene, x, y)
+    constructor(scene: Phaser.Scene, x: number, y: number, items: Array<Item> = []){
+        super(scene, x, y);
         
-        let cellWidth = 70 // have to know this from the image used
-        let item = new Item();
-        this.width = (cellWidth + this.padding) * this.colCount;
-        this.height = (cellWidth + this.padding) * this.rowCount;
+        const cellWidth = 50;
+        this.width = (cellWidth + this.padding) * this.colCount - this.padding;
+        this.height = (cellWidth + this.padding) * this.rowCount - this.padding;
+        this.items = items;
 
-
+        /*
         this.tooltip = new Tooltip(scene, x + this.width + 100 ,y, new Item());
         this.tooltip.setVisible(false);
         scene.add.existing(this.tooltip);
+*/
 
+        let count = 0;
+        let cx = 0;
+        let cy = 0;
         for (let rc = 0; rc < this.rowCount; rc++){
-            let cx = cellWidth/2;
-            let cy = (cellWidth + this.padding) * rc + cellWidth/2;
             for (let cc = 0; cc < this.colCount; cc++){
-                let cell = new UIBox(scene, cx - cellWidth/2, cy - cellWidth/2,  cellWidth - 20, cellWidth - 20, { padding: 10, shadow: 0} )
-                let icon = scene.add.image(cell.width/2, cell.width /2, item.texture);
-                if (icon.height < icon.width){
-                    icon.setScale((cellWidth / icon.width) * 0.7);
-                } else {
-                    icon.setScale((cellWidth / icon.height) * 0.7);
-                }
-
-                cell.setInteractive();
+                let cell = new ItemCell(scene, cx, cy,  cellWidth, cellWidth)
+                
+                console.log(cx + ' ' + cy)
+                /*
                 cell.on('pointerover', (pointer: Phaser.Input.Pointer, localX, localY, event) => {
                     this.tooltip.setVisible(true);
                 }, this);
-                cell.on('pointeroff', (pointer: Phaser.Input.Pointer, localX, localY, event) => {
+                cell.on('pointerout', (pointer: Phaser.Input.Pointer, localX, localY, event) => {
                     this.tooltip.setVisible(false);
                 }, this);
-
-                cell.add(icon);
+*/
+                this.cells.push(cell);
                 this.add(cell);
 
-                cx += cellWidth + this.padding;
+                cx += cellWidth ;
             }
+            cx = 0;
+            cy += cellWidth;
         }
     }
 }

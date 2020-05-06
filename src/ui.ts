@@ -1,5 +1,5 @@
 import 'phaser';
-import { HealthBar, preloadHealthBar } from './healthbar';
+import { HealthBar, preloadHealthBar } from './ui/healthbar';
 
 export default class UI extends Phaser.Scene{
     health : number = 100;
