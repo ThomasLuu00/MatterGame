@@ -28,15 +28,15 @@ export default class Inventory extends Phaser.Scene{
 
         let padding = 10;
         let itemGrid = new ItemGrid(this, 0, 0, [new Item('test1'),new Item('test12'),new Item('test13'),new Item('test14'),]);
-        let uiBox = new Box(this, 0, 0, itemGrid.width, itemGrid.height + 50,{
+        let title = this.add.text(padding, padding, 'Inventory', { font: '24px Arial', fill: '#000000' });
+        itemGrid.setPosition(padding, padding + title.height)
+
+        let box = new Box(this, 0, 0, itemGrid.width, itemGrid.height + title.height,{
             radius: 16,
             padding: padding,
         });
         
-        let title = this.add.text(padding, padding, 'Inventory', { font: '48px Arial', fill: '#000000' });
-        
-        itemGrid.setPosition(padding, padding + title.height)
-        this.container.add(uiBox);
+        this.container.add(box);
         this.container.add(title);
         this.container.add(itemGrid);
         this.container.setVisible(false);
@@ -139,7 +139,10 @@ class ItemCell extends Phaser.GameObjects.Container{
         this.height = height;
 
         // Set the background
-        this.background = new Box(scene, x, y, width, height);
+        this.background = new Box(scene, 0, 0, width, height,{
+            radius: width/10,
+            lineWidth: 5
+        });
         this.add(this.background);
 
         // Add the item icon
@@ -155,7 +158,7 @@ class ItemCell extends Phaser.GameObjects.Container{
     setItem(item?: Item){
         if (item) {
             this.item = item;
-            this.icon = this.scene.add.image(this.x + this.width/2, this.y + this.height/2, this.item.texture);
+            this.icon = this.scene.add.image(this.width/2, this.height/2, this.item.texture);
             this.icon.setScale((this.icon.height < this.icon.width) ? (this.width / this.icon.width * 0.7) : (this.height / this.icon.height) * 0.7);
             this.add(this.icon);
         } else {
@@ -167,6 +170,7 @@ class ItemCell extends Phaser.GameObjects.Container{
 class ItemGrid extends Phaser.GameObjects.Container{
     width: number;
     height: number;
+    cellWidth: number = 50;
     rowCount: number = 5;
     colCount: number = 4;
     padding: number = 5;
@@ -177,9 +181,8 @@ class ItemGrid extends Phaser.GameObjects.Container{
     constructor(scene: Phaser.Scene, x: number, y: number, items: Array<Item> = []){
         super(scene, x, y);
         
-        const cellWidth = 50;
-        this.width = (cellWidth + this.padding) * this.colCount - this.padding;
-        this.height = (cellWidth + this.padding) * this.rowCount - this.padding;
+        this.width = (this.cellWidth + this.padding) * this.colCount - this.padding;
+        this.height = (this.cellWidth + this.padding) * this.rowCount - this.padding;
         this.items = items;
 
         /*
@@ -189,11 +192,9 @@ class ItemGrid extends Phaser.GameObjects.Container{
 */
 
         let count = 0;
-        let cx = 0;
-        let cy = 0;
-        for (let rc = 0; rc < this.rowCount; rc++){
-            for (let cc = 0; cc < this.colCount; cc++){
-                let cell = new ItemCell(scene, cx, cy,  cellWidth, cellWidth)
+        for (let cy = 0; cy < this.height; cy+= this.cellWidth + this.padding){
+            for (let cx = 0; cx < this.width; cx+=this.cellWidth + this.padding){
+                let cell = new ItemCell(scene, cx, cy,  this.cellWidth, this.cellWidth, this.items[0])
                 
                 console.log(cx + ' ' + cy)
                 /*
@@ -204,13 +205,9 @@ class ItemGrid extends Phaser.GameObjects.Container{
                     this.tooltip.setVisible(false);
                 }, this);
 */
-                this.cells.push(cell);
+                //this.cells.push(cell);
                 this.add(cell);
-
-                cx += cellWidth ;
             }
-            cx = 0;
-            cy += cellWidth;
         }
     }
 }
