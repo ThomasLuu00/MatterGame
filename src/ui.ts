@@ -1,9 +1,15 @@
 import 'phaser';
+import TextEdit from 'phaser3-rex-plugins/plugins/textedit.js';
 import { HealthBar, preloadHealthBar } from './ui/healthbar';
+import {Button, preloadButton} from './ui/button';
+
+export var isOpened;
 
 export default class UI extends Phaser.Scene{
     health : number = 100;
     mainScene : Phaser.Scene;
+    info: Phaser.GameObjects.Text;
+    editor: TextEdit;
 
     constructor(){
         super({ 
@@ -14,33 +20,53 @@ export default class UI extends Phaser.Scene{
 
     preload ()
     {
+        preloadButton(this);
         preloadHealthBar(this);
     }
 
     create(){
         this.mainScene = this.scene.get('myGame');
-        //  Our Text object to display the Score
-        let info = this.add.text(10, 10, 'Score: 0', { font: '48px Arial', fill: '#000000' });
-        let healthbar = new HealthBar(this, 400,  100, 'healthbar');
+
+        let healthbar = new HealthBar(this, 960,  880, 'healthbar');
         healthbar.health = 100;
-        info.setText('Score: ' + this.health);
+
+        //  Our Text object to display the Score
+        this.info = this.add.text(860,  780, 'Score: 0', { font: '48px Arial', fill: '#000000' });
+        this.info.setText('Score: ' + this.health);
+        this.info.setInteractive({ useHandCursor: true });
+        this.info.on('pointerdown', ()=> {
+            this.editor.open();
+        });
+
+        this.editor = new TextEdit(this.info);
+
+        let buttonXPos = 300;
+        let buttonYPos = 880;
+
+        let button = new Button(this, buttonXPos, buttonYPos, 'swords');
+        new Button(this, buttonXPos + 50, buttonYPos, 'swords', true);
+        new Button(this, buttonXPos + 100, buttonYPos, 'swords');
         
-        this.mainScene.events.on('addScore', () => {
+        this.events.on('addScore', () => {
             this.health += 10;
-            info.setText('Score: ' + this.health);
+            this.info.setText('Score: ' + this.health);
         }, this);
 
-        this.mainScene.events.on('subtractHealth', () => {
+        this.events.on('subtractHealth', () => {
             this.health -= 10;
             healthbar.health = this.health;
-            info.setText('Score: ' + this.health);
+            this.info.setText('Score: ' + this.health);
         }, this);
 
-        this.mainScene.events.on('addHealth', () => {
+        this.events.on('addHealth', () => {
             this.health += 10;
             healthbar.health = this.health;
-            info.setText('Score: ' + this.health);
+            this.info.setText('Score: ' + this.health);
         }, this);
 
+    }
+
+    update(){
+        isOpened = this.editor.isOpened;
     }
 }

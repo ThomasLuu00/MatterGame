@@ -1,11 +1,10 @@
 import 'phaser';
 import { NinjaGirl, preloadNinjaGirl} from './ninja-girl';
-import UI from './ui';
+import UI, { isOpened } from './ui';
 import Player from './player';
 import Item from './item';
 import Inventory from './inventory';
 import {Kunai, preloadKunai} from './kunai';
-import {Button, preloadButton} from './ui/button';
 
 export default class MyGame extends Phaser.Scene
 {
@@ -19,6 +18,8 @@ export default class MyGame extends Phaser.Scene
     count: number = 0;
     isInventoryOpen: Boolean = false;
     inv: any;
+    isTyping: Boolean = false;
+
     constructor ()
     {
         super('myGame');
@@ -30,7 +31,6 @@ export default class MyGame extends Phaser.Scene
         this.load.image("map-tiles","../assets/map/map-tiles.png");
         preloadNinjaGirl(this);
         preloadKunai(this);
-        preloadButton(this);
     }
 
     create ()
@@ -48,9 +48,6 @@ export default class MyGame extends Phaser.Scene
         this.ninja = new NinjaGirl(this.matter.world, spawnPoint.x, spawnPoint.y);
         this.player = new Player(this, this.ninja);
         let kunai = new Kunai(this.matter.world, spawnPoint.x + 200, spawnPoint.y + 200);
-        let button = new Button(this, spawnPoint.x +300, spawnPoint.y +300, 'swords');
-        new Button(this, spawnPoint.x +350, spawnPoint.y +300, 'swords', true);
-        new Button(this, spawnPoint.x +400, spawnPoint.y +300, 'swords');
 
         // Smoothly follow the player
         var controlConfig = {
@@ -68,26 +65,38 @@ export default class MyGame extends Phaser.Scene
         this.cameras.main.startFollow(this.player.sprite, false, 0.5, 0.5).setZoom(0.5);
         this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
 
+        // Setting the boolean to check if the player is typing
+        this.isTyping = isOpened;
+
         this.matter.world.createDebugGraphic(); // Shows the hitboxes
         this.createWindow(Inventory);
 
     }
 
     update(){
-        this.controls.update(); // needed for camera controls
-
-        if (Phaser.Input.Keyboard.JustDown(this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.I))){ 
-            this.events.emit('toggleInventory');
-        }
-
-        if(Phaser.Input.Keyboard.JustDown(this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.L))){
-            if (this.scale.isFullscreen) {
-                this.scale.stopFullscreen();
-                // On stop fulll screen
-            } else {
-                this.scale.startFullscreen();
-                // On start fulll screen
+        this.isTyping = isOpened;
+        if(this.isTyping){
+            this.input.keyboard.disableGlobalCapture(); 
+            this.controls.update(); // needed for camera controls
+            
+            if (Phaser.Input.Keyboard.JustDown(this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.I))){ 
+                this.events.emit('toggleInventory');
             }
+
+            if(Phaser.Input.Keyboard.JustDown(this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.L))){
+                if (this.scale.isFullscreen) {
+                    this.scale.stopFullscreen();
+                    // On stop fulll screen
+                } else {
+                    this.scale.startFullscreen();
+                    // On start fulll screen
+                }
+            }
+
+        }
+        else
+        {
+            this.input.keyboard.enableGlobalCapture(); 
         }
     }
 
@@ -129,8 +138,10 @@ const config : Phaser.Types.Core.GameConfig = {
                 showConvexHulls: true
             },
         },
-
-
+    },
+    parent: 'parent',
+    dom: {
+        createContainer: true
     },
 };
 
