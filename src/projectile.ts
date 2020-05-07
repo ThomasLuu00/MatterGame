@@ -1,4 +1,5 @@
 export default class Projectile extends Phaser.Physics.Matter.Sprite{
+
     speed = 1;
 
     constructor (world : Phaser.Physics.Matter.World, x : number = 0, y : number = 0, anim: string)
