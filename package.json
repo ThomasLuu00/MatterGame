@@ -19,7 +19,8 @@
     },
     "homepage": "https://github.com/photonstorm/phaser3-typescript-project-template#readme",
     "dependencies": {
-        "phaser": "git+https://github.com/photonstorm/phaser.git"
+        "phaser": "git+https://github.com/photonstorm/phaser.git",
+        "phaser3-rex-plugins": "^1.1.14"
     },
     "devDependencies": {
         "@rollup/plugin-replace": "^2.3.2",
