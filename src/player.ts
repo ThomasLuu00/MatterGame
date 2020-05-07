@@ -1,32 +1,18 @@
 import 'phaser';
 import MyGame from './game.js';
-import { NinjaGirl } from './ninja-girl';
 import Character  from './character';
 
 
 export default class Player {
     scene: MyGame;
     sprite: Character;
-    canJump: boolean;
-    jumpCooldownTimer: Phaser.Time.TimerEvent;
     input: InputManager
     destroyed: boolean;
-    body: any;
-    
-    isActing: boolean;
 
     constructor(scene, sprite) {
         this.scene = scene;
         this.input = new InputManager(this.scene);
-        // Create the physics-based sprite that we will move around and animate
         this.sprite = sprite;
-        this.body = this.sprite.body;
-
-        // Jumping is going to have a cooldown
-        this.canJump = true;
-        this.jumpCooldownTimer = null;
-
-        this.body.mass = 1;
         this.scene.events.on('update', this.update, this);
     }
 
@@ -34,8 +20,7 @@ export default class Player {
         if (this.destroyed) return;
 
         if (!this.scene.isTyping) {
-            const sprite: any = this.sprite;
-            const velocity = sprite.body.velocity;
+            const sprite: Character = this.sprite;
             const isRightKeyDown = this.input.moveRight.isDown();
             const isLeftKeyDown = this.input.moveLeft.isDown();
             const isJumpKeyDown = this.input.jump.isDown();
@@ -43,11 +28,6 @@ export default class Player {
             const isThrowKeyDown = this.input.throw.isDown();
             const isOnGround = sprite.isTouching.ground;
             const isInAir = !isOnGround;
-
-            // --- Move the player horizontally ---
-
-            // Adjust the movement so that the player is slower in the air
-            const moveForce = isOnGround ? 0e1 : 0.005;
 
             if (isInAir) {
 
