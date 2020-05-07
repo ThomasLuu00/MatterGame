@@ -1,23 +1,23 @@
 export default class Player {
-    destroyed : Boolean;
-    scene : Phaser.Scene;
-    jumpCooldownTimer : Phaser.Time.TimerEvent;
+    destroyed: boolean;
+    scene: Phaser.Scene;
+    jumpCooldownTimer: Phaser.Time.TimerEvent;
 
     create() {
-      // ... our existing create code would be here
-  
-      this.destroyed = false;
-      this.scene.events.on("update", this.update, this);
-      this.scene.events.once("shutdown", this.destroy, this);
-      this.scene.events.once("destroy", this.destroy, this);
+        // ... our existing create code would be here
+
+        this.destroyed = false;
+        this.scene.events.on('update', this.update, this);
+        this.scene.events.once('shutdown', this.destroy, this);
+        this.scene.events.once('destroy', this.destroy, this);
     }
-  
+
     update() {
-      if (this.destroyed) return;
-  
-      // ... our existing update code would be here
+        if (this.destroyed) return;
+
+        // ... our existing update code would be here
     }
-  
+
     destroy() {
         /*
       this.destroyed = true;
@@ -40,4 +40,4 @@ export default class Player {
       this.sprite.destroy();
       */
     }
-  }
+}

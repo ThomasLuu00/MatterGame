@@ -1,56 +1,51 @@
 import 'phaser';
-import { NinjaGirl, preloadNinjaGirl} from './ninja-girl';
+import { NinjaGirl, preloadNinjaGirl } from './ninja-girl';
 import UI, { isOpened } from './ui';
 import Player from './player';
 import Item from './item';
 import Inventory from './inventory';
-import {Kunai, preloadKunai} from './kunai';
+import { Kunai, preloadKunai } from './kunai';
 
-export default class MyGame extends Phaser.Scene
-{
-    player : Player;
+export default class MyGame extends Phaser.Scene {
+    player: Player;
     sprite: any;
     ninja: NinjaGirl;
-    shapes: Object;
-    curAnim : any;
-    controls : any;
+    shapes: Record<string, any>;
+    curAnim: any;
+    controls: any;
     items: Array<Item> = [];
-    count: number = 0;
-    isInventoryOpen: Boolean = false;
+    count = 0;
+    isInventoryOpen = false;
     inv: any;
-    isTyping: Boolean = false;
+    isTyping = false;
 
-    constructor ()
-    {
+    constructor() {
         super('myGame');
     }
 
-    preload ()
-    {
-        this.load.tilemapTiledJSON("map", "../assets/map/map.json")
-        this.load.image("map-tiles","../assets/map/map-tiles.png");
+    preload() {
+        this.load.tilemapTiledJSON('map', '../assets/map/map.json');
+        this.load.image('map-tiles', '../assets/map/map-tiles.png');
         preloadNinjaGirl(this);
         preloadKunai(this);
     }
 
-    create ()
-    {    
-    
+    create() {
         // Create and load map
-        const map = this.make.tilemap({ key: "map" });
-        const tileset = map.addTilesetImage("map-tiles");
-        const groundLayer = map.createDynamicLayer("Ground", tileset, 0, 0);
+        const map = this.make.tilemap({ key: 'map' });
+        const tileset = map.addTilesetImage('map-tiles');
+        const groundLayer = map.createDynamicLayer('Ground', tileset, 0, 0);
         groundLayer.setCollisionByProperty({ collides: true });
         this.matter.world.convertTilemapLayer(groundLayer);
-        const spawnPoint : any = map.findObject("Spawn", obj => obj.name === "Spawn Point");
+        const spawnPoint: any = map.findObject('Spawn', (obj) => obj.name === 'Spawn Point');
 
         // Add assets
         this.ninja = new NinjaGirl(this.matter.world, spawnPoint.x, spawnPoint.y);
         this.player = new Player(this, this.ninja);
-        let kunai = new Kunai(this.matter.world, spawnPoint.x + 200, spawnPoint.y + 200);
+        const kunai = new Kunai(this.matter.world, spawnPoint.x + 200, spawnPoint.y + 200);
 
         // Smoothly follow the player
-        var controlConfig = {
+        const controlConfig = {
             camera: this.cameras.main,
             left: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT),
             right: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT),
@@ -61,7 +56,7 @@ export default class MyGame extends Phaser.Scene
             zoomIn: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q),
             zoomOut: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E),
         };
-        this.controls = new Phaser.Cameras.Controls.FixedKeyControl(controlConfig)
+        this.controls = new Phaser.Cameras.Controls.FixedKeyControl(controlConfig);
         this.cameras.main.startFollow(this.player.sprite, false, 0.5, 0.5).setZoom(0.5);
         this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
 
@@ -70,20 +65,21 @@ export default class MyGame extends Phaser.Scene
 
         this.matter.world.createDebugGraphic(); // Shows the hitboxes
         this.createWindow(Inventory);
-
     }
-
-    update(){
+    update() {
+        console.log(this.isTyping);
         this.isTyping = isOpened;
-        if(this.isTyping){
-            this.input.keyboard.disableGlobalCapture(); 
+        if (this.isTyping) {
+            this.input.keyboard.disableGlobalCapture();
+        } else {
+            this.input.keyboard.enableGlobalCapture();
             this.controls.update(); // needed for camera controls
-            
-            if (Phaser.Input.Keyboard.JustDown(this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.I))){ 
+
+            if (Phaser.Input.Keyboard.JustDown(this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.I))) {
                 this.events.emit('toggleInventory');
             }
 
-            if(Phaser.Input.Keyboard.JustDown(this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.L))){
+            if (Phaser.Input.Keyboard.JustDown(this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.L))) {
                 if (this.scale.isFullscreen) {
                     this.scale.stopFullscreen();
                     // On stop fulll screen
@@ -92,33 +88,25 @@ export default class MyGame extends Phaser.Scene
                     // On start fulll screen
                 }
             }
-
-        }
-        else
-        {
-            this.input.keyboard.enableGlobalCapture(); 
         }
     }
 
-    createWindow(func)
-    {
-        var x = 50;
-        var y = 50;
+    createWindow(func) {
+        const x = 50;
+        const y = 50;
 
-        var handle = 'window' + this.count++;
+        const handle = 'window' + this.count++;
 
-        var win = this.add.zone(x, y, Number(config.width), Number(config.height)).setInteractive({ draggable: true }).setOrigin(0);
-        var demo = new func(handle, win);
-        
-        let scene = this.scene.add(handle, demo, true);
+        const win = this.add.zone(x, y, 1920, 1080).setInteractive({ draggable: true }).setOrigin(0);
+        const demo = new func(handle, win);
+
+        const scene = this.scene.add(handle, demo, true);
         this.inv = demo;
         return scene;
     }
 }
 
-
-
-const config : Phaser.Types.Core.GameConfig = {
+const config: Phaser.Types.Core.GameConfig = {
     type: Phaser.AUTO,
     backgroundColor: '#125555',
     width: 1920,
@@ -135,13 +123,13 @@ const config : Phaser.Types.Core.GameConfig = {
                 showBody: true,
                 showStaticBody: true,
                 showInternalEdges: true,
-                showConvexHulls: true
+                showConvexHulls: true,
             },
         },
     },
     parent: 'parent',
     dom: {
-        createContainer: true
+        createContainer: true,
     },
 };
 
