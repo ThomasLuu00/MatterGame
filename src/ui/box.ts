@@ -34,8 +34,18 @@ class Box extends Phaser.GameObjects.Graphics{
         
         this.width = width + this.padding  * 2;
         this.height = height + this.padding  * 2;
+        
+        this.refresh();
+    }
 
-        //let bubble = scene.add.graphics({ x: 0, y: 0 });
+    setSize(width: number, height: number){
+        this.width = width + this.padding  * 2;
+        this.height = height + this.padding  * 2;
+        this.clear();
+        this.refresh();
+    }
+
+    refresh(){
         //  Bubble shadow
         if (this.shadow){
             this.fillStyle(this.shadowColor, this.shadowAlpha);
