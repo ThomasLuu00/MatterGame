@@ -128,7 +128,13 @@ class NinjaGirl extends Character {
 
             this.on('animationstart-ninjagirl-' + name, animationCallBack, this);
             this.on('animationupdate-ninjagirl-' + name, animationCallBack, this);
-            this.on('animationcomplete-ninjagirl-' + name,() => {this.canAct = true},this,);
+            this.on(
+                'animationcomplete-ninjagirl-' + name,
+                () => {
+                    this.canAct = true;
+                },
+                this,
+            );
         }
     }
 }

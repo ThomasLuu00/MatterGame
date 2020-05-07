@@ -12,16 +12,16 @@ export default abstract class Character extends Phaser.Physics.Matter.Sprite {
         ground: boolean;
     };
 
-    canJump: boolean = true;
-    canAct: boolean = true;
-    canAttack: boolean = true;
+    canJump = true;
+    canAct = true;
+    canAttack = true;
 
     name: string;
     animations: Array<string>;
     currentAnimation: string;
 
     isOnGround: boolean;
-    
+
     jumpCooldownTimer: Phaser.Time.TimerEvent;
     attackCooldownTimer: Phaser.Time.TimerEvent;
 
@@ -32,7 +32,7 @@ export default abstract class Character extends Phaser.Physics.Matter.Sprite {
         texture: string,
         frame?: string | number,
         options?: Phaser.Types.Physics.Matter.MatterBodyConfig,
-    ){
+    ) {
         super(world, x, y, texture, frame, options);
 
         // Track which sensors are touching something
@@ -45,14 +45,16 @@ export default abstract class Character extends Phaser.Physics.Matter.Sprite {
         this.attackCooldownTimer = null;
 
         // Before matter's update, reset the player's count of what surfaces it is touching.
-        this.on('beforeupdate',
+        this.on(
+            'beforeupdate',
             () => {
                 this.isTouching.top = false;
                 this.isTouching.left = false;
                 this.isTouching.right = false;
                 this.isTouching.ground = false;
             },
-        this);
+            this,
+        );
 
         this.scene.events.on('update', this.update, this);
         this.world.on('collisionstart', this.onSensorCollide, this);
@@ -73,37 +75,37 @@ export default abstract class Character extends Phaser.Physics.Matter.Sprite {
         }
     }
 
-    idle(){
-        if (this.canAct){
+    idle() {
+        if (this.canAct) {
             this.setVelocityX(0);
             this.animate(this.name + '-idle');
         }
     }
 
-    jump(){
-        if (this.canAct){
+    jump() {
+        if (this.canAct) {
             this.isOnGround = false;
             this.setVelocityY(-11);
             this.animate(this.name + '-jump');
         }
     }
 
-    move(left: boolean = false){
-        if (this.canAct){
+    move(left = false) {
+        if (this.canAct) {
             this.setFlipX(left);
-            this.setVelocityX((left) ? -7 : 7);
+            this.setVelocityX(left ? -7 : 7);
             this.animate(this.name + '-run');
         }
     }
-    attack(){
-        if (this.canAct){
+    attack() {
+        if (this.canAct) {
             this.canAct = false;
             this.animate(this.name + '-attack');
         }
     }
 
-    throw(){
-        if (this.canAct){
+    throw() {
+        if (this.canAct) {
             this.canAct = false;
             this.animate(this.name + '-throw');
         }
@@ -154,7 +156,6 @@ export default abstract class Character extends Phaser.Physics.Matter.Sprite {
             }
         }
     }
-
 
     abstract addAnimation(): void;
 }
