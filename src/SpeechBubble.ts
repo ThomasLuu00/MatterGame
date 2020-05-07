@@ -1,11 +1,10 @@
-function createSpeechBubble (x, y, width, height, quote)
-{
-    var bubbleWidth = width;
-    var bubbleHeight = height;
-    var bubblePadding = 10;
-    var arrowHeight = bubbleHeight / 4;
+function createSpeechBubble(x, y, width, height, quote) {
+    const bubbleWidth = width;
+    const bubbleHeight = height;
+    const bubblePadding = 10;
+    const arrowHeight = bubbleHeight / 4;
 
-    var bubble = this.add.graphics({ x: x, y: y });
+    const bubble = this.add.graphics({ x: x, y: y });
 
     //  Bubble shadow
     bubble.fillStyle(0x222222, 0.5);
@@ -22,12 +21,12 @@ function createSpeechBubble (x, y, width, height, quote)
     bubble.fillRoundedRect(0, 0, bubbleWidth, bubbleHeight, 16);
 
     //  Calculate arrow coordinates
-    var point1X = Math.floor(bubbleWidth / 7);
-    var point1Y = bubbleHeight;
-    var point2X = Math.floor((bubbleWidth / 7) * 2);
-    var point2Y = bubbleHeight;
-    var point3X = Math.floor(bubbleWidth / 7);
-    var point3Y = Math.floor(bubbleHeight + arrowHeight);
+    const point1X = Math.floor(bubbleWidth / 7);
+    const point1Y = bubbleHeight;
+    const point2X = Math.floor((bubbleWidth / 7) * 2);
+    const point2Y = bubbleHeight;
+    const point3X = Math.floor(bubbleWidth / 7);
+    const point3Y = Math.floor(bubbleHeight + arrowHeight);
 
     //  Bubble arrow shadow
     bubble.lineStyle(4, 0x222222, 0.5);
@@ -39,9 +38,15 @@ function createSpeechBubble (x, y, width, height, quote)
     bubble.lineBetween(point2X, point2Y, point3X, point3Y);
     bubble.lineBetween(point1X, point1Y, point3X, point3Y);
 
-    var content = this.add.text(0, 0, quote, { fontFamily: 'Arial', fontSize: 20, color: '#000000', align: 'center', wordWrap: { width: bubbleWidth - (bubblePadding * 2) } });
+    const content = this.add.text(0, 0, quote, {
+        fontFamily: 'Arial',
+        fontSize: 20,
+        color: '#000000',
+        align: 'center',
+        wordWrap: { width: bubbleWidth - bubblePadding * 2 },
+    });
 
-    var b = content.getBounds();
+    const b = content.getBounds();
 
-    content.setPosition(bubble.x + (bubbleWidth / 2) - (b.width / 2), bubble.y + (bubbleHeight / 2) - (b.height / 2));
+    content.setPosition(bubble.x + bubbleWidth / 2 - b.width / 2, bubble.y + bubbleHeight / 2 - b.height / 2);
 }
