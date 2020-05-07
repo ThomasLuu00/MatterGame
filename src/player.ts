@@ -1,24 +1,23 @@
 import 'phaser';
-import MultiKey from './multi-key.js';
 import MyGame from './game.js';
+import { NinjaGirl } from './ninja-girl';
+import Character  from './character';
+
 
 export default class Player {
     scene: MyGame;
-    sprite: Phaser.Physics.Matter.Sprite;
+    sprite: Character;
     canJump: boolean;
     jumpCooldownTimer: Phaser.Time.TimerEvent;
-    leftInput: MultiKey;
-    rightInput: MultiKey;
-    jumpInput: MultiKey;
-    attackInput: MultiKey;
-    throwInput: MultiKey;
-    inventoryInput: MultiKey;
+    input: InputManager
     destroyed: boolean;
     body: any;
+    
+    isActing: boolean;
 
     constructor(scene, sprite) {
         this.scene = scene;
-
+        this.input = new InputManager(this.scene);
         // Create the physics-based sprite that we will move around and animate
         this.sprite = sprite;
         this.body = this.sprite.body;
@@ -26,15 +25,6 @@ export default class Player {
         // Jumping is going to have a cooldown
         this.canJump = true;
         this.jumpCooldownTimer = null;
-
-        // Track the keys
-        const { LEFT, RIGHT, UP, A, D, W, F, G, I } = Phaser.Input.Keyboard.KeyCodes;
-        this.leftInput = new MultiKey(scene, [LEFT, A]);
-        this.rightInput = new MultiKey(scene, [RIGHT, D]);
-        this.jumpInput = new MultiKey(scene, [UP, W]);
-        this.attackInput = new MultiKey(scene, [F]);
-        this.throwInput = new MultiKey(scene, [G]);
-        this.inventoryInput = new MultiKey(scene, [I]);
 
         this.body.mass = 1;
         this.scene.events.on('update', this.update, this);
@@ -46,11 +36,11 @@ export default class Player {
         if (!this.scene.isTyping) {
             const sprite: any = this.sprite;
             const velocity = sprite.body.velocity;
-            const isRightKeyDown = this.rightInput.isDown();
-            const isLeftKeyDown = this.leftInput.isDown();
-            const isJumpKeyDown = this.jumpInput.isDown();
-            const isAttackKeyDown = this.attackInput.isDown();
-            const isThrowKeyDown = this.throwInput.isDown();
+            const isRightKeyDown = this.input.moveRight.isDown();
+            const isLeftKeyDown = this.input.moveLeft.isDown();
+            const isJumpKeyDown = this.input.jump.isDown();
+            const isAttackKeyDown = this.input.attack.isDown();
+            const isThrowKeyDown = this.input.throw.isDown();
             const isOnGround = sprite.isTouching.ground;
             const isInAir = !isOnGround;
 
@@ -60,31 +50,68 @@ export default class Player {
             const moveForce = isOnGround ? 0e1 : 0.005;
 
             if (isInAir) {
-            } else if (isAttackKeyDown) {
-                sprite.animate(sprite.name + '-jump');
-            } else if (isThrowKeyDown) {
-                sprite.animate(sprite.name + '-throw');
-            } else if (isLeftKeyDown === isRightKeyDown) {
-                sprite.setVelocityX(0);
-                sprite.animate(sprite.name + '-idle');
-            } else if (isLeftKeyDown) {
-                sprite.animate(sprite.name + '-run');
-                sprite.setFlipX(true);
-                sprite.setVelocityX(-7);
-            } else if (isRightKeyDown) {
-                sprite.animate(sprite.name + '-run');
-                sprite.setFlipX(false);
-                sprite.setVelocityX(7);
-            }
 
-            if (velocity.x > 7) sprite.setVelocityX(7);
-            else if (velocity.x < -7) sprite.setVelocityX(-7);
+            } else if (isAttackKeyDown) {
+                this.sprite.attack();
+            } else if (isThrowKeyDown) {
+                this.sprite.throw();
+            } else if (isLeftKeyDown === isRightKeyDown) {
+                this.sprite.idle();
+            } else if (isLeftKeyDown) {
+                this.sprite.move(true);
+            } else if (isRightKeyDown) {
+                this.sprite.move(false)
+            }
 
             if (isJumpKeyDown && sprite.canJump && isOnGround) {
                 sprite.isOnGround = false;
-                sprite.setVelocityY(-11);
-                sprite.animate(sprite.name + '-jump');
+                sprite.jump();
             }
         }
+    }
+}
+
+
+class InputManager{
+    scene: Phaser.Scene;
+
+    moveLeft: MultiKey;
+    moveRight: MultiKey;
+    crouch: MultiKey;
+    jump: MultiKey;
+
+    attack: MultiKey;
+    throw: MultiKey;
+    inventory: MultiKey;
+
+    constructor(scene: Phaser.Scene){
+        this.scene = scene;
+
+        // Track the keys
+        const { LEFT, RIGHT, UP, A, D, W, S,F, G, I } = Phaser.Input.Keyboard.KeyCodes;
+        this.moveLeft = new MultiKey(scene, [LEFT, A]);
+        this.moveRight = new MultiKey(scene, [RIGHT, D]);
+        this.jump = new MultiKey(scene, [UP, W]);
+        this.crouch = new MultiKey(scene, [UP, S]);
+
+        this.attack = new MultiKey(scene, [F]);
+        this.throw = new MultiKey(scene, [G]);
+        this.inventory = new MultiKey(scene, [I]);
+    }
+}
+
+class MultiKey {
+    keys: any;
+    constructor(scene, keys) {
+        if (!Array.isArray(keys)) keys = [keys];
+        this.keys = keys.map((key) => scene.input.keyboard.addKey(key));
+    }
+    // Are any of the keys down?
+    isDown() {
+        return this.keys.some((key) => key.isDown);
+    }
+    // Are all of the keys up?
+    isUp() {
+        return this.keys.every((key) => key.isUp);
     }
 }

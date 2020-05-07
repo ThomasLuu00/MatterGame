@@ -95,7 +95,7 @@ class NinjaGirl extends Character {
                     zeroPad: 2,
                     prefix: 'ninjagirl-throw_',
                 }),
-                repeat: -1,
+                repeat: 0,
                 frameRate: 30,
             },
             attack: {
@@ -106,7 +106,7 @@ class NinjaGirl extends Character {
                     zeroPad: 2,
                     prefix: 'ninjagirl-attack_',
                 }),
-                repeat: -1,
+                repeat: 0,
                 frameRate: 30,
             },
             'jump-attack': {
@@ -117,7 +117,7 @@ class NinjaGirl extends Character {
                     zeroPad: 2,
                     prefix: 'ninjagirl-jump-attack_',
                 }),
-                repeat: -1,
+                repeat: 0,
                 frameRate: 30,
             },
         };
@@ -128,63 +128,7 @@ class NinjaGirl extends Character {
 
             this.on('animationstart-ninjagirl-' + name, animationCallBack, this);
             this.on('animationupdate-ninjagirl-' + name, animationCallBack, this);
-            this.on(
-                'animationcomplete-ninjagirl-' + name,
-                function () {
-                    //do nothing
-                },
-                this,
-            );
-        }
-    }
-
-    update(): void {
-        // Update function is not implemented!
-    }
-
-    onSensorCollide(event: any): void {
-        for (let i = 0; i < event.pairs.length; i++) {
-            const bodyA = event.pairs[i].bodyA;
-            const bodyB = event.pairs[i].bodyB;
-
-            //if (bodyA.isSensor) return; // We only care about collisions with physical objects
-
-            if (bodyB === this.sensors.left) {
-                this.isTouching.left = true;
-                if (event.pairs[i].separation > 0.5) this.x += event.pairs[i].separation - 0.5;
-            } else if (bodyB === this.sensors.right) {
-                this.isTouching.right = true;
-                if (event.pairs[i].separation > 0.5) this.x -= event.pairs[i].separation - 0.5;
-            } else if (bodyB === this.sensors.bottom) {
-                this.isTouching.ground = true;
-            } else if (bodyB === this.sensors.bottom) {
-                this.isTouching.top = true;
-            }
-        }
-    }
-
-    onSensorCollideEnd(event: any): void {
-        for (let i = 0; i < event.pairs.length; i++) {
-            const bodyA = event.pairs[i].bodyA;
-            const bodyB = event.pairs[i].bodyB;
-
-            //if (bodyA.isSensor) return; // We only care about collisions with physical objects
-            /*
-            if (bodyB === this.sensors.left) {
-              this.isTouching.left = false;
-              if (event.pairs[i].separation > 0.5) this.x += event.pairs[i].separation - 0.5;
-            } 
-            else if (bodyB === this.sensors.right) {
-              this.isTouching.right = false;
-              if (event.pairs[i].separation > 0.5) this.x -= event.pairs[i].separation - 0.5;
-            } 
-            else 
-            */
-            if (bodyB === this.sensors.bottom) {
-                this.isTouching.ground = false;
-            } else if (bodyB === this.sensors.top) {
-                this.isTouching.top = false;
-            }
+            this.on('animationcomplete-ninjagirl-' + name,() => {this.canAct = true},this,);
         }
     }
 }
