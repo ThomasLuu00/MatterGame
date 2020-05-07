@@ -59,7 +59,7 @@ export default class Inventory extends Phaser.Scene{
 class Item {
     id: string = '0000';
     name: string = 'name';
-    tags: Array<string> = ['type1', 'type2'];
+    tags: Array<string> = ['melee', 'ranged', 'melee', 'tet sdfsdfsdf'];
     description: string = ' Sample description of the item';
     texture: string = 'item-kunai';
     iconTexture: string = 'item-kunai';
@@ -74,32 +74,142 @@ class Item {
     }
 }
 
-class Tooltip extends Phaser.GameObjects.Container{
-    width: number;
+class Tag {
 
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+    text: Phaser.GameObjects.Text;
+    background: Box;
+    scene: Phaser.Scene;
+    children: Phaser.GameObjects.GameObject[];
+    padding: number = 2;
+
+    constructor(scene: Phaser.Scene, x: number, y: number, text: string, textStyle?: Object){
+        this.scene = scene;
+        //this.text = scene.add.text(x, y, text, textStyle);
+        this.text = new Phaser.GameObjects.Text(scene, x + this.padding , y + this.padding, text, textStyle);
+        this.background = new Box(scene, x, y, this.text.width, this.text.height, { padding: 2, radius: 5});
+        this.x = x;
+        this.y = y;
+        this.width = this.background.width;
+        this.height = this.background.height;
+        this.children = [this.background, this.text,];
+    }
+
+    setPosition(x: number, y: number){
+       this.x = x;
+       this.y = y;
+       
+       this.text.setPosition(x + this.padding, y + this.padding);
+       this.background.setPosition(x, y);
+    }
+
+    setText(text: string){
+        this.text.setText(text);
+        this.background.setSize(this.text.width, this.text.height);
+    }
+
+    destroy(){
+        this.text.destroy();
+        this.background.destroy()
+        this.scene = null;
+    }
+}
+
+class TagBox extends Phaser.GameObjects.Container{
+    /**
+     * This is a fixed width container that stores tags. The height adjusts according to the number of tags;
+     */
+    width: number;
+    height: number;
+    spacing: number = 5;
+    tags: Array<Tag>;
+    item: Item;
+    constructor(scene: Phaser.Scene, x: number, y:number, width: number, item: Item = null){
+        super(scene, x, y);
+        this.width = width;
+        this.height = 0;
+        this.item = item;
+        this.tags = [];
+        
+        if (this.item != null){
+            this.setItem(this.item);
+        }
+    }
+
+    setItem(item: Item){
+
+        let cx = 0;
+        let cy = 0;
+
+        if (this.item != null) while (this.tags.length > 0) this.tags.pop().destroy();
+        this.item = item;
+        for (let i in this.item.tags){
+            let tag = new Tag(this.scene, cx, cy, this.item.tags[i],{ fontFamily: '12px Arial', color : '#000000' })
+            this.tags.push(tag);
+        }
+        for (let i in this.tags){
+            
+            if (cx > 0 && this.tags[i].width + cx >= this.width){
+                cy += this.tags[i].height + this.spacing;
+                cx = 0;
+            }
+            this.tags[i].setPosition(cx, cy);
+            cx += this.spacing + this.tags[i].width;
+            this.add(this.tags[i].children);
+        }
+        this.height = (cy > 0)? cy + this.tags[0].height : 0;
+
+        // To debug
+        var graphics = this.scene.add.graphics();
+        graphics.lineStyle(2, 0x00ffff, 1);
+        graphics.strokeRect(0, 0, this.width, this.height);
+        this.add(graphics)
+    }
+}
+
+class Tooltip extends Phaser.GameObjects.Container{
     item: Item;
     background: Box;
     nameText: Phaser.GameObjects.Text;
-    statText: Array<Phaser.GameObjects.Text>;
+    tags: Array<Tag>;
+    tagBox: TagBox;
+    statBox:  StatBox;
     
-    constructor(scene: Phaser.Scene, x: number, y: number){
+    constructor(scene: Phaser.Scene, x: number, y: number, item?: Item){
         super(scene, x, y);
+        this.tags = [];
+        this.width = 200;
+        this.height = 200;
 
         // Set the background
-        this.background = new Box(scene, 0, 0, 200, 200,{
+        this.background = new Box(scene, 0, 0, this.width, this.height,{
             radius: 16,
             lineWidth: 5,
-
         });
         this.add(this.background);
-
-        this.nameText = scene.add.text(200, 50, 'name', { font: '12px Arial', fill: '#000000' })
+        
+        this.nameText = this.scene.add.text(this.background.radius, this.background.radius, 'NAME_PLACEHOLDER', { fontFamily: '24px Arial', color : '#000000' })
         this.add(this.nameText);
+
+        this.tagBox = new TagBox(this.scene, this.width/2, this.background.radius + this.nameText.height, this.width/2 - this.background.radius);
+        this.add(this.tagBox);
+
+        this.statBox = new StatBox(this.scene, this.background.radius , 100, this.width);
+        this.add(this.statBox.children);
+
+        if (item) this.setItem(item);
     }
     
     setItem(item: Item){
+        // Update name
         this.item = item;
         this.nameText.setText(item.name);
+        this.tagBox.setItem(item);
+        this.statBox.setItem(item);
+        this.add(this.statBox.children);
     }
     
     destroy(){
@@ -109,7 +219,43 @@ class Tooltip extends Phaser.GameObjects.Container{
     }
 }
 
+class StatBox{
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+    scene: Phaser.Scene; 
+    item: Item;
+    children: Phaser.GameObjects.GameObject[];
+    
+    spacing: number = 2;
 
+    constructor(scene: Phaser.Scene, x: number, y: number, width: number, item: Item = null){
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = 0;
+        this.scene = scene;
+        this.item = item;
+        this.children = [];
+
+        if (this.item) this.setItem(item);
+    }
+    
+    setItem(item: Item){
+        this.item = item;
+        while (this.children.length > 0) this.children.pop().destroy();
+        
+        let cy = this.y
+        for (let stat in this.item.stats){
+            let text = new Phaser.GameObjects.Text(this.scene, this.x, cy, stat + ': ' + this.item.stats[stat], { fontFamily: '24px Arial', color : '#000000' })
+            this.children.push(text);
+            cy += text.height + this.spacing;
+        }
+
+        this.height += cy - this.spacing;
+    }
+}
 class ItemCell extends Phaser.GameObjects.Container{
     
     width: number;
