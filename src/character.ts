@@ -27,9 +27,11 @@ export default abstract class Character extends Phaser.Physics.Matter.Sprite {
     jumpCooldownTimer: Phaser.Time.TimerEvent;
     attackCooldownTimer: Phaser.Time.TimerEvent;
 
-    currentWeapon: Function;
-    weapon1: Function;
-    weapon2: Function;
+    currentWeapon = 1;
+    weaponSlot = {
+        1: null,
+        2: null,
+    }
     
     atkspd = 250;
 
@@ -68,11 +70,11 @@ export default abstract class Character extends Phaser.Physics.Matter.Sprite {
         this.world.on('collisionstart', this.onSensorCollide, this);
         this.world.on('collisionend', this.onSensorCollideEnd, this);
 
-        this.weapon1 = () =>{
+        this.weaponSlot[1] = () =>{
             new Projectile(this.world, this.x, this.y, 'item-kunai').shoot(new Phaser.Geom.Point(this.x + 1, this.y));
         }
-        this.weapon2 = () =>{
-            new Projectile(this.world, this.x, this.y, 'item-kunai').shoot(new Phaser.Geom.Point(this.x, this.y + 1));
+        this.weaponSlot[2] = () =>{
+            new Projectile(this.world, this.x, this.y, 'item-kunai').shoot(new Phaser.Geom.Point(this.x, this.y - 1));
         }
     }
 
@@ -137,10 +139,15 @@ export default abstract class Character extends Phaser.Physics.Matter.Sprite {
                 callback: () => (this.canAct = true)
             });
             this.animate(this.name + '-throw');
-            this.weapon1();
+            if (this.weaponSlot[this.currentWeapon] != null) this.weaponSlot[this.currentWeapon]();
         }
     }
 
+    switchWeapon(slot: integer){
+        if (slot > 0 && slot < 3){
+            this.currentWeapon = slot;
+        }
+    }
     onSensorCollide(event: any): void {
         for (let i = 0; i < event.pairs.length; i++) {
             const bodyA = event.pairs[i].bodyA;

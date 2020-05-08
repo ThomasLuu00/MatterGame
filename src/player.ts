@@ -32,6 +32,8 @@ class InputManager {
     attack: Phaser.Input.Keyboard.Key;
     throw: Phaser.Input.Keyboard.Key;
     inventory: Phaser.Input.Keyboard.Key;
+    weapon1: Phaser.Input.Keyboard.Key;
+    weapon2: Phaser.Input.Keyboard.Key;
 
     constructor(scene: Phaser.Scene) {
         this.scene = scene;
@@ -46,6 +48,9 @@ class InputManager {
         this.attack = this.scene.input.keyboard.addKey(F);
         this.throw = this.scene.input.keyboard.addKey(G);
         this.inventory = this.scene.input.keyboard.addKey(I);
+        this.weapon1 = this.scene.input.keyboard.addKey(ONE);
+        this.weapon2 = this.scene.input.keyboard.addKey(TWO);
+        
     }
 }
 
@@ -71,7 +76,18 @@ export default class Player {
             const isAttackKeyDown = this.input.attack.isDown;
             const isThrowKeyDown = this.input.throw.isDown;
             const isOnGround = this.sprite.isTouching.ground;
-            
+            const isWep1Down = this.input.weapon1.isDown;
+            const isWep2Down = this.input.weapon2.isDown;
+
+        if (isWep1Down){
+            this.sprite.switchWeapon(1);
+        }
+
+        if (isWep2Down){
+            this.sprite.switchWeapon(2);
+        }
+
+
         if (isJumpKeyDown) {
             this.sprite.jump();
         } else if (isAttackKeyDown) {
