@@ -1,5 +1,5 @@
 import 'phaser';
-import Box from './ui/box';
+import Box from './box';
 
 class Item {
     id = '0000';
