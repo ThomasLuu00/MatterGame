@@ -1,4 +1,4 @@
-import { ItemData, ItemCatalogue, itemList, projectileList } from './itemdata';
+import { ItemData, ItemCatalogue, itemList, projectileList } from './item/item-data';
 
 export default class Projectile extends Phaser.Physics.Matter.Sprite {
     data: any;

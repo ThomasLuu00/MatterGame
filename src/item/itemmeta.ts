@@ -1,6 +1,6 @@
-import Projectile from './projectile';
-import { ItemData, ItemCatalogue, itemList, projectileList } from './itemdata';
-import Character from './character';
+import Projectile from '../projectile';
+import { ItemData, ItemCatalogue, itemList, projectileList } from './item-data';
+import Character from '../character';
 
 class Helm {
     //

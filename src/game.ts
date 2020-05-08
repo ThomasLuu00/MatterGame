@@ -2,9 +2,7 @@ import 'phaser';
 import { NinjaGirl, preloadNinjaGirl } from './ninja-girl';
 import UI, { isOpened } from './ui';
 import Player from './player/player';
-import Item from './item';
 import Inventory from './inventory';
-import { Kunai, preloadKunai } from './kunai';
 
 export default class MyGame extends Phaser.Scene {
     player: Player;
@@ -13,7 +11,6 @@ export default class MyGame extends Phaser.Scene {
     shapes: Record<string, any>;
     curAnim: any;
     controls: any;
-    items: Array<Item> = [];
     count = 0;
     isInventoryOpen = false;
     inv: any;
@@ -27,7 +24,7 @@ export default class MyGame extends Phaser.Scene {
         this.load.tilemapTiledJSON('map', '../assets/map/map.json');
         this.load.image('map-tiles', '../assets/map/map-tiles.png');
         preloadNinjaGirl(this);
-        preloadKunai(this);
+        this.load.image('item-kunai', '../assets/kunai.png');
     }
 
     create() {
@@ -42,7 +39,6 @@ export default class MyGame extends Phaser.Scene {
         // Add assets
         this.ninja = new NinjaGirl(this.matter.world, spawnPoint.x, spawnPoint.y);
         this.player = new Player(this, this.ninja);
-        const kunai = new Kunai(this.matter.world, spawnPoint.x + 200, spawnPoint.y + 200);
 
         // Smoothly follow the player
         const controlConfig = {

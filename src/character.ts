@@ -1,6 +1,6 @@
 import Projectile from './projectile';
-import { Weapon } from './itemmeta';
-import { ItemData, ItemCatalogue, itemList, projectileList } from './itemdata';
+import { Weapon } from './item/itemmeta';
+import { ItemData, ItemCatalogue, itemList, projectileList } from './item/item-data';
 
 class Equipment {
     owner: Character;

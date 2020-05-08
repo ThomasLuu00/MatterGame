@@ -1,5 +1,5 @@
 import 'phaser';
-import './itemmeta';
+import { ItemData } from './item/item-data';
 
 export default class Loot {
     scene: Phaser.Scene;
