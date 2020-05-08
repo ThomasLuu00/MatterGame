@@ -1,3 +1,5 @@
+import Projectile from "./projectile";
+
 export default abstract class Character extends Phaser.Physics.Matter.Sprite {
     sensors: {
         top: MatterJS.BodyType;
@@ -24,6 +26,12 @@ export default abstract class Character extends Phaser.Physics.Matter.Sprite {
 
     jumpCooldownTimer: Phaser.Time.TimerEvent;
     attackCooldownTimer: Phaser.Time.TimerEvent;
+
+    currentWeapon: Function;
+    weapon1: Function;
+    weapon2: Function;
+    
+    atkspd = 250;
 
     constructor(
         world: Phaser.Physics.Matter.World,
@@ -59,6 +67,13 @@ export default abstract class Character extends Phaser.Physics.Matter.Sprite {
         this.scene.events.on('update', this.update, this);
         this.world.on('collisionstart', this.onSensorCollide, this);
         this.world.on('collisionend', this.onSensorCollideEnd, this);
+
+        this.weapon1 = () =>{
+            new Projectile(this.world, this.x, this.y, 'item-kunai').shoot(new Phaser.Geom.Point(this.x + 1, this.y));
+        }
+        this.weapon2 = () =>{
+            new Projectile(this.world, this.x, this.y, 'item-kunai').shoot(new Phaser.Geom.Point(this.x, this.y + 1));
+        }
     }
 
     update(): void {
@@ -84,6 +99,11 @@ export default abstract class Character extends Phaser.Physics.Matter.Sprite {
 
     jump() {
         if (this.canAct) {
+            this.canJump = false;
+            this.jumpCooldownTimer = this.scene.time.addEvent({
+                delay: 250,
+                callback: () => (this.canJump = true)
+            });
             this.isOnGround = false;
             this.setVelocityY(-11);
             this.animate(this.name + '-jump');
@@ -100,6 +120,11 @@ export default abstract class Character extends Phaser.Physics.Matter.Sprite {
     attack() {
         if (this.canAct) {
             this.canAct = false;
+            this.canAttack = false;
+            this.attackCooldownTimer = this.scene.time.addEvent({
+                delay: this.atkspd,
+                callback: () => (this.canAct = true)
+            });
             this.animate(this.name + '-attack');
         }
     }
@@ -107,7 +132,12 @@ export default abstract class Character extends Phaser.Physics.Matter.Sprite {
     throw() {
         if (this.canAct) {
             this.canAct = false;
+            this.attackCooldownTimer = this.scene.time.addEvent({
+                delay: this.atkspd,
+                callback: () => (this.canAct = true)
+            });
             this.animate(this.name + '-throw');
+            this.weapon1();
         }
     }
 

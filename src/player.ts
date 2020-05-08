@@ -16,33 +16,36 @@ class MultiKey {
     isUp() {
         return this.keys.every((key) => key.isUp);
     }
+    justDown() {
+        return this.keys.some((key) => Phaser.Input.Keyboard.JustDown(key));
+    }
 }
 
 class InputManager {
     scene: Phaser.Scene;
 
-    moveLeft: MultiKey;
-    moveRight: MultiKey;
-    crouch: MultiKey;
-    jump: MultiKey;
+    moveLeft: Phaser.Input.Keyboard.Key;
+    moveRight: Phaser.Input.Keyboard.Key;
+    crouch: Phaser.Input.Keyboard.Key;
+    jump: Phaser.Input.Keyboard.Key;
 
-    attack: MultiKey;
-    throw: MultiKey;
-    inventory: MultiKey;
+    attack: Phaser.Input.Keyboard.Key;
+    throw: Phaser.Input.Keyboard.Key;
+    inventory: Phaser.Input.Keyboard.Key;
 
     constructor(scene: Phaser.Scene) {
         this.scene = scene;
 
         // Track the keys
-        const { LEFT, RIGHT, UP, A, D, W, S, F, G, I } = Phaser.Input.Keyboard.KeyCodes;
-        this.moveLeft = new MultiKey(scene, [LEFT, A]);
-        this.moveRight = new MultiKey(scene, [RIGHT, D]);
-        this.jump = new MultiKey(scene, [UP, W]);
-        this.crouch = new MultiKey(scene, [UP, S]);
+        const { LEFT, RIGHT, UP, A, D, W, S, F, G, I, ONE, TWO} = Phaser.Input.Keyboard.KeyCodes;
+        this.moveLeft = this.scene.input.keyboard.addKey(A);
+        this.moveRight = this.scene.input.keyboard.addKey(D);
+        this.jump = this.scene.input.keyboard.addKey(W);
+        this.crouch = this.scene.input.keyboard.addKey(S);
 
-        this.attack = new MultiKey(scene, [F]);
-        this.throw = new MultiKey(scene, [G]);
-        this.inventory = new MultiKey(scene, [I]);
+        this.attack = this.scene.input.keyboard.addKey(F);
+        this.throw = this.scene.input.keyboard.addKey(G);
+        this.inventory = this.scene.input.keyboard.addKey(I);
     }
 }
 
@@ -60,35 +63,30 @@ export default class Player {
     }
 
     update() {
-        if (this.destroyed) return;
+        if (this.destroyed || this.scene.isTyping || !this.sprite.canAct) return;
 
-        if (!this.scene.isTyping) {
-            const sprite: Character = this.sprite;
-            const isRightKeyDown = this.input.moveRight.isDown();
-            const isLeftKeyDown = this.input.moveLeft.isDown();
-            const isJumpKeyDown = this.input.jump.isDown();
-            const isAttackKeyDown = this.input.attack.isDown();
-            const isThrowKeyDown = this.input.throw.isDown();
-            const isOnGround = sprite.isTouching.ground;
-            const isInAir = !isOnGround;
-
-            if (isInAir) {
-            } else if (isAttackKeyDown) {
-                this.sprite.attack();
-            } else if (isThrowKeyDown) {
-                this.sprite.throw();
-            } else if (isLeftKeyDown === isRightKeyDown) {
-                this.sprite.idle();
-            } else if (isLeftKeyDown) {
-                this.sprite.move(true);
-            } else if (isRightKeyDown) {
-                this.sprite.move(false);
-            }
-
-            if (isJumpKeyDown && sprite.canJump && isOnGround) {
-                sprite.isOnGround = false;
-                sprite.jump();
-            }
+            const isRightKeyDown = this.input.moveRight.isDown;
+            const isLeftKeyDown = this.input.moveLeft.isDown;
+            const isJumpKeyDown = this.input.jump.isDown;
+            const isAttackKeyDown = this.input.attack.isDown;
+            const isThrowKeyDown = this.input.throw.isDown;
+            const isOnGround = this.sprite.isTouching.ground;
+            
+        if (isJumpKeyDown) {
+            this.sprite.jump();
+        } else if (isAttackKeyDown) {
+            this.sprite.attack();
+        } else if (isThrowKeyDown) {
+            this.sprite.throw();
+        } else if (isLeftKeyDown === isRightKeyDown) {
+            this.sprite.idle();
+        } else if (isLeftKeyDown) {
+            this.sprite.move(true);
+        } else if (isRightKeyDown) {
+            this.sprite.move(false);
+        } else {
+            this.sprite.idle();
         }
+        
     }
 }

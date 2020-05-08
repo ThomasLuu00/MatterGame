@@ -67,7 +67,6 @@ export default class MyGame extends Phaser.Scene {
         this.createWindow(Inventory);
     }
     update() {
-        console.log(this.isTyping);
         this.isTyping = isOpened;
         if (this.isTyping) {
             this.input.keyboard.disableGlobalCapture();

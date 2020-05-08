@@ -95,8 +95,8 @@ class NinjaGirl extends Character {
                     zeroPad: 2,
                     prefix: 'ninjagirl-throw_',
                 }),
-                repeat: 0,
-                frameRate: 30,
+                repeat: -1,
+                frameRate: 1000 / this.atkspd * 10,
             },
             attack: {
                 key: 'ninjagirl-attack',
@@ -106,8 +106,8 @@ class NinjaGirl extends Character {
                     zeroPad: 2,
                     prefix: 'ninjagirl-attack_',
                 }),
-                repeat: 0,
-                frameRate: 30,
+                repeat: -1,
+                frameRate: 1000 / this.atkspd * 10,
             },
             'jump-attack': {
                 key: 'ninjagirl-jump-attack',
@@ -131,7 +131,7 @@ class NinjaGirl extends Character {
             this.on(
                 'animationcomplete-ninjagirl-' + name,
                 () => {
-                    this.canAct = true;
+                    //this.canAct = true;
                 },
                 this,
             );
