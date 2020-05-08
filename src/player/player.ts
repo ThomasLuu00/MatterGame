@@ -1,6 +1,6 @@
 import 'phaser';
 import MyGame from '../game.js';
-import Character from '../character';
+import Character from '../characters/character';
 import InputManager from './input-manager';
 
 export default class Player {

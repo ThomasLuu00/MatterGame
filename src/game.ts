@@ -1,5 +1,5 @@
 import 'phaser';
-import { NinjaGirl, preloadNinjaGirl } from './ninja-girl';
+import { NinjaGirl, preloadNinjaGirl } from './characters/ninja-girl';
 import UI, { isOpened } from './ui';
 import Player from './player/player';
 import Inventory from './inventory';
