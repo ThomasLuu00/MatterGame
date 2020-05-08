@@ -1,40 +1,6 @@
-import Character from './character';
 import Projectile from './projectile';
-import './itemdata';
-
-class Equipment {
-    owner: Character;
-
-    weapon1: Weapon = null;
-    weapon2: Weapon = null;
-    weapon3: Weapon = null;
-    weapon4: Weapon = null;
-
-    /*
-    helm: Helm;
-    torso: Torso;
-    pants: Pants;
-    shoes: Shoes;
-    gloves: Gloves;
-
-    earring1: Earring;
-    earring2: Earring;
-    necklace: Necklace;
-    ring1: Ring;
-    ring2: Ring;
-    */
-
-    /*
-    constructor(owner: Character) {
-        this.owner = owner;
-    }
-    equip(item: Equipable, slot?: integer) {}
-
-    unequip(target: any): boolean {
-        return true;
-    }
-    */
-}
+import {ItemData, ItemCatalogue, itemList, projectileList} from './itemdata';
+import Character from './character';
 
 class Helm {
     //
@@ -76,14 +42,20 @@ class Weapon implements Equipable {
     scene: Phaser.Scene;
     world: Phaser.Physics.Matter.World;
 
-    projectile: Projectile;
     tags: Tags[];
     attributes: Attributes;
+    owner: Character = null;
 
     constructor(world: Phaser.Physics.Matter.World, id: string) {
         this.world = world;
         this.scene = this.world.scene;
         this.data = itemList[id];
+    }
+
+    attack(ox, oy, x: number, y: number){
+        if (this.owner !== null){
+            new Projectile(this.world, ox, oy, this.data.projectileId).shoot(new Phaser.Geom.Point(x, y));
+        }
     }
 }
 
@@ -134,3 +106,5 @@ enum Tags {
     EXHUAST = 'Exhuast',
     SILENCE = 'Silence',
 }
+
+export { Weapon };

@@ -4,25 +4,41 @@ interface ItemData {
     description?: string;
     iconKey: string;
     imageKey: string;
+    projectileId: string;
 }
 
 interface ItemCatalogue {
     readonly [index: string]: ItemData;
 }
 
+
+/*
+enum ITEM {
+    KUNAI= '#001000',
+}
+
+enum PROJECTILE {
+    KUNAI= '#002000',
+
+}
+*/
+
 const itemList: ItemCatalogue = {
-    '#01000': {
-        id: '#01000',
+    'I01000': {
+        id: 'I01000',
+        projectileId: 'P01000', 
         name: 'Kunai',
         description: '',
-        iconKey: 'kunai',
-        imageKey: 'kunai',
-    },
-    '#001001': {
-        id: '#001001',
-        name: 'Sword',
-        description: '',
-        iconKey: 'sword',
-        imageKey: 'sword',
+        iconKey: 'item-kunai',
+        imageKey: 'item-kunai',
     },
 };
+
+const projectileList = {
+    'P01000': {
+        id: 'P01000',
+        texture: 'item-kunai'
+    }
+}
+
+export {ItemData, ItemCatalogue, itemList, projectileList};

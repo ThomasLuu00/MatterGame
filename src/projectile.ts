@@ -1,8 +1,12 @@
+import {ItemData, ItemCatalogue, itemList, projectileList} from './itemdata';
+
 export default class Projectile extends Phaser.Physics.Matter.Sprite {
+    data: any;
     speed = 10;
 
-    constructor(world: Phaser.Physics.Matter.World, x = 0, y = 0, anim: string) {
-        super(world, x, y, anim, 0);
+    constructor(world: Phaser.Physics.Matter.World, x = 0, y = 0, projectileId: string) {
+        super(world, x, y, projectileList[projectileId].texture, 0);
+        this.data = projectileList[projectileId];
     }
 
     shoot(target: Phaser.Geom.Point) {

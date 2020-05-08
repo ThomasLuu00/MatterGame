@@ -1,5 +1,60 @@
 import Projectile from './projectile';
+import { Weapon } from './itemmeta';
+import {ItemData, ItemCatalogue, itemList, projectileList} from './itemdata';
 
+class Equipment {
+    owner: Character;
+
+    weapon: Weapon = null;
+
+    weaponSlot1: Weapon = null;
+    weaponSlot2: Weapon = null;
+    weaponSlot3: Weapon = null;
+    weaponSlot4: Weapon = null;
+
+    setWeapon(slot: integer){
+        switch (slot){
+            case 1:
+                if (this.weaponSlot1 != null) this.weapon = this.weaponSlot1;
+                break;
+            case 2:
+                if (this.weaponSlot2 != null) this.weapon = this.weaponSlot2;
+                break;
+            case 3:
+                if (this.weaponSlot3 != null) this.weapon = this.weaponSlot3;
+                break;
+            case 4:
+                if (this.weaponSlot4 != null) this.weapon = this.weaponSlot4;
+                break;    
+        }
+    }
+    
+
+    /*
+    helm: Helm;
+    torso: Torso;
+    pants: Pants;
+    shoes: Shoes;
+    gloves: Gloves;
+
+    earring1: Earring;
+    earring2: Earring;
+    necklace: Necklace;
+    ring1: Ring;
+    ring2: Ring;
+    */
+
+    /*
+    constructor(owner: Character) {
+        this.owner = owner;
+    }
+    equip(item: Equipable, slot?: integer) {}
+
+    unequip(target: any): boolean {
+        return true;
+    }
+    */
+}
 export default abstract class Character extends Phaser.Physics.Matter.Sprite {
     sensors: {
         top: MatterJS.BodyType;
@@ -26,12 +81,8 @@ export default abstract class Character extends Phaser.Physics.Matter.Sprite {
 
     jumpCooldownTimer: Phaser.Time.TimerEvent;
     attackCooldownTimer: Phaser.Time.TimerEvent;
-
-    currentWeapon = 1;
-    weaponSlot = {
-        1: null,
-        2: null,
-    };
+    
+    equipment: Equipment;
 
     atkspd = 250;
 
@@ -69,13 +120,12 @@ export default abstract class Character extends Phaser.Physics.Matter.Sprite {
         this.scene.events.on('update', this.update, this);
         this.world.on('collisionstart', this.onSensorCollide, this);
         this.world.on('collisionend', this.onSensorCollideEnd, this);
-
-        this.weaponSlot[1] = () => {
-            new Projectile(this.world, this.x, this.y, 'item-kunai').shoot(new Phaser.Geom.Point(this.x + 1, this.y));
-        };
-        this.weaponSlot[2] = () => {
-            new Projectile(this.world, this.x, this.y, 'item-kunai').shoot(new Phaser.Geom.Point(this.x, this.y - 1));
-        };
+        
+        this.equipment = new Equipment();
+        let weapon = new Weapon(this.world, 'I01000');
+        weapon.owner = this;
+        this.equipment.weaponSlot1 = weapon;
+        //this.equipment.weaponSlot1 = new Weapon(this.world, 'IO1000');
     }
 
     update(): void {
@@ -132,20 +182,20 @@ export default abstract class Character extends Phaser.Physics.Matter.Sprite {
     }
 
     throw() {
-        if (this.canAct) {
+        if (this.canAct && this.equipment.weapon) {
             this.canAct = false;
             this.attackCooldownTimer = this.scene.time.addEvent({
                 delay: this.atkspd,
                 callback: () => (this.canAct = true),
             });
             this.animate(this.name + '-throw');
-            if (this.weaponSlot[this.currentWeapon] != null) this.weaponSlot[this.currentWeapon]();
+            this.equipment.weapon.attack(this.x, this.y, this.x + ((this.flipX) ? -1 : 1), this.y);
         }
     }
 
     switchWeapon(slot: integer) {
         if (slot > 0 && slot < 3) {
-            this.currentWeapon = slot;
+            this.equipment.setWeapon(slot);
         }
     }
     onSensorCollide(event: any): void {
