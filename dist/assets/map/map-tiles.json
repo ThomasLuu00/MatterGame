@@ -20,29 +20,6 @@
         }, 
         {
          "id":1,
-         "objectgroup":
-            {
-             "draworder":"index",
-             "id":4,
-             "name":"",
-             "objects":[
-                    {
-                     "height":91.0526,
-                     "id":11,
-                     "name":"",
-                     "rotation":0,
-                     "type":"",
-                     "visible":true,
-                     "width":88.4211,
-                     "x":22.6316,
-                     "y":13.6842
-                    }],
-             "opacity":1,
-             "type":"objectgroup",
-             "visible":true,
-             "x":0,
-             "y":0
-            },
          "properties":[
                 {
                  "name":"collides",
@@ -88,6 +65,15 @@
         }, 
         {
          "id":6,
+         "properties":[
+                {
+                 "name":"collides",
+                 "type":"bool",
+                 "value":true
+                }]
+        }, 
+        {
+         "id":7,
          "properties":[
                 {
                  "name":"collides",
@@ -159,6 +145,15 @@
                 }]
         }, 
         {
+         "id":15,
+         "properties":[
+                {
+                 "name":"collides",
+                 "type":"bool",
+                 "value":true
+                }]
+        }, 
+        {
          "id":16,
          "properties":[
                 {
@@ -213,6 +208,24 @@
                 }]
         }, 
         {
+         "id":22,
+         "properties":[
+                {
+                 "name":"collides",
+                 "type":"bool",
+                 "value":true
+                }]
+        }, 
+        {
+         "id":23,
+         "properties":[
+                {
+                 "name":"collides",
+                 "type":"bool",
+                 "value":true
+                }]
+        }, 
+        {
          "id":24,
          "properties":[
                 {
@@ -259,6 +272,24 @@
         }, 
         {
          "id":29,
+         "properties":[
+                {
+                 "name":"collides",
+                 "type":"bool",
+                 "value":true
+                }]
+        }, 
+        {
+         "id":30,
+         "properties":[
+                {
+                 "name":"collides",
+                 "type":"bool",
+                 "value":true
+                }]
+        }, 
+        {
+         "id":31,
          "properties":[
                 {
                  "name":"collides",
