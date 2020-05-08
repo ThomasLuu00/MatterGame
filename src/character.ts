@@ -54,6 +54,7 @@ class Equipment {
     }
     */
 }
+
 export default abstract class Character extends Phaser.Physics.Matter.Sprite {
     sensors: {
         top: MatterJS.BodyType;

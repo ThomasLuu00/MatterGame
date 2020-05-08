@@ -1,7 +1,7 @@
 import 'phaser';
 import { NinjaGirl, preloadNinjaGirl } from './ninja-girl';
 import UI, { isOpened } from './ui';
-import Player from './player';
+import Player from './player/player';
 import Item from './item';
 import Inventory from './inventory';
 import { Kunai, preloadKunai } from './kunai';

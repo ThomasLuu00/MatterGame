@@ -23,5 +23,6 @@ export default class Projectile extends Phaser.Physics.Matter.Sprite {
         this.rotation = Phaser.Math.Angle.Between(this.x, this.y, target.x, target.y) + Phaser.Math.DegToRad(90);
         this.setVelocity(xSpeed, ySpeed);
         this.setIgnoreGravity(true);
+        return this;
     }
 }
