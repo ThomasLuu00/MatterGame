@@ -1,6 +1,6 @@
 import Projectile from './projectile';
 import { Weapon } from './itemmeta';
-import {ItemData, ItemCatalogue, itemList, projectileList} from './itemdata';
+import { ItemData, ItemCatalogue, itemList, projectileList } from './itemdata';
 
 class Equipment {
     owner: Character;
@@ -12,8 +12,8 @@ class Equipment {
     weaponSlot3: Weapon = null;
     weaponSlot4: Weapon = null;
 
-    setWeapon(slot: integer){
-        switch (slot){
+    setWeapon(slot: integer) {
+        switch (slot) {
             case 1:
                 if (this.weaponSlot1 != null) this.weapon = this.weaponSlot1;
                 break;
@@ -25,10 +25,9 @@ class Equipment {
                 break;
             case 4:
                 if (this.weaponSlot4 != null) this.weapon = this.weaponSlot4;
-                break;    
+                break;
         }
     }
-    
 
     /*
     helm: Helm;
@@ -81,7 +80,7 @@ export default abstract class Character extends Phaser.Physics.Matter.Sprite {
 
     jumpCooldownTimer: Phaser.Time.TimerEvent;
     attackCooldownTimer: Phaser.Time.TimerEvent;
-    
+
     equipment: Equipment;
 
     atkspd = 250;
@@ -120,9 +119,9 @@ export default abstract class Character extends Phaser.Physics.Matter.Sprite {
         this.scene.events.on('update', this.update, this);
         this.world.on('collisionstart', this.onSensorCollide, this);
         this.world.on('collisionend', this.onSensorCollideEnd, this);
-        
+
         this.equipment = new Equipment();
-        let weapon = new Weapon(this.world, 'I01000');
+        const weapon = new Weapon(this.world, 'I01000');
         weapon.owner = this;
         this.equipment.weaponSlot1 = weapon;
         //this.equipment.weaponSlot1 = new Weapon(this.world, 'IO1000');
@@ -189,7 +188,7 @@ export default abstract class Character extends Phaser.Physics.Matter.Sprite {
                 callback: () => (this.canAct = true),
             });
             this.animate(this.name + '-throw');
-            this.equipment.weapon.attack(this.x, this.y, this.x + ((this.flipX) ? -1 : 1), this.y);
+            this.equipment.weapon.attack(this.x, this.y, this.x + (this.flipX ? -1 : 1), this.y);
         }
     }
 

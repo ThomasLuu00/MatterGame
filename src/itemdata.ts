@@ -11,7 +11,6 @@ interface ItemCatalogue {
     readonly [index: string]: ItemData;
 }
 
-
 /*
 enum ITEM {
     KUNAI= '#001000',
@@ -24,9 +23,9 @@ enum PROJECTILE {
 */
 
 const itemList: ItemCatalogue = {
-    'I01000': {
+    I01000: {
         id: 'I01000',
-        projectileId: 'P01000', 
+        projectileId: 'P01000',
         name: 'Kunai',
         description: '',
         iconKey: 'item-kunai',
@@ -35,10 +34,10 @@ const itemList: ItemCatalogue = {
 };
 
 const projectileList = {
-    'P01000': {
+    P01000: {
         id: 'P01000',
-        texture: 'item-kunai'
-    }
-}
+        texture: 'item-kunai',
+    },
+};
 
-export {ItemData, ItemCatalogue, itemList, projectileList};
+export { ItemData, ItemCatalogue, itemList, projectileList };

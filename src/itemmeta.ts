@@ -1,5 +1,5 @@
 import Projectile from './projectile';
-import {ItemData, ItemCatalogue, itemList, projectileList} from './itemdata';
+import { ItemData, ItemCatalogue, itemList, projectileList } from './itemdata';
 import Character from './character';
 
 class Helm {
@@ -52,8 +52,8 @@ class Weapon implements Equipable {
         this.data = itemList[id];
     }
 
-    attack(ox, oy, x: number, y: number){
-        if (this.owner !== null){
+    attack(ox, oy, x: number, y: number) {
+        if (this.owner !== null) {
             new Projectile(this.world, ox, oy, this.data.projectileId).shoot(new Phaser.Geom.Point(x, y));
         }
     }
