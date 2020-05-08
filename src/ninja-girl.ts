@@ -96,7 +96,7 @@ class NinjaGirl extends Character {
                     prefix: 'ninjagirl-throw_',
                 }),
                 repeat: -1,
-                frameRate: 1000 / this.atkspd * 10,
+                frameRate: (1000 / this.atkspd) * 10,
             },
             attack: {
                 key: 'ninjagirl-attack',
@@ -107,7 +107,7 @@ class NinjaGirl extends Character {
                     prefix: 'ninjagirl-attack_',
                 }),
                 repeat: -1,
-                frameRate: 1000 / this.atkspd * 10,
+                frameRate: (1000 / this.atkspd) * 10,
             },
             'jump-attack': {
                 key: 'ninjagirl-jump-attack',

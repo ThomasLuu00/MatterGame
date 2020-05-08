@@ -1,4 +1,4 @@
-import Projectile from "./projectile";
+import Projectile from './projectile';
 
 export default abstract class Character extends Phaser.Physics.Matter.Sprite {
     sensors: {
@@ -31,8 +31,8 @@ export default abstract class Character extends Phaser.Physics.Matter.Sprite {
     weaponSlot = {
         1: null,
         2: null,
-    }
-    
+    };
+
     atkspd = 250;
 
     constructor(
@@ -70,12 +70,12 @@ export default abstract class Character extends Phaser.Physics.Matter.Sprite {
         this.world.on('collisionstart', this.onSensorCollide, this);
         this.world.on('collisionend', this.onSensorCollideEnd, this);
 
-        this.weaponSlot[1] = () =>{
+        this.weaponSlot[1] = () => {
             new Projectile(this.world, this.x, this.y, 'item-kunai').shoot(new Phaser.Geom.Point(this.x + 1, this.y));
-        }
-        this.weaponSlot[2] = () =>{
+        };
+        this.weaponSlot[2] = () => {
             new Projectile(this.world, this.x, this.y, 'item-kunai').shoot(new Phaser.Geom.Point(this.x, this.y - 1));
-        }
+        };
     }
 
     update(): void {
@@ -104,7 +104,7 @@ export default abstract class Character extends Phaser.Physics.Matter.Sprite {
             this.canJump = false;
             this.jumpCooldownTimer = this.scene.time.addEvent({
                 delay: 250,
-                callback: () => (this.canJump = true)
+                callback: () => (this.canJump = true),
             });
             this.isOnGround = false;
             this.setVelocityY(-11);
@@ -125,7 +125,7 @@ export default abstract class Character extends Phaser.Physics.Matter.Sprite {
             this.canAttack = false;
             this.attackCooldownTimer = this.scene.time.addEvent({
                 delay: this.atkspd,
-                callback: () => (this.canAct = true)
+                callback: () => (this.canAct = true),
             });
             this.animate(this.name + '-attack');
         }
@@ -136,15 +136,15 @@ export default abstract class Character extends Phaser.Physics.Matter.Sprite {
             this.canAct = false;
             this.attackCooldownTimer = this.scene.time.addEvent({
                 delay: this.atkspd,
-                callback: () => (this.canAct = true)
+                callback: () => (this.canAct = true),
             });
             this.animate(this.name + '-throw');
             if (this.weaponSlot[this.currentWeapon] != null) this.weaponSlot[this.currentWeapon]();
         }
     }
 
-    switchWeapon(slot: integer){
-        if (slot > 0 && slot < 3){
+    switchWeapon(slot: integer) {
+        if (slot > 0 && slot < 3) {
             this.currentWeapon = slot;
         }
     }

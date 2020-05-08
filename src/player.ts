@@ -39,7 +39,7 @@ class InputManager {
         this.scene = scene;
 
         // Track the keys
-        const { LEFT, RIGHT, UP, A, D, W, S, F, G, I, ONE, TWO} = Phaser.Input.Keyboard.KeyCodes;
+        const { LEFT, RIGHT, UP, A, D, W, S, F, G, I, ONE, TWO } = Phaser.Input.Keyboard.KeyCodes;
         this.moveLeft = this.scene.input.keyboard.addKey(A);
         this.moveRight = this.scene.input.keyboard.addKey(D);
         this.jump = this.scene.input.keyboard.addKey(W);
@@ -50,7 +50,6 @@ class InputManager {
         this.inventory = this.scene.input.keyboard.addKey(I);
         this.weapon1 = this.scene.input.keyboard.addKey(ONE);
         this.weapon2 = this.scene.input.keyboard.addKey(TWO);
-        
     }
 }
 
@@ -70,23 +69,22 @@ export default class Player {
     update() {
         if (this.destroyed || this.scene.isTyping || !this.sprite.canAct) return;
 
-            const isRightKeyDown = this.input.moveRight.isDown;
-            const isLeftKeyDown = this.input.moveLeft.isDown;
-            const isJumpKeyDown = this.input.jump.isDown;
-            const isAttackKeyDown = this.input.attack.isDown;
-            const isThrowKeyDown = this.input.throw.isDown;
-            const isOnGround = this.sprite.isTouching.ground;
-            const isWep1Down = this.input.weapon1.isDown;
-            const isWep2Down = this.input.weapon2.isDown;
+        const isRightKeyDown = this.input.moveRight.isDown;
+        const isLeftKeyDown = this.input.moveLeft.isDown;
+        const isJumpKeyDown = this.input.jump.isDown;
+        const isAttackKeyDown = this.input.attack.isDown;
+        const isThrowKeyDown = this.input.throw.isDown;
+        const isOnGround = this.sprite.isTouching.ground;
+        const isWep1Down = this.input.weapon1.isDown;
+        const isWep2Down = this.input.weapon2.isDown;
 
-        if (isWep1Down){
+        if (isWep1Down) {
             this.sprite.switchWeapon(1);
         }
 
-        if (isWep2Down){
+        if (isWep2Down) {
             this.sprite.switchWeapon(2);
         }
-
 
         if (isJumpKeyDown) {
             this.sprite.jump();
@@ -103,6 +101,5 @@ export default class Player {
         } else {
             this.sprite.idle();
         }
-        
     }
 }

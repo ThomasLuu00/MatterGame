@@ -1,33 +1,96 @@
-class Equipment implements Item{
+import Character from './character';
+import Projectile from './projectile';
+import './itemdata';
 
+class Equipment {
+    owner: Character;
+
+    weapon1: Weapon = null;
+    weapon2: Weapon = null;
+    weapon3: Weapon = null;
+    weapon4: Weapon = null;
+
+    /*
+    helm: Helm;
+    torso: Torso;
+    pants: Pants;
+    shoes: Shoes;
+    gloves: Gloves;
+
+    earring1: Earring;
+    earring2: Earring;
+    necklace: Necklace;
+    ring1: Ring;
+    ring2: Ring;
+    */
+
+    /*
+    constructor(owner: Character) {
+        this.owner = owner;
+    }
+    equip(item: Equipable, slot?: integer) {}
+
+    unequip(target: any): boolean {
+        return true;
+    }
+    */
+}
+
+class Helm {
+    //
+}
+
+class Torso {
+    //
+}
+
+class Pants {
+    //
+}
+
+class Gloves {
+    //
+}
+
+class Shoes {
+    //
+}
+
+class Earring {
+    //
+}
+
+class Necklace {
+    //
+}
+
+class Ring {
+    //
+}
+
+class Weapon implements Equipable {
     data: ItemData;
 
-    icon: Phaser.GameObjects.Image
+    icon: Phaser.GameObjects.Image;
     image: Phaser.Physics.Matter.Image;
     scene: Phaser.Scene;
     world: Phaser.Physics.Matter.World;
 
-    
-    constructor(world: Phaser.Physics.Matter.World, id: string){
+    projectile: Projectile;
+    tags: Tags[];
+    attributes: Attributes;
+
+    constructor(world: Phaser.Physics.Matter.World, id: string) {
         this.world = world;
         this.scene = this.world.scene;
         this.data = itemList[id];
     }
-
-    equip(target: any) : boolean {
-        return true;
-    };
-    unequip(target: any) : boolean {
-        return true;
-    };
 }
 
-interface Equipable {
+interface Equipable extends Item {
+    image: Phaser.Physics.Matter.Image;
     attributes: Attributes;
     tags: Tags[];
-
-    equip: EquipFunc;
-    unequip: UnequipFunc;
 }
 
 interface Useable {
@@ -36,24 +99,11 @@ interface Useable {
 
 interface Item {
     data: ItemData;
+    icon: Phaser.GameObjects.Image;
 }
 
 interface UseFunc {
     (source: any, target: any): boolean;
-}
-interface EquipFunc {
-    (target: any): boolean;
-}
-interface UnequipFunc {
-    (target: any): boolean;
-}
-
-interface ItemData{
-    id: string;
-    name: string;
-    description?: string;
-    iconKey: string;
-    imageKey: string;
 }
 
 type Attributes = {
@@ -64,13 +114,13 @@ type Attributes = {
     castSpeed?: number;
     jumpHeight?: number;
     moveSpeed?: number;
-}
+};
 
 enum Tags {
     // Item Type
     EQUIPABLE = 'Equipable',
     USEABLE = 'Useable',
-    
+
     // Attack types
     MELEE = 'Melee',
     MAGIC = 'Magic',
@@ -83,25 +133,4 @@ enum Tags {
     POISON = 'Poison',
     EXHUAST = 'Exhuast',
     SILENCE = 'Silence',
-}
-
-interface ItemCatalogue {
-    readonly [index: string]: ItemData;
-}
-
-const itemList: ItemCatalogue = {
-    '#01000':{
-        id: '#01000',
-        name: 'Kunai',
-        description: '',
-        iconKey: 'kunai',
-        imageKey: 'kunai',
-    },
-    '#001001':{
-        id: '#001001',
-        name: 'Sword',
-        description: '',
-        iconKey: 'sword',
-        imageKey: 'sword',
-    },
 }
