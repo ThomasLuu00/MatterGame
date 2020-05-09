@@ -1,5 +1,4 @@
 import 'phaser';
-import TextEdit from 'phaser3-rex-plugins/plugins/textedit.js';
 import { HealthBar, preloadHealthBar } from './ui/healthbar';
 import { ChatBox, preloadChatBox } from './ui/chatbox';
 import { Button, preloadButton } from './ui/button';
@@ -9,8 +8,7 @@ export let isOpened;
 export default class UI extends Phaser.Scene {
     health = 100;
     mainScene: Phaser.Scene;
-    info: Phaser.GameObjects.Text;
-    editor: TextEdit;
+    chatbox: ChatBox;
 
     constructor() {
         super({
@@ -28,18 +26,10 @@ export default class UI extends Phaser.Scene {
     create() {
         this.mainScene = this.scene.get('myGame');
 
-        const chatbox = new ChatBox(this, 250, 1000);
+        this.chatbox = new ChatBox(this, 250, 1000);
 
         //  Our Text object to display the Score
         const healthText = this.add.text(840, 925, 'Health: ' + this.health, { font: '48px Arial', fill: '#000000' });
-
-        this.info = this.add.text(80, 985, 'Type here', { font: '48px Arial', fill: '#000000' });
-        this.info.setInteractive({ useHandCursor: true });
-        this.info.on('pointerdown', () => {
-            this.editor.open();
-        });
-
-        this.editor = new TextEdit(this.info);
 
         const healthbar = new HealthBar(this, 960, 1000, 'healthbar');
         healthbar.health = 100;
@@ -90,6 +80,6 @@ export default class UI extends Phaser.Scene {
     }
 
     update() {
-        isOpened = this.editor.isOpened;
+        isOpened = this.chatbox.isOpened;
     }
 }
