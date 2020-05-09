@@ -71,8 +71,8 @@ class Button extends Phaser.GameObjects.Image {
 }
 
 const preloadButton = (scene: Phaser.Scene) => {
-    scene.load.image('button-blue', '../assets/menu/blue_button09.png');
-    scene.load.image('buttondown-blue', '../assets/menu/blue_button10.png');
+    scene.load.image('button-blue', '../assets/ui/menu/blue_button09.png');
+    scene.load.image('buttondown-blue', '../assets/ui/menu/blue_button10.png');
     scene.load.image('swords', '../assets/swords.png');
 };
 
