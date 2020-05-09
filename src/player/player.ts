@@ -25,7 +25,7 @@ export default class Player {
     }
 
     update() {
-        if (this.destroyed || this.scene.isTyping || !this.sprite.canAct) return;
+        if (this.destroyed || this.scene.isTyping) return;
 
         const isRightKeyDown = this.input.moveRight.isDown;
         const isLeftKeyDown = this.input.moveLeft.isDown;
@@ -48,8 +48,6 @@ export default class Player {
             this.sprite.jump();
         } else if (isAttackKeyDown) {
             this.sprite.attack();
-        } else if (isThrowKeyDown) {
-            this.sprite.throw();
         } else if (isLeftKeyDown === isRightKeyDown) {
             this.sprite.idle();
         } else if (isLeftKeyDown) {
