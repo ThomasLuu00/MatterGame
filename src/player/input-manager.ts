@@ -35,7 +35,7 @@ export default class InputManager {
         this.scene = scene;
 
         // Track the keys
-        const {A, D, W, S, F, G, I, ONE, TWO } = Phaser.Input.Keyboard.KeyCodes;
+        const { A, D, W, S, F, G, I, ONE, TWO } = Phaser.Input.Keyboard.KeyCodes;
         this.moveLeft = this.scene.input.keyboard.addKey(A);
         this.moveRight = this.scene.input.keyboard.addKey(D);
         this.jump = this.scene.input.keyboard.addKey(W);

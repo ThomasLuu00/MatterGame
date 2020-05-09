@@ -62,14 +62,12 @@ export default class Player {
     }
 
     destroy() {
-    
-      this.destroyed = true;
-  
-      // Event listeners
-      this.scene.events.off("update", this.update, this);
-      this.scene.events.off("shutdown", this.destroy, this);
-      this.scene.events.off("destroy", this.destroy, this);
-      this.sprite.destroy();
-      
+        this.destroyed = true;
+
+        // Event listeners
+        this.scene.events.off('update', this.update, this);
+        this.scene.events.off('shutdown', this.destroy, this);
+        this.scene.events.off('destroy', this.destroy, this);
+        this.sprite.destroy();
     }
 }

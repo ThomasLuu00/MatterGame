@@ -4,15 +4,7 @@ class HealthBar extends Phaser.GameObjects.Image {
     icon: Phaser.GameObjects.Image;
     health: number;
 
-    constructor(
-        scene: Phaser.Scene,
-        x: number,
-        y: number,
-        icon: string,
-        isSticky = false,
-        onDownCallback?: Function,
-        onReleaseCallback?,
-    ) {
+    constructor(scene: Phaser.Scene, x: number, y: number, icon: string) {
         super(scene, x, y, 'bg_healthbar');
         this.scene.add.existing(this);
 
@@ -29,8 +21,8 @@ class HealthBar extends Phaser.GameObjects.Image {
 }
 
 const preloadHealthBar = (scene: Phaser.Scene) => {
-    scene.load.image('bg_healthbar', '../assets/bg_healthbar.png');
-    scene.load.image('healthbar', '../assets/healthbar.png');
+    scene.load.image('bg_healthbar', '../assets/ui/bg_healthbar.png');
+    scene.load.image('healthbar', '../assets/ui/healthbar.png');
 };
 
 export { HealthBar, preloadHealthBar };
