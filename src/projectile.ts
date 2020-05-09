@@ -4,7 +4,14 @@ export default class Projectile extends Phaser.Physics.Matter.Sprite {
     data: any;
     speed = 10;
 
-    constructor(world: Phaser.Physics.Matter.World, originx = 0, originy = 0, targetx = 0, targety = 0,projectileId: string) {
+    constructor(
+        world: Phaser.Physics.Matter.World,
+        originx = 0,
+        originy = 0,
+        targetx = 0,
+        targety = 0,
+        projectileId: string,
+    ) {
         super(world, originx, originy, projectileList[projectileId].texture, 0);
         this.data = projectileList[projectileId];
         this.shoot(targetx, targety);
