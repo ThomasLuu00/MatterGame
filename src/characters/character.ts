@@ -54,7 +54,7 @@ export default abstract class Character extends Phaser.Physics.Matter.Sprite {
         this.jumpCooldownTimer = null;
         this.canAttack = true;
         this.attackCooldownTimer = null;
-        
+
         // Before matter's update, reset the player's count of what surfaces it is touching.
         this.on(
             'beforeupdate',
@@ -118,7 +118,6 @@ export default abstract class Character extends Phaser.Physics.Matter.Sprite {
         }
     }
     attack() {
-        
         if (this.canAttack && this.equipment.weapon) {
             this.canAttack = false;
             this.attackCooldownTimer = this.scene.time.addEvent({

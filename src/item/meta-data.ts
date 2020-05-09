@@ -1,16 +1,16 @@
-import Character from "../characters/character";
+import Character from '../characters/character';
 
-declare namespace MetaData{
+declare namespace MetaData {
     enum Tags {
         // Item Type
         EQUIPABLE = 'Equipable',
         USEABLE = 'Useable',
-    
+
         // Attack types
         MELEE = 'Melee',
         MAGIC = 'Magic',
         RANGED = 'Ranged',
-    
+
         // Status Effects
         SLOW = 'Slow',
         STUN = 'Stun',
@@ -24,18 +24,17 @@ declare namespace MetaData{
         health?: number;
         mana?: number;
         stamina?: number;
-        
+
         attack?: number;
         defence?: number;
-        
+
         attackSpeed?: number;
         castSpeed?: number;
         projectileSpeed?: number;
-        
+
         jumpHeight?: number;
         moveSpeed?: number;
     };
 }
-
 
 export default MetaData;
