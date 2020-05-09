@@ -16,8 +16,12 @@ export default abstract class Character extends Phaser.Physics.Matter.Sprite {
     };
 
     canJump = true;
-    canAct = true;
+    canMove = true;
     canAttack = true;
+
+    isParalyzed = false;
+    isPoisoned = false;
+    isDead = false;
 
     name: string;
     animations: Array<string>;
@@ -50,7 +54,7 @@ export default abstract class Character extends Phaser.Physics.Matter.Sprite {
         this.jumpCooldownTimer = null;
         this.canAttack = true;
         this.attackCooldownTimer = null;
-
+        
         // Before matter's update, reset the player's count of what surfaces it is touching.
         this.on(
             'beforeupdate',
@@ -89,14 +93,12 @@ export default abstract class Character extends Phaser.Physics.Matter.Sprite {
     }
 
     idle() {
-        if (this.canAct) {
-            this.setVelocityX(0);
-            this.animate(this.name + '-idle');
-        }
+        this.setVelocityX(0);
+        this.animate(this.name + '-idle');
     }
 
     jump() {
-        if (this.canAct) {
+        if (this.canJump) {
             this.canJump = false;
             this.jumpCooldownTimer = this.scene.time.addEvent({
                 delay: 250,
@@ -109,32 +111,21 @@ export default abstract class Character extends Phaser.Physics.Matter.Sprite {
     }
 
     move(left = false) {
-        if (this.canAct) {
+        if (this.canMove) {
             this.setFlipX(left);
             this.setVelocityX(left ? -7 : 7);
             this.animate(this.name + '-run');
         }
     }
     attack() {
-        if (this.canAct) {
-            this.canAct = false;
+        
+        if (this.canAttack && this.equipment.weapon) {
             this.canAttack = false;
             this.attackCooldownTimer = this.scene.time.addEvent({
                 delay: this.atkspd,
-                callback: () => (this.canAct = true),
+                callback: () => (this.canAttack = true),
             });
             this.animate(this.name + '-attack');
-        }
-    }
-
-    throw() {
-        if (this.canAct && this.equipment.weapon) {
-            this.canAct = false;
-            this.attackCooldownTimer = this.scene.time.addEvent({
-                delay: this.atkspd,
-                callback: () => (this.canAct = true),
-            });
-            this.animate(this.name + '-throw');
             this.equipment.weapon.attack(this.x, this.y, this.x + (this.flipX ? -1 : 1), this.y);
         }
     }
@@ -144,6 +135,7 @@ export default abstract class Character extends Phaser.Physics.Matter.Sprite {
             this.equipment.setWeapon(slot);
         }
     }
+
     onSensorCollide(event: any): void {
         for (let i = 0; i < event.pairs.length; i++) {
             const bodyA = event.pairs[i].bodyA;
