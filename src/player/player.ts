@@ -2,11 +2,17 @@ import 'phaser';
 import MyGame from '../game.js';
 import Character from '../characters/character';
 import InputManager from './input-manager';
+import Inventory from '../ui/inventoryUI.js';
+import Equipment from './equipment.js';
 
 export default class Player {
     scene: MyGame;
     sprite: Character;
     input: InputManager;
+
+    inventory: Inventory;
+    equipment: Equipment;
+
     destroyed: boolean;
 
     constructor(scene, sprite) {

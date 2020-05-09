@@ -2,7 +2,7 @@ import 'phaser';
 import { NinjaGirl, preloadNinjaGirl } from './characters/ninja-girl';
 import UI, { isOpened } from './ui';
 import Player from './player/player';
-import Inventory from './inventory';
+import Inventory from './ui/inventoryUI';
 
 export default class MyGame extends Phaser.Scene {
     player: Player;

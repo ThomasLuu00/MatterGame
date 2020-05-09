@@ -1,7 +1,7 @@
 import Projectile from '../projectile';
 import { ItemData, ItemCatalogue, itemList, projectileList } from './item-data';
 import Character from '../characters/character';
-
+import MetaData from './meta-data';
 class Helm {
     //
 }
@@ -42,8 +42,8 @@ class Weapon implements Equipable {
     scene: Phaser.Scene;
     world: Phaser.Physics.Matter.World;
 
-    tags: Tags[];
-    attributes: Attributes;
+    tags: MetaData.Tags[];
+    attributes: MetaData.Attributes;
     owner: Character = null;
 
     constructor(world: Phaser.Physics.Matter.World, id: string) {
@@ -53,16 +53,14 @@ class Weapon implements Equipable {
     }
 
     attack(ox, oy, x: number, y: number) {
-        if (this.owner !== null) {
-            new Projectile(this.world, ox, oy, this.data.projectileId).shoot(new Phaser.Geom.Point(x, y));
-        }
+        if (this.owner !== null) new Projectile(this.world, ox, oy, x, y, this.data.projectileId);
     }
 }
 
 interface Equipable extends Item {
     image: Phaser.Physics.Matter.Image;
-    attributes: Attributes;
-    tags: Tags[];
+    attributes: MetaData.Attributes;
+    tags: MetaData.Tags[];
 }
 
 interface Useable {
@@ -76,35 +74,6 @@ interface Item {
 
 interface UseFunc {
     (source: any, target: any): boolean;
-}
-
-type Attributes = {
-    attack?: number;
-    defence?: number;
-
-    attackSpeed?: number;
-    castSpeed?: number;
-    jumpHeight?: number;
-    moveSpeed?: number;
-};
-
-enum Tags {
-    // Item Type
-    EQUIPABLE = 'Equipable',
-    USEABLE = 'Useable',
-
-    // Attack types
-    MELEE = 'Melee',
-    MAGIC = 'Magic',
-    RANGED = 'Ranged',
-
-    // Status Effects
-    SLOW = 'Slow',
-    STUN = 'Stun',
-    BURN = 'Burn',
-    POISON = 'Poison',
-    EXHUAST = 'Exhuast',
-    SILENCE = 'Silence',
 }
 
 export { Weapon };
