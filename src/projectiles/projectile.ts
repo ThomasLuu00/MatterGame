@@ -1,4 +1,4 @@
-import { ItemData, ItemCatalogue, itemList, projectileList } from './item/item-data';
+import { ItemData, ItemCatalogue, itemList, projectileList } from '../item/item-data';
 
 export default class Projectile extends Phaser.Physics.Matter.Sprite {
     data: any;
@@ -32,5 +32,10 @@ export default class Projectile extends Phaser.Physics.Matter.Sprite {
         this.setVelocity(xSpeed, ySpeed);
         this.setIgnoreGravity(true);
         return this;
+    }
+    
+    destroy(){
+        this.data = null;
+        super.destroy();
     }
 }

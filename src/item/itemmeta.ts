@@ -1,4 +1,4 @@
-import Projectile from '../projectile';
+import Projectile from '../projectiles/projectile';
 import { ItemData, ItemCatalogue, itemList, projectileList } from './item-data';
 import Character from '../characters/character';
 import {Tags, Attributes} from './meta-data';
