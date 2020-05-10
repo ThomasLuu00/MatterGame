@@ -3,6 +3,9 @@ import TextEdit from 'phaser3-rex-plugins/plugins/textedit.js';
 import { GridTable } from 'phaser3-rex-plugins/templates/ui/ui-components.js';
 import { Label } from 'phaser3-rex-plugins/templates/ui/ui-components.js';
 
+const textInputOffset = 20;
+const chatHistoryYOffset = 150;
+
 let chatHistory: any[];
 let chatIndex = 0;
 let panel: GridTable;
@@ -31,14 +34,12 @@ class ChatBox extends Phaser.GameObjects.Image {
         super(scene, x, y, 'chatbox');
         this.scene.add.existing(this);
 
-        this.x = x + 300;
-
         chatIndex = 0;
         chatHistory = [];
 
         panel = new GridTable(this.scene, {
-            x: x + 300,
-            y: y - 200,
+            x: x,
+            y: y - chatHistoryYOffset,
             width: 800,
             height: 200,
 
@@ -57,6 +58,7 @@ class ChatBox extends Phaser.GameObjects.Image {
                 reuseCellContainer: true,
             },
 
+            // TODO: Add slider images for chatbox
             // slider: {
             //     track: trackGameObject,
             //     thumb: thumbGameObject,
@@ -79,6 +81,12 @@ class ChatBox extends Phaser.GameObjects.Image {
                     index = cell.index;
                 if (cellContainer === null) {
                     // No reusable cell container, create a new one
+                    const cellText: Phaser.GameObjects.Text = scene.add.text(0, 0, item.text, {
+                        font: item.font,
+                        color: item.color,
+                    });
+                    // TODO: Code doesn't work currently
+                    cellText.setWordWrapWidth(100);
                     cellContainer = new Label(scene, {
                         width: width,
                         height: height,
@@ -86,7 +94,7 @@ class ChatBox extends Phaser.GameObjects.Image {
                         orientation: 0,
                         // background: scene.rexUI.add.roundRectangle(0, 0, 20, 20, 0).setStrokeStyle(2, COLOR_DARK),
                         // icon: scene.rexUI.add.roundRectangle(0, 0, 20, 20, 10, 0x0),
-                        text: scene.add.text(0, 0, item.text, { font: item.font, background: item.color }),
+                        text: cellText,
 
                         space: {
                             icon: 10,
@@ -102,12 +110,17 @@ class ChatBox extends Phaser.GameObjects.Image {
             },
         }).layout();
 
-        this.info = this.scene.add.text(x + 150, y - 25, 'Type here', {
-            font: '48px Arial',
-            fixedWidth: this.width,
-            valign: 'center',
-            color: 'black',
-        });
+        this.info = this.scene.add.text(
+            x - this.width / 2 + textInputOffset,
+            y - this.height / 2 + textInputOffset,
+            'Type here',
+            {
+                font: '48px Arial',
+                fixedWidth: this.width,
+                valign: 'center',
+                color: 'black',
+            },
+        );
         this.info.setInteractive({ useHandCursor: true });
         this.info.on('pointerdown', () => {
             this.info.setText('');
