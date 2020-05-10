@@ -11,7 +11,7 @@ interface ItemCatalogue {
     readonly [index: string]: ItemData;
 }
 
-/*
+
 enum ITEM {
     KUNAI= '#001000',
 }
@@ -20,7 +20,7 @@ enum PROJECTILE {
     KUNAI= '#002000',
 
 }
-*/
+
 
 const itemList: ItemCatalogue = {
     I01000: {
