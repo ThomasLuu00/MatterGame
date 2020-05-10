@@ -1,7 +1,7 @@
 import Projectile from '../projectile';
 import { ItemData, ItemCatalogue, itemList, projectileList } from './item-data';
 import Character from '../characters/character';
-import MetaData from './meta-data';
+import {Tags, Attributes} from './meta-data';
 class Helm {
     //
 }
@@ -42,8 +42,8 @@ class Weapon implements Equipable {
     scene: Phaser.Scene;
     world: Phaser.Physics.Matter.World;
 
-    tags: MetaData.Tags[];
-    attributes: MetaData.Attributes;
+    tags: Tags[];
+    attributes: Attributes;
     owner: Character = null;
 
     constructor(world: Phaser.Physics.Matter.World, id: string) {
@@ -59,8 +59,8 @@ class Weapon implements Equipable {
 
 interface Equipable extends Item {
     image: Phaser.Physics.Matter.Image;
-    attributes: MetaData.Attributes;
-    tags: MetaData.Tags[];
+    attributes: Attributes;
+    tags: Tags[];
 }
 
 interface Useable {
