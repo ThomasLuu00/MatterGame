@@ -31,24 +31,21 @@ class ChatBox extends Phaser.GameObjects.Image {
         super(scene, x, y, 'chatbox');
         this.scene.add.existing(this);
 
-        this.x = x + 75;
-        this.displayWidth = 700;
-
-        const icon: Phaser.GameObjects.Image = this.scene.add.image(x, y, 'chatbox');
+        this.x = x + 300;
 
         chatIndex = 0;
         chatHistory = [];
 
         panel = new GridTable(this.scene, {
-            x: x + 125,
-            y: y - 180,
+            x: x + 300,
+            y: y - 200,
             width: 800,
-            height: 400,
+            height: 200,
 
             scrollMode: 0,
 
             // Elements
-            background: icon,
+            background: this.scene.add.image(x, y, 'chatbox'),
 
             table: {
                 cellWidth: 100,
@@ -105,10 +102,9 @@ class ChatBox extends Phaser.GameObjects.Image {
             },
         }).layout();
 
-        this.info = this.scene.add.text(100, 985, 'Type here', {
+        this.info = this.scene.add.text(x + 150, y - 25, 'Type here', {
             font: '48px Arial',
             fixedWidth: this.width,
-            fixedHeight: this.height / 2 - 25,
             valign: 'center',
             color: 'black',
         });

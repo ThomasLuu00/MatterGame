@@ -26,7 +26,7 @@ export default class UI extends Phaser.Scene {
     create() {
         this.mainScene = this.scene.get('myGame');
 
-        this.chatbox = new ChatBox(this, 250, 1000);
+        this.chatbox = new ChatBox(this, 100, 1000);
 
         //  Our Text object to display the Score
         const healthText = this.add.text(840, 925, 'Health: ' + this.health, { font: '48px Arial', fill: '#000000' });
