@@ -31,6 +31,6 @@ interface Attributes {
 
     jumpHeight?: number;
     moveSpeed?: number;
-};
+}
 
-export {Tags, Attributes};
+export { Tags, Attributes };

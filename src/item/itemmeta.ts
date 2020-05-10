@@ -1,7 +1,7 @@
 import Projectile from '../projectile';
 import { ItemData, ItemCatalogue, itemList, projectileList } from './item-data';
 import Character from '../characters/character';
-import {Tags, Attributes} from './meta-data';
+import { Tags, Attributes } from './meta-data';
 class Helm {
     //
 }

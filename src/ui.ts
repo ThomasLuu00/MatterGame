@@ -34,18 +34,32 @@ export default class UI extends Phaser.Scene {
         const healthbar = new HealthBar(this, 960, 1000, 'healthbar');
         healthbar.health = 100;
 
-        const buttonXPos = 1600;
-        const buttonYPos = 950;
+        const buttonXPos = 1400;
+        const buttonYPos = 850;
 
-        const buttonOffset = 60;
+        const buttonOffset = 125;
         const col = 4;
+
+        const buttonIcons: string[] = [
+            'information',
+            'exitLeft',
+            'gear',
+            'information',
+            'information',
+            'return',
+            'return',
+            'return',
+        ];
 
         for (let i = 0; i < 8; i++) {
             new Button(
                 this,
                 i >= col ? buttonXPos + (i - col) * buttonOffset : buttonXPos + i * buttonOffset,
                 i >= col ? buttonYPos + buttonOffset : buttonYPos,
-                'swords',
+                buttonIcons[i],
+                () => {
+                    this.events.emit('subtractHealth');
+                },
             );
         }
 
