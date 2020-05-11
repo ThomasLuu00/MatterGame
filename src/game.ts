@@ -3,9 +3,11 @@ import { NinjaGirl, preloadNinjaGirl } from './characters/ninja-girl';
 import UI, { isOpened } from './ui';
 import Player from './player/player';
 import Inventory from './ui/inventoryUI';
+import { Enemy } from './characters/enemy';
 
 export default class MyGame extends Phaser.Scene {
     player: Player;
+    enemy: Enemy;
     sprite: any;
     ninja: NinjaGirl;
     shapes: Record<string, any>;
@@ -39,6 +41,9 @@ export default class MyGame extends Phaser.Scene {
         // Add assets
         this.ninja = new NinjaGirl(this.matter.world, spawnPoint.x, spawnPoint.y);
         this.player = new Player(this, this.ninja);
+
+        // Add enemy
+        this.enemy = new Enemy(this.matter.world, spawnPoint.x + 100, spawnPoint.y);
 
         // Smoothly follow the player
         const controlConfig = {
