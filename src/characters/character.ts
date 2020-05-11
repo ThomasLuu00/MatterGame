@@ -125,7 +125,8 @@ export default abstract class Character extends Phaser.Physics.Matter.Sprite {
                 callback: () => (this.canAttack = true),
             });
             this.animate(this.name + '-attack');
-            this.equipment.weapon.attack(this.x, this.y, this.x + (this.flipX ? -1 : 1), this.y);
+            let dir = (this.flipX ? - 100 : 100) // TODO: dont hardcode this
+            this.equipment.weapon.attack(this.x + dir , this.y, this.x + dir + (this.flipX ? -1 : 1), this.y);
         }
     }
 
