@@ -54,7 +54,6 @@ export default class MyGame extends Phaser.Scene {
             ParticleTextures.MagickaHit.spritesheet,
             ParticleTextures.MagickaHit.spritesheetConfig,
         );
-
     }
 
     create() {
@@ -132,8 +131,6 @@ export default class MyGame extends Phaser.Scene {
         this.add.sprite(500, 300, Particle.BlueFire).play(Particle.BlueFire);
         this.add.sprite(500, 400, Particle.Casting).play(Particle.Casting);
         this.add.sprite(600, 300, Particle.MagickaHit).play(Particle.MagickaHit);
-
-       
 
         this.add.sprite(400, 300, Particle.MagicSpell).play(Particle.MagicSpell);
         this.add.sprite(400, 400, Particle.Magic8).play(Particle.Magic8);
