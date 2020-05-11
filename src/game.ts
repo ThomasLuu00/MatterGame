@@ -99,7 +99,6 @@ export default class MyGame extends Phaser.Scene {
             repeat: -1,
             frameRate: 60,
         });
-
         this.anims.create({
             key: Particle.Magic8,
             frames: this.anims.generateFrameNames(Particle.Magic8, ParticleTextures.Magic8.animConfig),
