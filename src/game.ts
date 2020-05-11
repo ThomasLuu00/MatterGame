@@ -4,6 +4,7 @@ import UI, { isOpened } from './ui';
 import Player from './player/player';
 import Inventory from './ui/inventoryUI';
 import { Enemy } from './characters/enemy';
+import { Particle, ParticleTextures } from './projectiles/particles';
 
 export default class MyGame extends Phaser.Scene {
     player: Player;
@@ -27,6 +28,31 @@ export default class MyGame extends Phaser.Scene {
         this.load.image('map-tiles', '../assets/map/map-tiles.png');
         preloadNinjaGirl(this);
         this.load.image('item-kunai', '../assets/kunai.png');
+        this.load.spritesheet(
+            Particle.MagicSpell,
+            ParticleTextures.MagicSpell.spritesheet,
+            ParticleTextures.MagicSpell.spritesheetConfig,
+        );
+        this.load.spritesheet(
+            Particle.Magic8,
+            ParticleTextures.Magic8.spritesheet,
+            ParticleTextures.Magic8.spritesheetConfig,
+        );
+        this.load.spritesheet(
+            Particle.BlueFire,
+            ParticleTextures.BlueFire.spritesheet,
+            ParticleTextures.BlueFire.spritesheetConfig,
+        );
+        this.load.spritesheet(
+            Particle.Casting,
+            ParticleTextures.Casting.spritesheet,
+            ParticleTextures.Casting.spritesheetConfig,
+        );
+        this.load.spritesheet(
+            Particle.MagickaHit,
+            ParticleTextures.MagickaHit.spritesheet,
+            ParticleTextures.MagickaHit.spritesheetConfig,
+        );
     }
 
     create() {
@@ -66,6 +92,43 @@ export default class MyGame extends Phaser.Scene {
 
         this.matter.world.createDebugGraphic(); // Shows the hitboxes
         this.createWindow(Inventory);
+
+        this.anims.create({
+            key: Particle.MagicSpell,
+            frames: this.anims.generateFrameNames(Particle.MagicSpell, ParticleTextures.MagicSpell.animConfig),
+            repeat: -1,
+            frameRate: 60,
+        });
+        this.anims.create({
+            key: Particle.Magic8,
+            frames: this.anims.generateFrameNames(Particle.Magic8, ParticleTextures.Magic8.animConfig),
+            repeat: -1,
+            frameRate: 60,
+        });
+        this.anims.create({
+            key: Particle.BlueFire,
+            frames: this.anims.generateFrameNames(Particle.BlueFire, ParticleTextures.BlueFire.animConfig),
+            repeat: -1,
+            frameRate: 60,
+        });
+        this.anims.create({
+            key: Particle.Casting,
+            frames: this.anims.generateFrameNames(Particle.Casting, ParticleTextures.Casting.animConfig),
+            repeat: -1,
+            frameRate: 60,
+        });
+        this.anims.create({
+            key: Particle.MagickaHit,
+            frames: this.anims.generateFrameNames(Particle.MagickaHit, ParticleTextures.MagickaHit.animConfig),
+            repeat: -1,
+            frameRate: 60,
+        });
+
+        this.add.sprite(400, 300, Particle.MagicSpell).play(Particle.MagicSpell);
+        this.add.sprite(400, 400, Particle.Magic8).play(Particle.Magic8);
+        this.add.sprite(500, 300, Particle.BlueFire).play(Particle.BlueFire);
+        this.add.sprite(500, 400, Particle.Casting).play(Particle.Casting);
+        this.add.sprite(600, 300, Particle.MagickaHit).play(Particle.MagickaHit);
     }
     update() {
         this.isTyping = isOpened;
