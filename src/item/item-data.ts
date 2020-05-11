@@ -11,16 +11,18 @@ interface ItemCatalogue {
     readonly [index: string]: ItemData;
 }
 
-
 enum ITEM {
     KUNAI= '#001000',
 }
 
 enum PROJECTILE {
     KUNAI= '#002000',
-
 }
 
+enum PROJECTILE_COLLISION_GROUP{
+    NORMAL='-1',
+    FFENABLED='-2'
+}
 
 const itemList: ItemCatalogue = {
     I01000: {
@@ -37,6 +39,7 @@ const projectileList = {
     P01000: {
         id: 'P01000',
         texture: 'item-kunai',
+        collisionGroup: PROJECTILE_COLLISION_GROUP.NORMAL,
     },
 };
 

@@ -1,10 +1,11 @@
 import { ItemData, ItemCatalogue, itemList, projectileList } from '../item/item-data';
+import { Particle } from './particles';
 
 export default class Projectile extends Phaser.Physics.Matter.Sprite {
 
     data: any;
     speed = 10;
-
+    
     constructor(
         world: Phaser.Physics.Matter.World,
         originx = 0,
@@ -15,9 +16,10 @@ export default class Projectile extends Phaser.Physics.Matter.Sprite {
     ) {
         super(world, originx, originy, projectileList[projectileId].texture, 0);
         this.data = projectileList[projectileId];
-        this.setCollisionGroup(-1);
+        this.setCollisionGroup(this.data.collisionGroup);
     
         this.setOnCollide((event)=>{
+            console.log(this)
             this.onHit(event);
         }); 
         this.scene.events.on('update', this.update, this);
@@ -42,12 +44,13 @@ export default class Projectile extends Phaser.Physics.Matter.Sprite {
     }
 
     update() {
-        //console.log('updated');
+        // Event to be called on update. this might be called once after onHit.
     }
 
     onHit(event) {
         console.log('i hit');
-        //this.scene.events.off('update', this.update, this); TODO: Figure out why this says this.scene doesn exist.
+        //this.world.scene.add.sprite(this.x, this.y, Particle.Magic8).play(Particle.Magic8)
+        this.world.scene.events.off('update', this.update, this);
         this.destroy();
     }
 
