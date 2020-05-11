@@ -3,9 +3,10 @@ import { Particle } from './particles';
 
 export default class Projectile extends Phaser.Physics.Matter.Sprite {
 
-    data: any;
-    speed = 10;
-    
+    projectileData: any;
+    speed = 20;
+    destroyed: boolean = false;
+
     constructor(
         world: Phaser.Physics.Matter.World,
         originx = 0,
@@ -15,14 +16,17 @@ export default class Projectile extends Phaser.Physics.Matter.Sprite {
         projectileId: string,
     ) {
         super(world, originx, originy, projectileList[projectileId].texture, 0);
-        this.data = projectileList[projectileId];
-        this.setCollisionGroup(this.data.collisionGroup);
-    
+        this.projectileData = projectileList[projectileId];
+
+        this.setCollisionGroup(this.projectileData.collisionGroup);
         this.setOnCollide((event)=>{
-            console.log(this)
+            if (this.destroyed) return;
             this.onHit(event);
+            this.destroy();
         }); 
+
         this.scene.events.on('update', this.update, this);
+        this.scene.events.once('shutdown', this.destroy, this);
         this.shoot(targetx, targety);
     }
 
@@ -40,22 +44,24 @@ export default class Projectile extends Phaser.Physics.Matter.Sprite {
         this.rotation = Phaser.Math.Angle.Between(this.x, this.y, x, y) + Phaser.Math.DegToRad(90);
         this.setIgnoreGravity(true);
         this.setVelocity(xSpeed, ySpeed);
+        this.setFrictionAir(0);
         return this;
     }
 
     update() {
+        if (this.destroyed) return;
         // Event to be called on update. this might be called once after onHit.
     }
 
     onHit(event) {
-        console.log('i hit');
-        //this.world.scene.add.sprite(this.x, this.y, Particle.Magic8).play(Particle.Magic8)
-        this.world.scene.events.off('update', this.update, this);
-        this.destroy();
+        this.world.scene.add.sprite(this.x, this.y, Particle.Magic8).play(Particle.Magic8);
     }
-
+    
     destroy(){
-        this.data = null;
+        this.destroyed = true;
+        this.projectileData = null;
+        this.world.scene.events.off('update', this.update, this);
+        this.scene.events.off('shutdown', this.destroy, this);
         super.destroy();
     }
 }
