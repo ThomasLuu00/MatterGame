@@ -1,6 +1,9 @@
 import Character from './character';
 
 class Enemy extends Character {
+    delay: number;
+    movementFlag: boolean;
+
     constructor(world: Phaser.Physics.Matter.World, x: number, y: number) {
         super(world, x, y, 'ninjagirl-idle', 0);
         this.scene.add.existing(this);
@@ -35,6 +38,27 @@ class Enemy extends Character {
         this.setPosition(x, y);
 
         this.anims.play('ninjagirl-idle');
+
+        this.delay = 2000;
+        setInterval(() => {
+            this.movementFlag = this.movementFlag == true ? false : true;
+        }, this.delay);
+    }
+
+    update() {
+        if (this.movementFlag) {
+            this.move(true);
+        } else {
+            this.move(false);
+        }
+        // } else if (isAttackKeyDown) {
+        //     this.sprite.attack();
+        // } else if (isLeftKeyDown === isRightKeyDown) {
+        //     this.sprite.idle();
+        // } else if (isLeftKeyDown) {
+        //     this.sprite.move(true);
+        // } else if (isRightKeyDown) {
+        //     this.sprite.move(false);
     }
 
     addAnimation(): void {
@@ -139,7 +163,7 @@ class Enemy extends Character {
     }
 }
 
-const preloadNinjaGirl = (scene: Phaser.Scene) => {
+const preloadEnemy = (scene: Phaser.Scene) => {
     scene.load.atlas(
         'ninjagirl-idle',
         '../assets/ninja_girl/ninja_girl_idle.png',
@@ -172,4 +196,4 @@ const preloadNinjaGirl = (scene: Phaser.Scene) => {
     );
 };
 
-export { NinjaGirl, preloadNinjaGirl };
+export { Enemy, preloadEnemy };
