@@ -28,7 +28,6 @@ export default class MyGame extends Phaser.Scene {
         this.load.image('map-tiles', '../assets/map/map-tiles.png');
         preloadNinjaGirl(this);
         this.load.image('item-kunai', '../assets/kunai.png');
-
         this.load.spritesheet(
             Particle.MagicSpell,
             ParticleTextures.MagicSpell.spritesheet,
