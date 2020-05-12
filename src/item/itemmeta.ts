@@ -1,5 +1,5 @@
 import Projectile from '../projectiles/projectile';
-import { ItemData, ItemCatalogue, itemList, projectileList } from './item-data';
+import { ItemData, ItemList, itemList, projectileList, ProjectileList, PROJECTILE} from './item-data';
 import Character from '../characters/character';
 import { Tags, Attributes } from './meta-data';
 class Helm {
@@ -53,8 +53,11 @@ class Weapon implements Equipable {
     }
 
     attack(ox, oy, x: number, y: number) {
-        if (this.owner !== null) new Projectile(this.world, ox, oy, x, y, this.data.projectileId);
+        if (this.owner !== null) new Projectile(this.world, ox, oy, x, y, projectileList[PROJECTILE.KUNAI]);
+        let p:  ProjectileList = projectileList;
     }
+    
+    
 }
 
 interface Equipable extends Item {

@@ -7,24 +7,16 @@ interface ItemData {
     projectileId: string;
 }
 
-interface ItemCatalogue {
+interface ItemList {
     readonly [index: string]: ItemData;
 }
 
-enum ITEM {
-    KUNAI= '#001000',
+enum PROJECTILE_COLLISION_GROUP {
+    NORMAL=-1,
+    FFENABLED=-2,
 }
 
-enum PROJECTILE {
-    KUNAI= '#002000',
-}
-
-enum PROJECTILE_COLLISION_GROUP{
-    NORMAL='-1',
-    FFENABLED='-2'
-}
-
-const itemList: ItemCatalogue = {
+const itemList: ItemList = {
     I01000: {
         id: 'I01000',
         projectileId: 'P01000',
@@ -35,12 +27,26 @@ const itemList: ItemCatalogue = {
     },
 };
 
-const projectileList = {
+enum PROJECTILE{
+    KUNAI = 'P01000',
+}
+
+type ProjectileList = {readonly [P in PROJECTILE]: ProjectileData;}
+
+interface ProjectileData{
+    id: PROJECTILE;
+    texture: string;
+    collisionGroup: PROJECTILE_COLLISION_GROUP;
+}
+
+const projectileList: ProjectileList = {
     P01000: {
-        id: 'P01000',
+        id: PROJECTILE.KUNAI,
         texture: 'item-kunai',
         collisionGroup: PROJECTILE_COLLISION_GROUP.NORMAL,
     },
 };
 
-export { ItemData, ItemCatalogue, itemList, projectileList };
+enum Things { ONE, TWO }
+type ThingMap = {[TKey in Things]: boolean};
+export { ItemData, ItemList, ProjectileData, ProjectileList, itemList, projectileList, PROJECTILE};
