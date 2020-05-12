@@ -96,31 +96,31 @@ export default class MyGame extends Phaser.Scene {
         this.anims.create({
             key: Particle.MagicSpell,
             frames: this.anims.generateFrameNames(Particle.MagicSpell, ParticleTextures.MagicSpell.animConfig),
-            repeat: -1,
+            repeat: 0,
             frameRate: 60,
         });
         this.anims.create({
             key: Particle.Magic8,
             frames: this.anims.generateFrameNames(Particle.Magic8, ParticleTextures.Magic8.animConfig),
-            repeat: -1,
+            repeat: 0,
             frameRate: 60,
         });
         this.anims.create({
             key: Particle.BlueFire,
             frames: this.anims.generateFrameNames(Particle.BlueFire, ParticleTextures.BlueFire.animConfig),
-            repeat: -1,
+            repeat: 0,
             frameRate: 60,
         });
         this.anims.create({
             key: Particle.Casting,
             frames: this.anims.generateFrameNames(Particle.Casting, ParticleTextures.Casting.animConfig),
-            repeat: -1,
+            repeat: 0,
             frameRate: 60,
         });
         this.anims.create({
             key: Particle.MagickaHit,
             frames: this.anims.generateFrameNames(Particle.MagickaHit, ParticleTextures.MagickaHit.animConfig),
-            repeat: -1,
+            repeat: 0,
             frameRate: 60,
         });
 

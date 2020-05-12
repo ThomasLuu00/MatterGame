@@ -54,7 +54,14 @@ export default class Projectile extends Phaser.Physics.Matter.Sprite {
     }
 
     onHit(event) {
-        this.world.scene.add.sprite(this.x, this.y, Particle.Magic8).play(Particle.Magic8);
+        let effect = this.world.scene.add.sprite(this.x, this.y, Particle.Magic8);
+
+        effect.once('animationcomplete-' + Particle.Magic8,
+            () => {   
+                effect.destroy();
+            },
+        );
+        effect.play(Particle.Magic8)
     }
     
     destroy(){
