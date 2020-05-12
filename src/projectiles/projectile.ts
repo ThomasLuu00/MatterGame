@@ -1,9 +1,9 @@
-import { ItemData, ItemCatalogue, itemList, projectileList } from '../item/item-data';
+import { ProjectileData } from '../item/item-data';
 import { Particle } from './particles';
 
 export default class Projectile extends Phaser.Physics.Matter.Sprite {
 
-    projectileData: any;
+    projectileData: ProjectileData;
     speed = 20;
     destroyed: boolean = false;
 
@@ -13,10 +13,10 @@ export default class Projectile extends Phaser.Physics.Matter.Sprite {
         originy = 0,
         targetx = 0,
         targety = 0,
-        projectileId: string,
+        projectileData: ProjectileData,
     ) {
-        super(world, originx, originy, projectileList[projectileId].texture, 0);
-        this.projectileData = projectileList[projectileId];
+        super(world, originx, originy, projectileData.texture, 0);
+        this.projectileData = projectileData;
 
         this.setCollisionGroup(this.projectileData.collisionGroup);
         this.setOnCollide((event)=>{
