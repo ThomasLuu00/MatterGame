@@ -1,7 +1,7 @@
-import Projectile from '../projectiles/projectile';
 import { ItemData, ItemList, itemList, projectileList, ProjectileList, PROJECTILE} from './item-data';
 import Character from '../characters/character';
 import { Tags, Attributes } from './meta-data';
+import KunaiProjectile from '../projectiles/kunai';
 class Helm {
     //
 }
@@ -53,8 +53,7 @@ class Weapon implements Equipable {
     }
 
     attack(ox, oy, x: number, y: number) {
-        if (this.owner !== null) new Projectile(this.world, ox, oy, x, y, projectileList[PROJECTILE.KUNAI]);
-        let p:  ProjectileList = projectileList;
+        if (this.owner !== null) new KunaiProjectile(this.scene, ox, oy).fire(x, y);
     }
     
     
