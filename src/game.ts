@@ -3,14 +3,15 @@ import { NinjaGirl, preloadNinjaGirl, addNinjaGirlAnimations } from './character
 import UI, { isOpened } from './ui';
 import Player from './player/player';
 import Inventory from './ui/inventoryUI';
-import { Enemy } from './characters/enemy';
+import EnemyNinja from './characters/enemy-ninja';
 import { Particle, ParticleTextures, addParticleAnimations } from './projectiles/particles';
 import CharacterBase from './characters/character-base';
 import NewGirl from './characters/ninja';
 
+
 export default class MyGame extends Phaser.Scene {
     player: Player;
-    enemy: Enemy;
+    enemy: EnemyNinja;
     sprite: any;
     ninja: NinjaGirl;
     shapes: Record<string, any>;
@@ -73,8 +74,7 @@ export default class MyGame extends Phaser.Scene {
         this.test = new NewGirl(this, spawnPoint.x, spawnPoint.y);
         this.player = new Player(this, this.test);
 
-        // Add enemy
-        //this.enemy = new Enemy(this.matter.world, spawnPoint.x + 100, spawnPoint.y);
+        this.enemy = new EnemyNinja(this, spawnPoint.x + 100, spawnPoint.y);
 
         // Smoothly follow the player
         const controlConfig = {

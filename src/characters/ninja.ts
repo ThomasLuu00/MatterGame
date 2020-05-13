@@ -38,7 +38,6 @@ export default class NewGirl extends CharacterBase{
     }
     jump(): void {
         if (this.canJump()){
-            console.log(this.jumpCount)
             this.jumpCount += 1;
             this.isInAir = true;
             this.sprite.setVelocityY(-this.characterData.jumpSpeed);

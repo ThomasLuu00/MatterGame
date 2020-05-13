@@ -112,6 +112,7 @@ export default abstract class CharacterBase{
     canJump(): boolean{
         return this.jumpCount < this.maxJump;
     }
+    
     abstract setSprite(x: number, y: number): void;
     abstract setData(): void;
     abstract onUpdate(event?: any): void;
