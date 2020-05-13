@@ -6,6 +6,9 @@ export default abstract class CharacterBase{
     sprite: Phaser.Physics.Matter.Sprite;
     sensors: Sensors;
     destroyed: boolean = false;
+    maxJump: number = 2;
+    jumpCount: number = 0;
+    isInAir: boolean = true;
 
     constructor(scene: Phaser.Scene, x: number, y: number){
         this.scene = scene;
@@ -18,6 +21,7 @@ export default abstract class CharacterBase{
         this.scene.events.once('shutdown', this.destroy, this);
         this.scene.events.once('destroy', this.destroy, this);
     }
+
     setBody(): void{
         const sprite = this.sprite;
         const w = this.sprite.width * 0.5;
@@ -31,7 +35,7 @@ export default abstract class CharacterBase{
         const mainBody = Bodies.rectangle(-w / 2, -h / 2, w, h, { chamfer: { radius: 20 } });
 
         this.sensors = {
-            top: Bodies.rectangle(-w / 2, -h, w- thickness, thickness, { isSensor: true, label: 'bottom' }),
+            top: Bodies.rectangle(-w / 2, -h, w- thickness, thickness, { isSensor: true, label: 'top' }),
             bottom: Bodies.rectangle(-w / 2, 0, w- thickness, thickness, { isSensor: true, label: 'bottom' }),
             left: Bodies.rectangle(-w, -h / 2, thickness, h - thickness, { isSensor: true, label: 'left' }),
             right: Bodies.rectangle(0, -h / 2, thickness, h - thickness, { isSensor: true, label: 'right' }),
@@ -54,12 +58,15 @@ export default abstract class CharacterBase{
         }
 
         this.sensors.top.onCollideCallback = (event) => this.collide(event, this.sensors.top);
-        this.sensors.bottom.onCollideCallback = (event) => this.collide(event, this.sensors.bottom);
+        this.sensors.bottom.onCollideCallback = (event) => {
+            this.jumpCount = 0;
+            this.isInAir = false;
+            this.collide(event, this.sensors.bottom);
+        };
         this.sensors.left.onCollideCallback = (event) => this.collide(event, this.sensors.left);
         this.sensors.right.onCollideCallback = (event) => this.collide(event, this.sensors.right);
-        
-        //sprite.setCollidesWith([-1]);
     };
+
 
     collide(event: any, side: MatterJS.BodyType){
         //const thisData = (event.bodyB.gameObject.data && event.bodyB.gameObject.data.values) || null ;// this shold be this
@@ -70,7 +77,6 @@ export default abstract class CharacterBase{
         if (thatData && thatData.class instanceof ProjectileBase) {
             let projectile: ProjectileBase = thatData.class;
             this.characterData.health -= projectile.projectileData.damage;
-            console.log(this.characterData.health)
             projectile.destroy();
         };
     }
@@ -103,6 +109,9 @@ export default abstract class CharacterBase{
         this.sensors.right = temp;
     }
 
+    canJump(): boolean{
+        return this.jumpCount < this.maxJump;
+    }
     abstract setSprite(x: number, y: number): void;
     abstract setData(): void;
     abstract onUpdate(event?: any): void;
@@ -124,4 +133,5 @@ interface Sensors{
 interface CharacterData{
     health: number;
     moveSpeed: number;
+    jumpSpeed: number;
 }

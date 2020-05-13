@@ -8,6 +8,7 @@ export default class NewGirl extends CharacterBase{
         this.characterData = {
             health: 100,
             moveSpeed: 10,
+            jumpSpeed: 10,
         }
     }
     onUpdate(event?: any): void {
@@ -20,19 +21,28 @@ export default class NewGirl extends CharacterBase{
         console.log('collision')
     }
     idle(): void {
-        this.sprite.setVelocityX(0);
-        this.sprite.anims.play('ninjagirl-idle',true);
+        if (!this.isInAir){
+            this.sprite.setVelocityX(0);
+            this.sprite.anims.play('ninjagirl-idle',true);
+        }
     }
     move(left: boolean = false): void {
         if (left != this.sprite.flipX) this.flipX();
-        this.sprite.setVelocityX(left ? -this.characterData.moveSpeed : this.characterData.moveSpeed);
-        this.sprite.anims.play('ninjagirl-run',true);
+        if (!this.isInAir){
+            this.sprite.setVelocityX(left ? -this.characterData.moveSpeed : this.characterData.moveSpeed);
+            this.sprite.anims.play('ninjagirl-run',true);
+        }
     }
     attack(): void {
         this.sprite.anims.play('ninjagirl-attack',true);
     }
     jump(): void {
-        this.sprite.setVelocityY(-11);
-        this.sprite.anims.play('ninjagirl-jump',true);
+        if (this.canJump()){
+            console.log(this.jumpCount)
+            this.jumpCount += 1;
+            this.isInAir = true;
+            this.sprite.setVelocityY(-this.characterData.jumpSpeed);
+            this.sprite.anims.play('ninjagirl-jump',true);
+        }
     }
 }

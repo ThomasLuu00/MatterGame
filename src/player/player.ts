@@ -30,7 +30,7 @@ export default class Player {
 
         const isRightKeyDown = this.input.moveRight.isDown;
         const isLeftKeyDown = this.input.moveLeft.isDown;
-        const isJumpKeyDown = this.input.jump.isDown;
+        const isJumpKeyDown =   Phaser.Input.Keyboard.JustDown(this.input.jump);
         const isAttackKeyDown = this.input.attack.isDown;
         const isThrowKeyDown = this.input.throw.isDown;
         //const isOnGround = this.sprite.isTouching.ground;

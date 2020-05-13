@@ -172,4 +172,61 @@ const preloadNinjaGirl = (scene: Phaser.Scene) => {
     );
 };
 
-export { NinjaGirl, preloadNinjaGirl };
+function addNinjaGirlAnimations(scene) {
+    scene.anims.create({
+        key: 'ninjagirl-idle',
+        frames: scene.anims.generateFrameNames('ninjagirl-idle', {
+            start: 0,
+            end: 9,
+            zeroPad: 2,
+            prefix: 'ninjagirl-idle_',
+        }),
+        repeat: 0,
+        frameRate: 10,
+    });
+    scene.anims.create({
+        key: 'ninjagirl-run',
+        frames: scene.anims.generateFrameNames('ninjagirl-run', {
+            start: 0,
+            end: 9,
+            zeroPad: 2,
+            prefix: 'ninjagirl-run_',
+        }),
+        repeat: 0,
+        frameRate: 10,
+    });
+    scene.anims.create({
+        key: 'ninjagirl-jump',
+        frames: scene.anims.generateFrameNames('ninjagirl-jump', {
+            start: 0,
+            end: 2,
+            zeroPad: 2,
+            prefix: 'ninjagirl-jump_',
+        }),
+        repeat: 0,
+        frameRate: 10,
+    });
+    scene.anims.create({
+        key: 'ninjagirl-attack',
+        frames: scene.anims.generateFrameNames('ninjagirl-attack', {
+            start: 0,
+            end: 9,
+            zeroPad: 2,
+            prefix: 'ninjagirl-attack_',
+        }),
+        repeat: 0,
+        frameRate: (1000 / scene.atkspd) * 10,
+    });
+    scene.anims.create({
+        key: 'ninjagirl-throw',
+        frames: scene.anims.generateFrameNames('ninjagirl-throw', {
+            start: 0,
+            end: 9,
+            zeroPad: 2,
+            prefix: 'ninjagirl-throw_',
+        }),
+        repeat: 0,
+        frameRate: (1000 / scene.atkspd) * 10,
+    });
+}
+export { NinjaGirl, preloadNinjaGirl, addNinjaGirlAnimations };
