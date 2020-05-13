@@ -55,6 +55,11 @@ export default class MyGame extends Phaser.Scene {
             ParticleTextures.MagickaHit.spritesheet,
             ParticleTextures.MagickaHit.spritesheetConfig,
         );
+        this.load.spritesheet(
+            Particle.Vortex,
+            ParticleTextures.Vortex.spritesheet,
+            ParticleTextures.Vortex.spritesheetConfig,
+        );
     }
 
     create() {
