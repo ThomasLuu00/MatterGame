@@ -5,10 +5,10 @@ import { Particle } from './particles';
 
 export default class VortexProjectile extends ProjectileBase{
 
-    speed = 10;
+    speed = 5;
 
     setSprite(x: number, y: number): void{
-        this.sprite = this.scene.matter.add.sprite(x, y, 'vortex', 0);
+        this.sprite = this.scene.matter.add.sprite(x, y, Particle.Vortex, 0);
     }
 
     setData(): void {
@@ -30,7 +30,12 @@ export default class VortexProjectile extends ProjectileBase{
         sprite.setIgnoreGravity(true);
         sprite.setFrictionAir(0);
         sprite.setVelocity(xSpeed, ySpeed);
-        sprite.play('vortex');
+        sprite.on('animationcomplete-' + Particle.Vortex,
+        () => {   
+            if (this.destroyed) return;
+            this.sprite.play(Particle.Vortex);
+        }, this);
+        sprite.play(Particle.Vortex);
     }
 
     onHit(event: any): void {

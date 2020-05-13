@@ -8,7 +8,7 @@ export default class NinjaGirl extends CharacterBase{
 
     constructor(scene: Phaser.Scene, x:number, y:number){
         super(scene, x, y);
-        let wep = new  Weapon(this.scene.matter.world, 'I01000');
+        let wep = new Weapon(this.scene.matter.world, 'I01000', 2);
         wep.owner = this;
         this.equip(wep);
     }

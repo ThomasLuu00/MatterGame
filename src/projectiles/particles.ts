@@ -93,7 +93,7 @@ const ParticleTextures : ParticleList = {
         },
     },
     Vortex:{
-        key: Particle.MagickaHit,
+        key: Particle.Vortex,
         spritesheet: dir + '13_vortex_spritesheet.png',
         spritesheetConfig: {
             frameWidth: 100, 

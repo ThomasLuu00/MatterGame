@@ -62,7 +62,7 @@ class Weapon implements Equipable {
                     new KunaiProjectile(this.scene, ox, oy).fire(x, y);
                     break;
                 case 2:
-                    new VortexProjectile(this.scene, ox, oy).fire(x, y);
+                    new VortexProjectile(this.scene, ox + ((this.owner?.sprite?.flipX ? -100 : 100)), oy).fire(x + ((this.owner?.sprite?.flipX ? -101 : 101)), y);
                     break;
             }
 
