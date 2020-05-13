@@ -1,4 +1,4 @@
-import NewGirl from "./ninja";
+import NewGirl from "./ninja-girl";
 
 export default class EnemyNinja extends NewGirl{
     delay: number = 2000;

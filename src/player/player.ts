@@ -1,6 +1,5 @@
 import 'phaser';
 import MyGame from '../game.js';
-import Character from '../characters/character';
 import InputManager from './input-manager';
 import Inventory from '../ui/inventoryUI.js';
 import Equipment from './equipment.js';

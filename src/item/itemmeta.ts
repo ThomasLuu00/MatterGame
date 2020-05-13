@@ -1,5 +1,4 @@
 import { ItemData, ItemList, itemList, projectileList, ProjectileList, PROJECTILE} from './item-data';
-import Character from '../characters/character';
 import { Tags, Attributes } from './meta-data';
 import KunaiProjectile from '../projectiles/kunai';
 import CharacterBase from '../characters/character-base';
@@ -45,7 +44,7 @@ class Weapon implements Equipable {
 
     tags: Tags[];
     attributes: Attributes;
-    owner: Character | CharacterBase = null;
+    owner: CharacterBase = null;
 
     constructor(world: Phaser.Physics.Matter.World, id: string) {
         this.world = world;

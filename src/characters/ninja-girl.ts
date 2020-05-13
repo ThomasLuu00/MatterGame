@@ -1,145 +1,75 @@
-import Character from './character';
+import CharacterBase from './character-base';
+import { Weapon } from '../item/itemmeta';
 
-class NinjaGirl extends Character {
-    constructor(world: Phaser.Physics.Matter.World, x: number, y: number) {
-        super(world, x, y, 'ninjagirl-idle', 0);
-        this.scene.add.existing(this);
-        this.animations = ['idle', 'run', 'jump', 'throw', 'attack', 'jump-attack'];
-        this.name = 'ninjagirl';
+export default class NinjaGirl extends CharacterBase{
 
-        this.addAnimation();
-        const Bodies = this.scene.matter.bodies;
-        const Body = this.scene.matter.body;
-        const w = this.width * 0.5;
-        const h = this.height * 0.7;
-    
-        const mainBody = Bodies.rectangle(-w / 2, -h / 2, w, h, { chamfer: { radius: 20 } });
-        this.sensors = {
-            top: Bodies.rectangle(-w / 2, -h, w, 2, { isSensor: true, label: 'top' }),
-            bottom: Bodies.rectangle(-w / 2, 0, w, 2, { isSensor: true, label: 'bottom' }),
-            left: Bodies.rectangle(-w, -h / 2, 2, h, { isSensor: true, label: 'left' }),
-            right: Bodies.rectangle(0, -h / 2, 2, h, { isSensor: true, label: 'right' }),
-        };
+    attackCooldownTimer: Phaser.Time.TimerEvent = null;
+    canAttack: boolean = true;
 
-        const compoundBody = Body.create({
-            parts: [mainBody, this.sensors.top, this.sensors.bottom, this.sensors.left, this.sensors.right],
-            inertia: Infinity,
-        });
-
-        const cx = this.centerOfMass.x;
-        const cy = this.centerOfMass.y;
-
-        this.setExistingBody(compoundBody);
-        this.setOrigin(cx, cy);
-        this.setScale(0.7);
-        this.setPosition(x, y);
-
-        this.anims.play('ninjagirl-idle');
+    constructor(scene: Phaser.Scene, x:number, y:number){
+        super(scene, x, y);
+        let wep = new  Weapon(this.scene.matter.world, 'I01000');
+        wep.owner = this;
+        this.equip(wep);
     }
-
-    addAnimation(): void {
-        // Need to reset the origin whenever the frame changes
-        const animationCallBack = (
-            anim: Phaser.Animations.Animation,
-            frame: Phaser.Animations.AnimationFrame,
-            gameObject: Phaser.Physics.Matter.Sprite,
-        ) => {
-            const ox = this.originX;
-            const oy = this.originY;
-            const scale = this.scale;
-
-            this.setOrigin(ox, oy);
-            this.setScale(scale);
-            this.setFixedRotation();
-        };
-
-        const config = {
-            idle: {
-                key: 'ninjagirl-idle',
-                frames: this.scene.anims.generateFrameNames('ninjagirl-idle', {
-                    start: 0,
-                    end: 9,
-                    zeroPad: 2,
-                    prefix: 'ninjagirl-idle_',
-                }),
-                repeat: 0,
-                frameRate: 10,
-            },
-            run: {
-                key: 'ninjagirl-run',
-                frames: this.scene.anims.generateFrameNames('ninjagirl-run', {
-                    start: 0,
-                    end: 9,
-                    zeroPad: 2,
-                    prefix: 'ninjagirl-run_',
-                }),
-                repeat: 0,
-                frameRate: 30,
-            },
-            jump: {
-                key: 'ninjagirl-jump',
-                frames: this.scene.anims.generateFrameNames('ninjagirl-jump', {
-                    start: 0,
-                    end: 2,
-                    zeroPad: 2,
-                    prefix: 'ninjagirl-jump_',
-                }),
-                repeat: 0,
-                frameRate: 30,
-            },
-            throw: {
-                key: 'ninjagirl-throw',
-                frames: this.scene.anims.generateFrameNames('ninjagirl-throw', {
-                    start: 0,
-                    end: 9,
-                    zeroPad: 2,
-                    prefix: 'ninjagirl-throw_',
-                }),
-                repeat: 0,
-                frameRate: (1000 / this.atkspd) * 10,
-            },
-            attack: {
-                key: 'ninjagirl-attack',
-                frames: this.scene.anims.generateFrameNames('ninjagirl-attack', {
-                    start: 0,
-                    end: 9,
-                    zeroPad: 2,
-                    prefix: 'ninjagirl-attack_',
-                }),
-                repeat: 0,
-                frameRate: (1000 / this.atkspd) * 10,
-            },
-            'jump-attack': {
-                key: 'ninjagirl-jump-attack',
-                frames: this.scene.anims.generateFrameNames('ninjagirl-jump-attack', {
-                    start: 0,
-                    end: 9,
-                    zeroPad: 2,
-                    prefix: 'ninjagirl-jump-attack_',
-                }),
-                repeat: 0,
-                frameRate: 30,
-            },
-        };
-
-        for (const i in this.animations) {
-            const name = this.animations[i];
-            this.scene.anims.create(config[name]);
-
-            this.on('animationstart-ninjagirl-' + name, animationCallBack, this);
-            this.on('animationupdate-ninjagirl-' + name, animationCallBack, this);
-            this.on(
-                'animationcomplete-ninjagirl-' + name,
-                () => {
-                    //this.canAct = true;
-                },
-                this,
-            );
+    setSprite(x: number, y: number): void {
+        this.sprite = this.scene.matter.add.sprite(x, y, 'ninjagirl-idle', 0);
+    }
+    setData(): void {
+        this.characterData = {
+            health: 100,
+            attackSpeed: 250,
+            moveSpeed: 10,
+            jumpSpeed: 10,
+        }
+    }
+    onUpdate(event?: any): void {
+        //
+    }
+    onDestroy(event?: any): void {
+        console.log('destroy')
+    }
+    onCollide(): void {
+        console.log('collision')
+    }
+    idle(): void {
+        if (!this.isInAir){
+            this.sprite.setVelocityX(0);
+            this.sprite.anims.play('ninjagirl-idle',true);
+        }
+    }
+    move(left: boolean = false): void {
+        if (left != this.sprite.flipX) this.flipX();
+        if (!this.isInAir){
+            this.sprite.setVelocityX(left ? -this.characterData.moveSpeed : this.characterData.moveSpeed);
+            this.sprite.anims.play('ninjagirl-run',true);
+        }
+    }
+    attack(): void {
+        if (this.canAttack && this.equipment.weapon) {
+            this.canAttack = false;
+            this.attackCooldownTimer = this.scene.time.addEvent({
+                delay: this.characterData.attackSpeed,
+                callback: () => (this.canAttack = true),
+            });
+            this.sprite.anims.play('ninjagirl-attack',true);
+            let dir = (this.sprite.flipX ? - 100 : 100);
+            let x = this.sprite.x;
+            let y = this.sprite.y;
+            this.equipment.weapon.attack(x + dir , y, x + dir + (this.sprite.flipX ? -1 : 1), y);
+        }
+    }
+    jump(): void {
+        if (this.canJump()){
+            this.jumpCount += 1;
+            this.isInAir = true;
+            this.sprite.setVelocityY(-this.characterData.jumpSpeed);
+            this.sprite.anims.play('ninjagirl-jump',true);
         }
     }
 }
 
-const preloadNinjaGirl = (scene: Phaser.Scene) => {
+export const preloadNinjaGirl = (scene: Phaser.Scene) => {
     scene.load.atlas(
         'ninjagirl-idle',
         '../assets/ninja_girl/ninja_girl_idle.png',
@@ -172,7 +102,7 @@ const preloadNinjaGirl = (scene: Phaser.Scene) => {
     );
 };
 
-function addNinjaGirlAnimations(scene) {
+export function addNinjaGirlAnimations(scene) {
     scene.anims.create({
         key: 'ninjagirl-idle',
         frames: scene.anims.generateFrameNames('ninjagirl-idle', {
@@ -229,4 +159,3 @@ function addNinjaGirlAnimations(scene) {
         frameRate: (1000 / scene.atkspd) * 10,
     });
 }
-export { NinjaGirl, preloadNinjaGirl, addNinjaGirlAnimations };
