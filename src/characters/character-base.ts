@@ -1,14 +1,20 @@
 import ProjectileBase from "../projectiles/projectile-base";
+import { Weapon } from "../item/itemmeta";
 
 export default abstract class CharacterBase{
     scene: Phaser.Scene;
     characterData: CharacterData; 
     sprite: Phaser.Physics.Matter.Sprite;
     sensors: Sensors;
+
     destroyed: boolean = false;
     maxJump: number = 2;
     jumpCount: number = 0;
     isInAir: boolean = true;
+
+    equipment: Equipment = {
+        weapon: null,
+    }
 
     constructor(scene: Phaser.Scene, x: number, y: number){
         this.scene = scene;
@@ -72,9 +78,9 @@ export default abstract class CharacterBase{
         //const thisData = (event.bodyB.gameObject.data && event.bodyB.gameObject.data.values) || null ;// this shold be this
         if (this.destroyed) return;
 
-        const thatData = (event.bodyB.gameObject.data && event.bodyB.gameObject.data.values) || null ;
+        const thatData = event.bodyB.gameObject.data?.values;
         
-        if (thatData && thatData.class instanceof ProjectileBase) {
+        if (thatData?.class instanceof ProjectileBase) {
             let projectile: ProjectileBase = thatData.class;
             this.characterData.health -= projectile.projectileData.damage;
             projectile.destroy();
@@ -112,7 +118,24 @@ export default abstract class CharacterBase{
     canJump(): boolean{
         return this.jumpCount < this.maxJump;
     }
-    
+
+    equip(item: Weapon): any{
+        if (item) {
+            if (this.equipment.weapon){
+                return this.unequip('weapon');
+            }
+            this.equipment.weapon = item;
+        }    
+    }
+
+    unequip(key: string): any{
+        if (key in this.equipment){
+            let item = this.equipment[key];
+            this.equipment[key] = null;
+            return item;
+        }
+    }
+
     abstract setSprite(x: number, y: number): void;
     abstract setData(): void;
     abstract onUpdate(event?: any): void;
@@ -133,6 +156,11 @@ interface Sensors{
 
 interface CharacterData{
     health: number;
+    attackSpeed: number;
     moveSpeed: number;
     jumpSpeed: number;
+}
+
+interface Equipment{
+    weapon: Weapon;
 }

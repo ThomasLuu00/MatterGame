@@ -8,7 +8,6 @@ import { Particle, ParticleTextures, addParticleAnimations } from './projectiles
 import CharacterBase from './characters/character-base';
 import NewGirl from './characters/ninja';
 
-
 export default class MyGame extends Phaser.Scene {
     player: Player;
     enemy: EnemyNinja;
