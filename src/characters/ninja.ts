@@ -6,9 +6,8 @@ export default class NewGirl extends CharacterBase{
     }
     setData(): void {
         this.characterData = {
-            width: this.sprite.width * 0.5,
-            height: this.sprite.height * 0.7
-        };
+            health: 100,
+        }
     }
     onUpdate(event?: any): void {
         this.sprite.anims.play('ninjagirl-idle',true);
@@ -16,7 +15,7 @@ export default class NewGirl extends CharacterBase{
     onDestroy(event?: any): void {
         console.log('destroy')
     }
-    onCollision(): void {
+    onCollide(): void {
         console.log('collision')
     }
 }

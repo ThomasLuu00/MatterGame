@@ -2,7 +2,7 @@ import ProjectileBase from "../projectiles/projectile-base";
 
 export default abstract class CharacterBase{
     scene: Phaser.Scene;
-    characterData: any; 
+    characterData: CharacterData; 
     sprite: Phaser.Physics.Matter.Sprite;
     sensors: Sensors;
     destroyed: boolean = false;
@@ -11,6 +11,7 @@ export default abstract class CharacterBase{
         this.scene = scene;
         this.setSprite(x, y);
         this.setData();
+        this.sprite.setData({class: this})
         this.setBody();
         this.scene.add.existing(this.sprite);
         this.scene.events.on('update', this.update, this);
@@ -19,8 +20,8 @@ export default abstract class CharacterBase{
     }
     setBody(): void{
         const sprite = this.sprite;
-        const w = this.characterData.width;
-        const h = this.characterData.height;
+        const w = this.sprite.width * 0.5;
+        const h = this.sprite.height * 0.7;
         const x = this.sprite.x;
         const y = this.sprite.y;
         const thickness = 4;
@@ -52,18 +53,25 @@ export default abstract class CharacterBase{
             //console.log('bottom touching');
         }
 
-        this.sensors.right.onCollideCallback = (event) => {
-            //console.log(event);
-            //console.log(event.bodyA.gameObject);
-            if (event.bodyB.gameObject.data) {
-                let projectile: ProjectileBase = event.bodyB.gameObject.data.values.projectile;
-                console.log(projectile);
-                projectile.destroy();
-            };
-        }
-
+        this.sensors.top.onCollideCallback = (event) => this.collide(event, this.sensors.top);
+        this.sensors.bottom.onCollideCallback = (event) => this.collide(event, this.sensors.bottom);
+        this.sensors.left.onCollideCallback = (event) => this.collide(event, this.sensors.left);
+        this.sensors.right.onCollideCallback = (event) => this.collide(event, this.sensors.right);
+        
         //sprite.setCollidesWith([-1]);
     };
+
+    collide(event: any, side: MatterJS.BodyType){
+        //const thisData = (event.bodyB.gameObject.data && event.bodyB.gameObject.data.values) || null ;// this shold be this
+        const thatData = (event.bodyB.gameObject.data && event.bodyB.gameObject.data.values) || null ;
+        
+        if (thatData && thatData.class instanceof ProjectileBase) {
+            let projectile: ProjectileBase = thatData.class;
+            this.characterData.health -= projectile.projectileData.damage;
+            console.log(this.characterData.health)
+            projectile.destroy();
+        };
+    }
 
     update(event?: any): void{
         if (this.destroyed) return;
@@ -86,7 +94,7 @@ export default abstract class CharacterBase{
     abstract setData(): void;
     abstract onUpdate(event?: any): void;
     abstract onDestroy(event?: any): void;
-    abstract onCollision(): void;
+    abstract onCollide(): void;
 }
 
 interface Sensors{
@@ -96,8 +104,6 @@ interface Sensors{
     right: MatterJS.BodyType;
 }
 
-interface Touching{
-    bottom: boolean;
-    left: boolean;
-    right: boolean;
+interface CharacterData{
+    health: number;
 }

@@ -17,7 +17,7 @@ export default abstract class ProjectileBase{
         this.scene = scene;
         this.setSprite(x, y);
         this.setData();
-        this.sprite.setData({projectile: this});
+        this.sprite.setData({class: this});
         //.setActive(false).setVisible(false);
 
 
