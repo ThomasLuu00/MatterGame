@@ -1,5 +1,6 @@
 import { Weapon } from '../item/itemmeta';
 import Equipment from '../player/equipment';
+import ProjectileBase from '../projectiles/projectile-base';
 
 export default abstract class Character extends Phaser.Physics.Matter.Sprite {
     sensors: {
@@ -140,6 +141,7 @@ export default abstract class Character extends Phaser.Physics.Matter.Sprite {
         for (let i = 0; i < event.pairs.length; i++) {
             const bodyA = event.pairs[i].bodyA;
             const bodyB = event.pairs[i].bodyB;
+            
 
             //if (bodyA.isSensor) return; // We only care about collisions with physical objects
 
@@ -151,7 +153,7 @@ export default abstract class Character extends Phaser.Physics.Matter.Sprite {
                 if (event.pairs[i].separation > 0.5) this.x -= event.pairs[i].separation - 0.5;
             } else if (bodyB === this.sensors.bottom) {
                 this.isTouching.ground = true;
-            } else if (bodyB === this.sensors.bottom) {
+            } else if (bodyB === this.sensors.top) {
                 this.isTouching.top = true;
             }
         }

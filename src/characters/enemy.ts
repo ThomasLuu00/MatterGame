@@ -18,10 +18,10 @@ class Enemy extends Character {
 
         const mainBody = Bodies.rectangle(-w / 2, -h / 2, w, h, { chamfer: { radius: 20 } });
         this.sensors = {
-            top: Bodies.rectangle(-w / 2, -h, w, 2, { isSensor: true, label: 'top' }),
+            top: Bodies.rectangle(-w / 2, -h, w, 20, { isSensor: true, label: 'top' }),
             bottom: Bodies.rectangle(-w / 2, 0, w, 2, { isSensor: true, label: 'bottom' }),
-            left: Bodies.rectangle(-w, -h / 2, 2, h, { isSensor: true, label: 'left' }),
-            right: Bodies.rectangle(0, -h / 2, 2, h, { isSensor: true, label: 'right' }),
+            left: Bodies.rectangle(-w, -h / 2.5, 30, h, { isSensor: true, label: 'left' }),
+            right: Bodies.rectangle(0, -h / 22.5, 30, h, { isSensor: true, label: 'right' }),
         };
 
         const compoundBody = Body.create({

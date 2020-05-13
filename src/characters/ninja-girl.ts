@@ -12,7 +12,7 @@ class NinjaGirl extends Character {
         const Body = this.scene.matter.body;
         const w = this.width * 0.5;
         const h = this.height * 0.7;
-
+    
         const mainBody = Bodies.rectangle(-w / 2, -h / 2, w, h, { chamfer: { radius: 20 } });
         this.sensors = {
             top: Bodies.rectangle(-w / 2, -h, w, 2, { isSensor: true, label: 'top' }),
@@ -63,7 +63,7 @@ class NinjaGirl extends Character {
                     prefix: 'ninjagirl-idle_',
                 }),
                 repeat: -1,
-                frameRate: 30,
+                frameRate: 10,
             },
             run: {
                 key: 'ninjagirl-run',

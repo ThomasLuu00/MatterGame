@@ -5,6 +5,8 @@ import Player from './player/player';
 import Inventory from './ui/inventoryUI';
 import { Enemy } from './characters/enemy';
 import { Particle, ParticleTextures } from './projectiles/particles';
+import CharacterBase from './characters/character-base'
+import NewGirl from './characters/ninja';
 
 export default class MyGame extends Phaser.Scene {
     player: Player;
@@ -18,6 +20,7 @@ export default class MyGame extends Phaser.Scene {
     isInventoryOpen = false;
     inv: any;
     isTyping = false;
+    test: CharacterBase;
 
     constructor() {
         super('myGame');
@@ -67,7 +70,8 @@ export default class MyGame extends Phaser.Scene {
         // Add assets
         this.ninja = new NinjaGirl(this.matter.world, spawnPoint.x, spawnPoint.y);
         this.player = new Player(this, this.ninja);
-
+        this.test = new NewGirl(this,spawnPoint.x ,spawnPoint.y);
+        
         // Add enemy
         this.enemy = new Enemy(this.matter.world, spawnPoint.x + 100, spawnPoint.y);
 
