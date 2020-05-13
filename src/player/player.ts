@@ -1,13 +1,13 @@
 import 'phaser';
 import MyGame from '../game.js';
-import Character from '../characters/character';
 import InputManager from './input-manager';
 import Inventory from '../ui/inventoryUI.js';
 import Equipment from './equipment.js';
+import CharacterBase from '../characters/character-base.js';
 
 export default class Player {
     scene: MyGame;
-    sprite: Character;
+    sprite: CharacterBase;
     input: InputManager;
 
     inventory: Inventory;
@@ -29,13 +29,13 @@ export default class Player {
 
         const isRightKeyDown = this.input.moveRight.isDown;
         const isLeftKeyDown = this.input.moveLeft.isDown;
-        const isJumpKeyDown = this.input.jump.isDown;
+        const isJumpKeyDown =   Phaser.Input.Keyboard.JustDown(this.input.jump);
         const isAttackKeyDown = this.input.attack.isDown;
         const isThrowKeyDown = this.input.throw.isDown;
-        const isOnGround = this.sprite.isTouching.ground;
+        //const isOnGround = this.sprite.isTouching.ground;
         const isWep1Down = this.input.weapon1.isDown;
         const isWep2Down = this.input.weapon2.isDown;
-
+/*
         if (isWep1Down) {
             this.sprite.switchWeapon(1);
         }
@@ -43,7 +43,7 @@ export default class Player {
         if (isWep2Down) {
             this.sprite.switchWeapon(2);
         }
-
+*/
         if (isJumpKeyDown) {
             this.sprite.jump();
         } else if (isAttackKeyDown) {
@@ -54,8 +54,6 @@ export default class Player {
             this.sprite.move(true);
         } else if (isRightKeyDown) {
             this.sprite.move(false);
-        } else {
-            this.sprite.idle();
         }
     }
 

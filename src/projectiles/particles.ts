@@ -100,5 +100,38 @@ interface ParticleTexture {
     spritesheetConfig: Phaser.Types.Loader.FileTypes.ImageFrameConfig,
     animConfig: Phaser.Types.Animations.GenerateFrameNames,
 }
-export {Particle, ParticleTextures};
+
+function addParticleAnimations(scene) {
+    scene.anims.create({
+        key: Particle.MagicSpell,
+        frames: scene.anims.generateFrameNames(Particle.MagicSpell, ParticleTextures.MagicSpell.animConfig),
+        repeat: 0,
+        frameRate: 60,
+    });
+    scene.anims.create({
+        key: Particle.Magic8,
+        frames: scene.anims.generateFrameNames(Particle.Magic8, ParticleTextures.Magic8.animConfig),
+        repeat: 0,
+        frameRate: 60,
+    });
+    scene.anims.create({
+        key: Particle.BlueFire,
+        frames: scene.anims.generateFrameNames(Particle.BlueFire, ParticleTextures.BlueFire.animConfig),
+        repeat: 0,
+        frameRate: 60,
+    });
+    scene.anims.create({
+        key: Particle.Casting,
+        frames: scene.anims.generateFrameNames(Particle.Casting, ParticleTextures.Casting.animConfig),
+        repeat: 0,
+        frameRate: 60,
+    });
+    scene.anims.create({
+        key: Particle.MagickaHit,
+        frames: scene.anims.generateFrameNames(Particle.MagickaHit, ParticleTextures.MagickaHit.animConfig),
+        repeat: 0,
+        frameRate: 60,
+    });
+}
+export {Particle, ParticleTextures, addParticleAnimations};
 

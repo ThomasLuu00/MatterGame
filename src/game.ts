@@ -1,14 +1,15 @@
 import 'phaser';
-import { NinjaGirl, preloadNinjaGirl } from './characters/ninja-girl';
 import UI, { isOpened } from './ui';
 import Player from './player/player';
 import Inventory from './ui/inventoryUI';
-import { Enemy } from './characters/enemy';
-import { Particle, ParticleTextures } from './projectiles/particles';
+import EnemyNinja from './characters/enemy-ninja';
+import { Particle, ParticleTextures, addParticleAnimations } from './projectiles/particles';
+import CharacterBase from './characters/character-base';
+import NinjaGirl, { preloadNinjaGirl, addNinjaGirlAnimations } from './characters/ninja-girl';
 
 export default class MyGame extends Phaser.Scene {
     player: Player;
-    enemy: Enemy;
+    enemy: EnemyNinja;
     sprite: any;
     ninja: NinjaGirl;
     shapes: Record<string, any>;
@@ -18,6 +19,7 @@ export default class MyGame extends Phaser.Scene {
     isInventoryOpen = false;
     inv: any;
     isTyping = false;
+    test: CharacterBase;
 
     constructor() {
         super('myGame');
@@ -65,11 +67,12 @@ export default class MyGame extends Phaser.Scene {
         const spawnPoint: any = map.findObject('Spawn', (obj) => obj.name === 'Spawn Point');
 
         // Add assets
-        this.ninja = new NinjaGirl(this.matter.world, spawnPoint.x, spawnPoint.y);
-        this.player = new Player(this, this.ninja);
+        //this.ninja = new NinjaGirl(this.matter.world, spawnPoint.x, spawnPoint.y);
 
-        // Add enemy
-        this.enemy = new Enemy(this.matter.world, spawnPoint.x + 100, spawnPoint.y);
+        this.test = new NinjaGirl(this, spawnPoint.x, spawnPoint.y);
+        this.player = new Player(this, this.test);
+
+        this.enemy = new EnemyNinja(this, spawnPoint.x + 100, spawnPoint.y);
 
         // Smoothly follow the player
         const controlConfig = {
@@ -84,7 +87,7 @@ export default class MyGame extends Phaser.Scene {
             zoomOut: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E),
         };
         this.controls = new Phaser.Cameras.Controls.FixedKeyControl(controlConfig);
-        this.cameras.main.startFollow(this.player.sprite, false, 0.5, 0.5).setZoom(0.5);
+        this.cameras.main.startFollow(this.player.sprite.sprite, false, 0.5, 0.5).setZoom(0.5);
         this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
 
         // Setting the boolean to check if the player is typing
@@ -93,45 +96,8 @@ export default class MyGame extends Phaser.Scene {
         this.matter.world.createDebugGraphic(); // Shows the hitboxes
         this.createWindow(Inventory);
 
-        this.anims.create({
-            key: Particle.MagicSpell,
-            frames: this.anims.generateFrameNames(Particle.MagicSpell, ParticleTextures.MagicSpell.animConfig),
-            repeat: 0,
-            frameRate: 60,
-        });
-        this.anims.create({
-            key: Particle.Magic8,
-            frames: this.anims.generateFrameNames(Particle.Magic8, ParticleTextures.Magic8.animConfig),
-            repeat: 0,
-            frameRate: 60,
-        });
-        this.anims.create({
-            key: Particle.BlueFire,
-            frames: this.anims.generateFrameNames(Particle.BlueFire, ParticleTextures.BlueFire.animConfig),
-            repeat: 0,
-            frameRate: 60,
-        });
-        this.anims.create({
-            key: Particle.Casting,
-            frames: this.anims.generateFrameNames(Particle.Casting, ParticleTextures.Casting.animConfig),
-            repeat: 0,
-            frameRate: 60,
-        });
-        this.anims.create({
-            key: Particle.MagickaHit,
-            frames: this.anims.generateFrameNames(Particle.MagickaHit, ParticleTextures.MagickaHit.animConfig),
-            repeat: 0,
-            frameRate: 60,
-        });
-
-        this.add.sprite(400, 300, Particle.MagicSpell).play(Particle.MagicSpell);
-        this.add.sprite(400, 400, Particle.Magic8).play(Particle.Magic8);
-        this.add.sprite(500, 300, Particle.BlueFire).play(Particle.BlueFire);
-        this.add.sprite(500, 400, Particle.Casting).play(Particle.Casting);
-        this.add.sprite(600, 300, Particle.MagickaHit).play(Particle.MagickaHit);
-
-        this.add.sprite(400, 300, Particle.MagicSpell).play(Particle.MagicSpell);
-        this.add.sprite(400, 400, Particle.Magic8).play(Particle.Magic8);
+        addNinjaGirlAnimations(this);
+        addParticleAnimations(this);
     }
     update() {
         this.isTyping = isOpened;

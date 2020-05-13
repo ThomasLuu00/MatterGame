@@ -5,10 +5,14 @@ import { Particle } from './particles';
 
 export default class KunaiProjectile extends ProjectileBase{
 
-    speed = 100;
+    speed = 50;
+
+    setSprite(x: number, y: number): void{
+        this.sprite = this.scene.matter.add.sprite(x, y, 'item-kunai', 0);
+    }
 
     setData(): void {
-        this.projectileData = projectileList.P01000
+        this.projectileData = projectileList.P01000;
     }
 
     onFire(x: number, y: number): void {
@@ -37,7 +41,6 @@ export default class KunaiProjectile extends ProjectileBase{
             },
         );
         effect.play(Particle.Magic8);
-        this.destroy();
     }
 
     onUpdate(event: any): void {
