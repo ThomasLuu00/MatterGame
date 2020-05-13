@@ -62,7 +62,7 @@ class NinjaGirl extends Character {
                     zeroPad: 2,
                     prefix: 'ninjagirl-idle_',
                 }),
-                repeat: -1,
+                repeat: 0,
                 frameRate: 10,
             },
             run: {
@@ -73,7 +73,7 @@ class NinjaGirl extends Character {
                     zeroPad: 2,
                     prefix: 'ninjagirl-run_',
                 }),
-                repeat: -1,
+                repeat: 0,
                 frameRate: 30,
             },
             jump: {
@@ -95,7 +95,7 @@ class NinjaGirl extends Character {
                     zeroPad: 2,
                     prefix: 'ninjagirl-throw_',
                 }),
-                repeat: -1,
+                repeat: 0,
                 frameRate: (1000 / this.atkspd) * 10,
             },
             attack: {
@@ -106,7 +106,7 @@ class NinjaGirl extends Character {
                     zeroPad: 2,
                     prefix: 'ninjagirl-attack_',
                 }),
-                repeat: -1,
+                repeat: 0,
                 frameRate: (1000 / this.atkspd) * 10,
             },
             'jump-attack': {

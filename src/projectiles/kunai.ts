@@ -5,7 +5,7 @@ import { Particle } from './particles';
 
 export default class KunaiProjectile extends ProjectileBase{
 
-    speed = 100;
+    speed = 50;
 
     setSprite(x: number, y: number): void{
         this.sprite = this.scene.matter.add.sprite(x, y, 'item-kunai', 0);

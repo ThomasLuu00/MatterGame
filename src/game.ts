@@ -68,12 +68,13 @@ export default class MyGame extends Phaser.Scene {
         const spawnPoint: any = map.findObject('Spawn', (obj) => obj.name === 'Spawn Point');
 
         // Add assets
-        this.ninja = new NinjaGirl(this.matter.world, spawnPoint.x, spawnPoint.y);
-        this.player = new Player(this, this.ninja);
+        //this.ninja = new NinjaGirl(this.matter.world, spawnPoint.x, spawnPoint.y);
+
         this.test = new NewGirl(this,spawnPoint.x ,spawnPoint.y);
+        this.player = new Player(this, this.test);
         
         // Add enemy
-        this.enemy = new Enemy(this.matter.world, spawnPoint.x + 100, spawnPoint.y);
+        //this.enemy = new Enemy(this.matter.world, spawnPoint.x + 100, spawnPoint.y);
 
         // Smoothly follow the player
         const controlConfig = {
@@ -88,7 +89,7 @@ export default class MyGame extends Phaser.Scene {
             zoomOut: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E),
         };
         this.controls = new Phaser.Cameras.Controls.FixedKeyControl(controlConfig);
-        this.cameras.main.startFollow(this.player.sprite, false, 0.5, 0.5).setZoom(0.5);
+        this.cameras.main.startFollow(this.player.sprite.sprite, false, 0.5, 0.5).setZoom(0.5);
         this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
 
         // Setting the boolean to check if the player is typing
@@ -97,45 +98,8 @@ export default class MyGame extends Phaser.Scene {
         this.matter.world.createDebugGraphic(); // Shows the hitboxes
         this.createWindow(Inventory);
 
-        this.anims.create({
-            key: Particle.MagicSpell,
-            frames: this.anims.generateFrameNames(Particle.MagicSpell, ParticleTextures.MagicSpell.animConfig),
-            repeat: 0,
-            frameRate: 60,
-        });
-        this.anims.create({
-            key: Particle.Magic8,
-            frames: this.anims.generateFrameNames(Particle.Magic8, ParticleTextures.Magic8.animConfig),
-            repeat: 0,
-            frameRate: 60,
-        });
-        this.anims.create({
-            key: Particle.BlueFire,
-            frames: this.anims.generateFrameNames(Particle.BlueFire, ParticleTextures.BlueFire.animConfig),
-            repeat: 0,
-            frameRate: 60,
-        });
-        this.anims.create({
-            key: Particle.Casting,
-            frames: this.anims.generateFrameNames(Particle.Casting, ParticleTextures.Casting.animConfig),
-            repeat: 0,
-            frameRate: 60,
-        });
-        this.anims.create({
-            key: Particle.MagickaHit,
-            frames: this.anims.generateFrameNames(Particle.MagickaHit, ParticleTextures.MagickaHit.animConfig),
-            repeat: 0,
-            frameRate: 60,
-        });
-
-        this.add.sprite(400, 300, Particle.MagicSpell).play(Particle.MagicSpell);
-        this.add.sprite(400, 400, Particle.Magic8).play(Particle.Magic8);
-        this.add.sprite(500, 300, Particle.BlueFire).play(Particle.BlueFire);
-        this.add.sprite(500, 400, Particle.Casting).play(Particle.Casting);
-        this.add.sprite(600, 300, Particle.MagickaHit).play(Particle.MagickaHit);
-
-        this.add.sprite(400, 300, Particle.MagicSpell).play(Particle.MagicSpell);
-        this.add.sprite(400, 400, Particle.Magic8).play(Particle.Magic8);
+        addNinjaGirlAnimations(this)
+        addParticleAnimations(this)
     }
     update() {
         this.isTyping = isOpened;
@@ -176,6 +140,95 @@ export default class MyGame extends Phaser.Scene {
     }
 }
 
+function addNinjaGirlAnimations(scene){
+    scene.anims.create({
+        key: 'ninjagirl-idle',
+        frames: scene.anims.generateFrameNames('ninjagirl-idle', {
+            start: 0,
+            end: 9,
+            zeroPad: 2,
+            prefix: 'ninjagirl-idle_',
+        }),
+        repeat: 0,
+        frameRate: 10,
+    });
+    scene.anims.create({
+        key: 'ninjagirl-run',
+        frames: scene.anims.generateFrameNames('ninjagirl-run', {
+            start: 0,
+            end: 9,
+            zeroPad: 2,
+            prefix: 'ninjagirl-run_',
+        }),
+        repeat: 0,
+        frameRate: 10,
+    });
+    scene.anims.create({
+        key: 'ninjagirl-jump',
+        frames: scene.anims.generateFrameNames('ninjagirl-jump', {
+            start: 0,
+            end: 2,
+            zeroPad: 2,
+            prefix: 'ninjagirl-jump_',
+        }),
+        repeat: 0,
+        frameRate: 10,
+    });
+    scene.anims.create({
+        key: 'ninjagirl-attack',
+        frames: scene.anims.generateFrameNames('ninjagirl-attack', {
+            start: 0,
+            end: 9,
+            zeroPad: 2,
+            prefix: 'ninjagirl-attack_',
+        }),
+        repeat: 0,
+        frameRate: (1000 / scene.atkspd) * 10,
+    });
+    scene.anims.create({
+        key: 'ninjagirl-throw',
+        frames: scene.anims.generateFrameNames('ninjagirl-throw', {
+            start: 0,
+            end: 9,
+            zeroPad: 2,
+            prefix: 'ninjagirl-throw_',
+        }),
+        repeat: 0,
+        frameRate: (1000 / scene.atkspd) * 10,
+    });
+}
+function addParticleAnimations(scene){
+    scene.anims.create({
+        key: Particle.MagicSpell,
+        frames: scene.anims.generateFrameNames(Particle.MagicSpell, ParticleTextures.MagicSpell.animConfig),
+        repeat: 0,
+        frameRate: 60,
+    });
+    scene.anims.create({
+        key: Particle.Magic8,
+        frames: scene.anims.generateFrameNames(Particle.Magic8, ParticleTextures.Magic8.animConfig),
+        repeat: 0,
+        frameRate: 60,
+    });
+    scene.anims.create({
+        key: Particle.BlueFire,
+        frames: scene.anims.generateFrameNames(Particle.BlueFire, ParticleTextures.BlueFire.animConfig),
+        repeat: 0,
+        frameRate: 60,
+    });
+    scene.anims.create({
+        key: Particle.Casting,
+        frames: scene.anims.generateFrameNames(Particle.Casting, ParticleTextures.Casting.animConfig),
+        repeat: 0,
+        frameRate: 60,
+    });
+    scene.anims.create({
+        key: Particle.MagickaHit,
+        frames: scene.anims.generateFrameNames(Particle.MagickaHit, ParticleTextures.MagickaHit.animConfig),
+        repeat: 0,
+        frameRate: 60,
+    });
+}
 const config: Phaser.Types.Core.GameConfig = {
     type: Phaser.AUTO,
     backgroundColor: '#125555',

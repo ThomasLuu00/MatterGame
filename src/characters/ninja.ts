@@ -7,15 +7,32 @@ export default class NewGirl extends CharacterBase{
     setData(): void {
         this.characterData = {
             health: 100,
+            moveSpeed: 10,
         }
     }
     onUpdate(event?: any): void {
-        this.sprite.anims.play('ninjagirl-idle',true);
+        //
     }
     onDestroy(event?: any): void {
         console.log('destroy')
     }
     onCollide(): void {
         console.log('collision')
+    }
+    idle(): void {
+        this.sprite.setVelocityX(0);
+        this.sprite.anims.play('ninjagirl-idle',true);
+    }
+    move(left: boolean = false): void {
+        if (left != this.sprite.flipX) this.flipX();
+        this.sprite.setVelocityX(left ? -this.characterData.moveSpeed : this.characterData.moveSpeed);
+        this.sprite.anims.play('ninjagirl-run',true);
+    }
+    attack(): void {
+        this.sprite.anims.play('ninjagirl-attack',true);
+    }
+    jump(): void {
+        this.sprite.setVelocityY(-11);
+        this.sprite.anims.play('ninjagirl-jump',true);
     }
 }

@@ -45,7 +45,7 @@ const projectileList: ProjectileList = {
         id: PROJECTILE.KUNAI,
         texture: 'item-kunai',
         collisionGroup: PROJECTILE_COLLISION_GROUP.NORMAL,
-        damage: 10,
+        damage: 50,
     },
 };
 

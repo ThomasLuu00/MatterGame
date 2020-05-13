@@ -63,6 +63,8 @@ export default abstract class CharacterBase{
 
     collide(event: any, side: MatterJS.BodyType){
         //const thisData = (event.bodyB.gameObject.data && event.bodyB.gameObject.data.values) || null ;// this shold be this
+        if (this.destroyed) return;
+
         const thatData = (event.bodyB.gameObject.data && event.bodyB.gameObject.data.values) || null ;
         
         if (thatData && thatData.class instanceof ProjectileBase) {
@@ -76,6 +78,9 @@ export default abstract class CharacterBase{
     update(event?: any): void{
         if (this.destroyed) return;
         this.onUpdate(event);
+        if (this.characterData.health <= 0) {
+            this.destroy()
+        }
     }
 
     destroy(event?: any): void{
@@ -90,11 +95,23 @@ export default abstract class CharacterBase{
         this.sensors = null;
         this.sprite.destroy();
     }
+
+    flipX(){
+        this.sprite.setFlipX(!this.sprite.flipX);
+        let temp = this.sensors.left;
+        this.sensors.left = this.sensors.right;
+        this.sensors.right = temp;
+    }
+
     abstract setSprite(x: number, y: number): void;
     abstract setData(): void;
     abstract onUpdate(event?: any): void;
     abstract onDestroy(event?: any): void;
     abstract onCollide(): void;
+    abstract idle(): void;
+    abstract move(left: boolean): void;
+    abstract attack(): void;
+    abstract jump(): void;
 }
 
 interface Sensors{
@@ -106,4 +123,5 @@ interface Sensors{
 
 interface CharacterData{
     health: number;
+    moveSpeed: number;
 }
