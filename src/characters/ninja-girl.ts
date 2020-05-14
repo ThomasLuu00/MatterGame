@@ -1,16 +1,11 @@
 import CharacterBase from './character-base';
-import { Weapon } from '../item/itemmeta';
 
-export default class NinjaGirl extends CharacterBase{
-
+export default class NinjaGirl extends CharacterBase {
     attackCooldownTimer: Phaser.Time.TimerEvent = null;
-    canAttack: boolean = true;
+    canAttack = true;
 
-    constructor(scene: Phaser.Scene, x:number, y:number){
+    constructor(scene: Phaser.Scene, x: number, y: number) {
         super(scene, x, y);
-        let wep = new Weapon(this.scene.matter.world, 'I01000', 2);
-        wep.owner = this;
-        this.equip(wep);
     }
     setSprite(x: number, y: number): void {
         this.sprite = this.scene.matter.add.sprite(x, y, 'ninjagirl-idle', 0);
@@ -21,28 +16,28 @@ export default class NinjaGirl extends CharacterBase{
             attackSpeed: 250,
             moveSpeed: 10,
             jumpSpeed: 10,
-        }
+        };
     }
     onUpdate(event?: any): void {
         //
     }
     onDestroy(event?: any): void {
-        console.log('destroy')
+        console.log('destroy');
     }
     onCollide(): void {
-        console.log('collision')
+        console.log('collision');
     }
     idle(): void {
-        if (!this.isInAir){
+        if (!this.isInAir) {
             this.sprite.setVelocityX(0);
-            this.sprite.anims.play('ninjagirl-idle',true);
+            this.sprite.anims.play('ninjagirl-idle', true);
         }
     }
-    move(left: boolean = false): void {
+    move(left = false): void {
         if (left != this.sprite.flipX) this.flipX();
-        if (!this.isInAir){
+        if (!this.isInAir) {
             this.sprite.setVelocityX(left ? -this.characterData.moveSpeed : this.characterData.moveSpeed);
-            this.sprite.anims.play('ninjagirl-run',true);
+            this.sprite.anims.play('ninjagirl-run', true);
         }
     }
     attack(): void {
@@ -52,19 +47,19 @@ export default class NinjaGirl extends CharacterBase{
                 delay: this.characterData.attackSpeed,
                 callback: () => (this.canAttack = true),
             });
-            this.sprite.anims.play('ninjagirl-attack',true);
-            let dir = (this.sprite.flipX ? - 100 : 100);
-            let x = this.sprite.x;
-            let y = this.sprite.y;
-            this.equipment.weapon.attack(x + dir , y, x + dir + (this.sprite.flipX ? -1 : 1), y);
+            this.sprite.anims.play('ninjagirl-attack', true);
+            const dir = this.sprite.flipX ? -100 : 100;
+            const x = this.sprite.x;
+            const y = this.sprite.y;
+            this.equipment.weapon.attack(x + dir, y, x + dir + (this.sprite.flipX ? -1 : 1), y);
         }
     }
     jump(): void {
-        if (this.canJump()){
+        if (this.canJump()) {
             this.jumpCount += 1;
             this.isInAir = true;
             this.sprite.setVelocityY(-this.characterData.jumpSpeed);
-            this.sprite.anims.play('ninjagirl-jump',true);
+            this.sprite.anims.play('ninjagirl-jump', true);
         }
     }
 }

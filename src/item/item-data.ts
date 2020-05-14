@@ -12,8 +12,8 @@ interface ItemList {
 }
 
 enum PROJECTILE_COLLISION_GROUP {
-    NORMAL=-1,
-    FFENABLED=-2,
+    NORMAL = -1,
+    FFENABLED = -2,
 }
 
 const itemList: ItemList = {
@@ -27,13 +27,13 @@ const itemList: ItemList = {
     },
 };
 
-enum PROJECTILE{
+enum PROJECTILE {
     KUNAI = 'P01000',
 }
 
-type ProjectileList = {readonly [P in PROJECTILE]: ProjectileData;}
+type ProjectileList = { readonly [P in PROJECTILE]: ProjectileData };
 
-interface ProjectileData{
+interface ProjectileData {
     id: PROJECTILE;
     texture: string;
     collisionGroup: PROJECTILE_COLLISION_GROUP;
@@ -49,6 +49,9 @@ const projectileList: ProjectileList = {
     },
 };
 
-enum Things { ONE, TWO }
-type ThingMap = {[TKey in Things]: boolean};
-export { ItemData, ItemList, ProjectileData, ProjectileList, itemList, projectileList, PROJECTILE};
+enum Things {
+    ONE,
+    TWO,
+}
+type ThingMap = { [TKey in Things]: boolean };
+export { ItemData, ItemList, ProjectileData, ProjectileList, itemList, projectileList, PROJECTILE };

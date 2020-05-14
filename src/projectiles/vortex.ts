@@ -2,12 +2,10 @@ import ProjectileBase from './projectile-base';
 import { ProjectileData, projectileList } from '../item/item-data';
 import { Particle } from './particles';
 
-
-export default class VortexProjectile extends ProjectileBase{
-
+export default class VortexProjectile extends ProjectileBase {
     speed = 5;
 
-    setSprite(x: number, y: number): void{
+    setSprite(x: number, y: number): void {
         this.sprite = this.scene.matter.add.sprite(x, y, Particle.Vortex, 0);
     }
 
@@ -30,11 +28,14 @@ export default class VortexProjectile extends ProjectileBase{
         sprite.setIgnoreGravity(true);
         sprite.setFrictionAir(0);
         sprite.setVelocity(xSpeed, ySpeed);
-        sprite.on('animationcomplete-' + Particle.Vortex,
-        () => {   
-            if (this.destroyed) return;
-            this.sprite.play(Particle.Vortex);
-        }, this);
+        sprite.on(
+            'animationcomplete-' + Particle.Vortex,
+            () => {
+                if (this.destroyed) return;
+                this.sprite.play(Particle.Vortex);
+            },
+            this,
+        );
         sprite.play(Particle.Vortex);
     }
 
@@ -49,5 +50,4 @@ export default class VortexProjectile extends ProjectileBase{
     onDestroy(event: any): void {
         //
     }
-
 }

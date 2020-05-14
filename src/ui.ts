@@ -1,7 +1,8 @@
 import 'phaser';
 import { HealthBar, preloadHealthBar } from './ui/healthbar';
-import { ChatBox, preloadChatBox } from './ui/chatbox';
+import { ChatBox, preloadChatBox, addText } from './ui/chatbox';
 import { Button, preloadButton } from './ui/button';
+import { Toolbar, preloadToolbar } from './ui/toolbar';
 
 export let isOpened;
 
@@ -9,6 +10,7 @@ export default class UI extends Phaser.Scene {
     health = 100;
     mainScene: Phaser.Scene;
     chatbox: ChatBox;
+    toolbar: Toolbar;
 
     constructor() {
         super({
@@ -21,12 +23,14 @@ export default class UI extends Phaser.Scene {
         preloadButton(this);
         preloadHealthBar(this);
         preloadChatBox(this);
+        preloadToolbar(this);
     }
 
     create() {
         this.mainScene = this.scene.get('myGame');
 
         this.chatbox = new ChatBox(this, 400, 1000);
+        this.toolbar = new Toolbar(this, 1000, 870);
 
         //  Our Text object to display the Score
         const healthText = this.add.text(840, 925, 'Health: ' + this.health, { font: '48px Arial', fill: '#000000' });
@@ -78,6 +82,7 @@ export default class UI extends Phaser.Scene {
                 this.health -= 10;
                 healthbar.health = this.health;
                 healthText.setText('Health: ' + this.health);
+                addText('Button clicked');
             },
             this,
         );
@@ -88,6 +93,14 @@ export default class UI extends Phaser.Scene {
                 this.health += 10;
                 healthbar.health = this.health;
                 healthText.setText('Health: ' + this.health);
+            },
+            this,
+        );
+
+        this.events.on(
+            'expandChatbox',
+            () => {
+                this.chatbox.setPanelVisible();
             },
             this,
         );

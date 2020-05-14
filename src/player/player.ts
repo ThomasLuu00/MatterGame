@@ -2,8 +2,8 @@ import 'phaser';
 import MyGame from '../game.js';
 import InputManager from './input-manager';
 import Inventory from '../ui/inventoryUI.js';
-import Equipment from './equipment.js';
 import CharacterBase from '../characters/character-base.js';
+import { Weapon } from '../item/itemmeta';
 
 export default class Player {
     scene: MyGame;
@@ -11,7 +11,6 @@ export default class Player {
     input: InputManager;
 
     inventory: Inventory;
-    equipment: Equipment;
 
     destroyed: boolean;
 
@@ -22,6 +21,11 @@ export default class Player {
         this.scene.events.on('update', this.update, this);
         this.scene.events.once('shutdown', this.destroy, this);
         this.scene.events.once('destroy', this.destroy, this);
+
+        // Equipping weapon
+        const wep = new Weapon(this.scene, 'I01000', 1);
+        wep.owner = this.sprite;
+        this.sprite.equip(wep);
     }
 
     update() {
@@ -29,21 +33,21 @@ export default class Player {
 
         const isRightKeyDown = this.input.moveRight.isDown;
         const isLeftKeyDown = this.input.moveLeft.isDown;
-        const isJumpKeyDown =   Phaser.Input.Keyboard.JustDown(this.input.jump);
+        const isJumpKeyDown = Phaser.Input.Keyboard.JustDown(this.input.jump);
         const isAttackKeyDown = this.input.attack.isDown;
         const isThrowKeyDown = this.input.throw.isDown;
         //const isOnGround = this.sprite.isTouching.ground;
         const isWep1Down = this.input.weapon1.isDown;
         const isWep2Down = this.input.weapon2.isDown;
-/*
+
         if (isWep1Down) {
-            this.sprite.switchWeapon(1);
+            this.switchWeapon(1);
         }
 
         if (isWep2Down) {
-            this.sprite.switchWeapon(2);
+            this.switchWeapon(2);
         }
-*/
+
         if (isJumpKeyDown) {
             this.sprite.jump();
         } else if (isAttackKeyDown) {
@@ -54,6 +58,14 @@ export default class Player {
             this.sprite.move(true);
         } else if (isRightKeyDown) {
             this.sprite.move(false);
+        }
+    }
+
+    switchWeapon(slot: integer) {
+        if (slot > 0 && slot < 3) {
+            const wep = new Weapon(this.scene, 'I01000', slot);
+            wep.owner = this.sprite;
+            this.sprite.equip(wep);
         }
     }
 
