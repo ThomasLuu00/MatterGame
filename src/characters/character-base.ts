@@ -1,11 +1,13 @@
-import ProjectileBase from '../projectiles/projectile-base';
-import Weapon from '../item/weapon';
+import ProjectileBase from "../projectiles/projectile-base";
+import Weapon from "../item/weapon";
+import Player from "../player/player";
 
 export default abstract class CharacterBase {
     scene: Phaser.Scene;
     characterData: CharacterData;
     sprite: Phaser.Physics.Matter.Sprite;
     sensors: Sensors;
+    owner: Player = null;
 
     destroyed = false;
     maxJump = 2;
@@ -22,6 +24,8 @@ export default abstract class CharacterBase {
         this.setData();
         this.sprite.setData({ class: this });
         this.setBody();
+        this.sprite.setFrictionStatic(0);
+        this.sprite.setFrictionAir(0);
         this.scene.add.existing(this.sprite);
         this.scene.events.on('update', this.update, this);
         this.scene.events.once('shutdown', this.destroy, this);
@@ -75,8 +79,8 @@ export default abstract class CharacterBase {
 
     collide(event: any, side: MatterJS.BodyType) {
         if (this.destroyed) return;
-        const thisData = event.bodyA.gameObject.data?.values;
-        const thatData = event.bodyB.gameObject.data?.values;
+        const thisData = event.bodyA?.gameObject?.data?.values || null;
+        const thatData = event.bodyB?.gameObject?.data?.values || null;
 
         if (thisData?.class !== this) return;
         if (thatData?.class?.owner === this) return;

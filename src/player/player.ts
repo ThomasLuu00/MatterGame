@@ -18,6 +18,7 @@ export default class Player {
         this.scene = scene;
         this.input = new InputManager(this.scene);
         this.sprite = sprite;
+        sprite.owner = this;
         this.scene.events.on('update', this.update, this);
         this.scene.events.once('shutdown', this.destroy, this);
         this.scene.events.once('destroy', this.destroy, this);
