@@ -1,4 +1,4 @@
-import Character from '../characters/character';
+import Character from '../characters/character-base';
 import { Weapon } from '../item/itemmeta';
 
 export default class Equipment {

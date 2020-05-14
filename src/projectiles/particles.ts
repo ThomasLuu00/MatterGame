@@ -1,4 +1,4 @@
-const enum Particle{
+const enum Particle {
     MagicSpell = 'MagicSpell',
     Magic8 = 'Magic8',
     BlueFire = 'BlueFire',
@@ -25,97 +25,97 @@ const enum Particle{
     */
 }
 
-const dir = '../assets/particles/'
-const ParticleTextures : ParticleList = {
-    MagicSpell:{
+const dir = '../assets/particles/';
+const ParticleTextures: ParticleList = {
+    MagicSpell: {
         key: Particle.MagicSpell,
         spritesheet: dir + '1_magicspell_spritesheet.png',
         spritesheetConfig: {
-            frameWidth: 100, 
-            frameHeight: 100, 
+            frameWidth: 100,
+            frameHeight: 100,
             endFrame: 73,
         },
-        animConfig:{
+        animConfig: {
             start: 0,
             end: 73,
         },
     },
-    Magic8:{
+    Magic8: {
         key: Particle.Magic8,
         spritesheet: dir + '2_magic8_spritesheet.png',
         spritesheetConfig: {
-            frameWidth: 100, 
-            frameHeight: 100, 
-            endFrame: 60
+            frameWidth: 100,
+            frameHeight: 100,
+            endFrame: 60,
         },
-        animConfig:{
+        animConfig: {
             start: 0,
             end: 60,
         },
     },
-    BlueFire:{
+    BlueFire: {
         key: Particle.BlueFire,
         spritesheet: dir + '3_bluefire_spritesheet.png',
         spritesheetConfig: {
-            frameWidth: 100, 
-            frameHeight: 100, 
+            frameWidth: 100,
+            frameHeight: 100,
             endFrame: 60,
         },
-        animConfig:{
+        animConfig: {
             start: 0,
             end: 60,
         },
     },
-    Casting:{
+    Casting: {
         key: Particle.MagicSpell,
         spritesheet: dir + '4_casting_spritesheet.png',
         spritesheetConfig: {
-            frameWidth: 100, 
-            frameHeight: 100, 
+            frameWidth: 100,
+            frameHeight: 100,
             endFrame: 71,
         },
-        animConfig:{
+        animConfig: {
             start: 0,
             end: 71,
         },
     },
-    MagickaHit:{
+    MagickaHit: {
         key: Particle.MagickaHit,
         spritesheet: dir + '5_magickahit_spritesheet.png',
         spritesheetConfig: {
-            frameWidth: 100, 
-            frameHeight: 100, 
+            frameWidth: 100,
+            frameHeight: 100,
             endFrame: 39,
         },
-        animConfig:{
+        animConfig: {
             start: 0,
             end: 39,
         },
     },
-    Vortex:{
+    Vortex: {
         key: Particle.Vortex,
         spritesheet: dir + '13_vortex_spritesheet.png',
         spritesheetConfig: {
-            frameWidth: 100, 
-            frameHeight: 100, 
+            frameWidth: 100,
+            frameHeight: 100,
             endFrame: 60,
         },
-        animConfig:{
+        animConfig: {
             start: 0,
             end: 60,
         },
     },
-}
+};
 
 type ParticleList = {
-    [P in Particle]: ParticleTexture
-}
+    [P in Particle]: ParticleTexture;
+};
 
 interface ParticleTexture {
     key: Particle;
-    spritesheet: string,
-    spritesheetConfig: Phaser.Types.Loader.FileTypes.ImageFrameConfig,
-    animConfig: Phaser.Types.Animations.GenerateFrameNames,
+    spritesheet: string;
+    spritesheetConfig: Phaser.Types.Loader.FileTypes.ImageFrameConfig;
+    animConfig: Phaser.Types.Animations.GenerateFrameNames;
 }
 
 function addParticleAnimations(scene) {
@@ -156,5 +156,4 @@ function addParticleAnimations(scene) {
         frameRate: 60,
     });
 }
-export {Particle, ParticleTextures, addParticleAnimations};
-
+export { Particle, ParticleTextures, addParticleAnimations };

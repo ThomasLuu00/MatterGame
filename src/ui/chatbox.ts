@@ -2,28 +2,35 @@ import 'phaser';
 import TextEdit from 'phaser3-rex-plugins/plugins/textedit.js';
 import { GridTable } from 'phaser3-rex-plugins/templates/ui/ui-components.js';
 import { Label } from 'phaser3-rex-plugins/templates/ui/ui-components.js';
+import { Button } from './button';
 
 const textInputOffset = 20;
 const chatHistoryYOffset = 150;
+const expandButtonOffset = 240;
 
 let chatHistory: any[];
 let chatIndex = 0;
 let panel: GridTable;
 
-function onClosed(textObject) {
+const addText = (text: string) => {
     chatHistory.push({
         id: chatIndex,
         font: '48px Arial',
         color: 0x260e04,
-        text: textObject.text,
+        text: text,
     });
     panel.setItems(chatHistory);
     panel.layout();
     chatIndex++;
+};
+
+function onClosed(textObject) {
+    addText(textObject.text);
 }
 
 class ChatBox extends Phaser.GameObjects.Image {
     isOpened: boolean;
+
     info: Phaser.GameObjects.Text;
     editor: TextEdit;
     config = {
@@ -33,6 +40,11 @@ class ChatBox extends Phaser.GameObjects.Image {
     constructor(scene: Phaser.Scene, x: number, y: number) {
         super(scene, x, y, 'chatbox');
         this.scene.add.existing(this);
+
+        // Expand chatbox button
+        new Button(scene, x + expandButtonOffset, y, 'menuGrid', () => {
+            scene.events.emit('expandChatbox');
+        });
 
         chatIndex = 0;
         chatHistory = [];
@@ -86,7 +98,7 @@ class ChatBox extends Phaser.GameObjects.Image {
                         color: item.color,
                     });
                     // TODO: Code doesn't work currently
-                    cellText.setWordWrapWidth(100);
+                    // cellText.setWordWrapWidth(100);
                     cellContainer = new Label(scene, {
                         width: width,
                         height: height,
@@ -110,6 +122,8 @@ class ChatBox extends Phaser.GameObjects.Image {
             },
         }).layout();
 
+        panel.visible = false;
+
         this.info = this.scene.add.text(
             x - this.width / 2 + textInputOffset,
             y - this.height / 2 + textInputOffset,
@@ -131,6 +145,10 @@ class ChatBox extends Phaser.GameObjects.Image {
         this.scene.events.on('update', this.update, this);
     }
 
+    setPanelVisible() {
+        panel.visible = panel.visible == true ? false : true;
+    }
+
     update() {
         this.isOpened = this.editor.isOpened;
     }
@@ -140,4 +158,4 @@ const preloadChatBox = (scene: Phaser.Scene) => {
     scene.load.image('chatbox', '../assets/ui/panel_Example1.png');
 };
 
-export { ChatBox, preloadChatBox };
+export { ChatBox, preloadChatBox, addText };

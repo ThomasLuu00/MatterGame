@@ -30,7 +30,9 @@ class Button extends Phaser.GameObjects.Image {
                 if (!this.isDown) {
                     this.setScale(0.7);
                     this.isDown = true;
-                    onDownCallback();
+                    if (onDownCallback != undefined) {
+                        onDownCallback();
+                    }
                 } else if (this.isDown && this.isSticky) {
                     this.setScale(1);
                     this.isDown = false;
@@ -44,7 +46,9 @@ class Button extends Phaser.GameObjects.Image {
                 if (this.isDown && !this.isSticky) {
                     this.setScale(1);
                     this.isDown = false;
-                    onReleaseCallback();
+                    if (onReleaseCallback != undefined) {
+                        onReleaseCallback();
+                    }
                 }
             },
             this,

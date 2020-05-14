@@ -2,12 +2,10 @@ import ProjectileBase from './projectile-base';
 import { ProjectileData, projectileList } from '../item/item-data';
 import { Particle } from './particles';
 
-
-export default class KunaiProjectile extends ProjectileBase{
-
+export default class KunaiProjectile extends ProjectileBase {
     speed = 50;
 
-    setSprite(x: number, y: number): void{
+    setSprite(x: number, y: number): void {
         this.sprite = this.scene.matter.add.sprite(x, y, 'item-kunai', 0);
     }
 
@@ -34,12 +32,10 @@ export default class KunaiProjectile extends ProjectileBase{
 
     onHit(event: any): void {
         const sprite = this.sprite;
-        let effect = this.scene.add.sprite(sprite.x, sprite.y, Particle.Magic8);
-        effect.once('animationcomplete-' + Particle.Magic8,
-            () => {   
-                effect.destroy();
-            },
-        );
+        const effect = this.scene.add.sprite(sprite.x, sprite.y, Particle.Magic8);
+        effect.once('animationcomplete-' + Particle.Magic8, () => {
+            effect.destroy();
+        });
         effect.play(Particle.Magic8);
     }
 
@@ -50,5 +46,4 @@ export default class KunaiProjectile extends ProjectileBase{
     onDestroy(event: any): void {
         //
     }
-
 }
