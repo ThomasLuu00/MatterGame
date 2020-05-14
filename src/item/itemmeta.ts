@@ -2,6 +2,7 @@ import { ItemData, ItemList, itemList, projectileList, ProjectileList, PROJECTIL
 import { Tags, Attributes } from './meta-data';
 import KunaiProjectile from '../projectiles/kunai';
 import CharacterBase from '../characters/character-base';
+import VortexProjectile from '../projectiles/vortex';
 class Helm {
     //
 }
@@ -45,15 +46,27 @@ class Weapon implements Equipable {
     tags: Tags[];
     attributes: Attributes;
     owner: CharacterBase = null;
+    projectile: number;
 
-    constructor(world: Phaser.Physics.Matter.World, id: string) {
+    constructor(world: Phaser.Physics.Matter.World, id: string, projectile: number = 1) {
         this.world = world;
         this.scene = this.world.scene;
         this.data = itemList[id];
+        this.projectile = projectile;
     }
 
     attack(ox, oy, x: number, y: number) {
-        if (this.owner !== null) new KunaiProjectile(this.scene, ox, oy).fire(x, y);
+        if (this.owner !== null) {
+            switch (this.projectile){
+                case 1:
+                    new KunaiProjectile(this.scene, ox, oy).fire(x, y);
+                    break;
+                case 2:
+                    new VortexProjectile(this.scene, ox + ((this.owner?.sprite?.flipX ? -100 : 100)), oy).fire(x + ((this.owner?.sprite?.flipX ? -101 : 101)), y);
+                    break;
+            }
+
+        }
     }
     
     

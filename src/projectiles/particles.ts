@@ -1,28 +1,32 @@
 const enum Particle{
-    MagicSpell = 'magicspell',
-    Magic8 = 'magic8',
-    BlueFire = 'bluefire',
-    Casting = 'casting',
-    MagickaHit = 'magickahit',
-    FlameLash = 'flamelash',
-    FireSpin = 'firespin',
-    ProtectionCircle = 'protectioncircle',
-    BrightFire = 'brightfire',
-    WeaponHit = 'weaponhit',
-    Fire = 'fire',
-    Nebula = 'nebula',
-    Vortex = 'vortex',
-    Phatom = 'phantom',
-    Loading = 'loading',
-    SunBurn = 'sunburn',
-    FelSpell = 'felspell',
-    Midnight = 'midnight',
-    Freezing = 'freezing',
-    MagicBubbles = 'magicbubbles'
+    MagicSpell = 'MagicSpell',
+    Magic8 = 'Magic8',
+    BlueFire = 'BlueFire',
+    Casting = 'Casting',
+    MagickaHit = 'MagickaHit',
+
+    Vortex = 'Vortex',
+    /*
+    FlameLash = 'FlameLash',
+    FireSpin = 'FireSpin',
+    ProtectionCircle = 'ProtectionCircle',
+    BrightFire = 'BrightFire',
+    WeaponHit = 'WeaponHit',
+    Fire = 'Fire',
+    Nebula = 'Nebula',
+
+    Phatom = 'Phatom',
+    Loading = 'Loading',
+    SunBurn = 'SunBurn',
+    FelSpell = 'FelSpell',
+    Midnight = 'Midnight',
+    Freezing = 'Freezing',
+    MagicBubbles = 'MagicBubbles'
+    */
 }
 
 const dir = '../assets/particles/'
-const ParticleTextures : ParticleList= {
+const ParticleTextures : ParticleList = {
     MagicSpell:{
         key: Particle.MagicSpell,
         spritesheet: dir + '1_magicspell_spritesheet.png',
@@ -88,10 +92,23 @@ const ParticleTextures : ParticleList= {
             end: 39,
         },
     },
+    Vortex:{
+        key: Particle.Vortex,
+        spritesheet: dir + '13_vortex_spritesheet.png',
+        spritesheetConfig: {
+            frameWidth: 100, 
+            frameHeight: 100, 
+            endFrame: 60,
+        },
+        animConfig:{
+            start: 0,
+            end: 60,
+        },
+    },
 }
 
-interface ParticleList{
-    [index: string]: ParticleTexture;
+type ParticleList = {
+    [P in Particle]: ParticleTexture
 }
 
 interface ParticleTexture {
@@ -129,6 +146,12 @@ function addParticleAnimations(scene) {
     scene.anims.create({
         key: Particle.MagickaHit,
         frames: scene.anims.generateFrameNames(Particle.MagickaHit, ParticleTextures.MagickaHit.animConfig),
+        repeat: 0,
+        frameRate: 60,
+    });
+    scene.anims.create({
+        key: Particle.Vortex,
+        frames: scene.anims.generateFrameNames(Particle.Vortex, ParticleTextures.Vortex.animConfig),
         repeat: 0,
         frameRate: 60,
     });
