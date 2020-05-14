@@ -6,6 +6,8 @@ import EnemyNinja from './characters/enemy-ninja';
 import { Particle, ParticleTextures, addParticleAnimations } from './projectiles/particles';
 import CharacterBase from './characters/character-base';
 import NinjaGirl, { preloadNinjaGirl, addNinjaGirlAnimations } from './characters/ninja-girl';
+import Loot from './loot';
+import { itemList } from './item/item-data';
 
 export default class MyGame extends Phaser.Scene {
     player: Player;
@@ -78,6 +80,7 @@ export default class MyGame extends Phaser.Scene {
         this.player = new Player(this, this.test);
 
         this.enemy = new EnemyNinja(this, spawnPoint.x + 100, spawnPoint.y);
+        new Loot(this.matter.world, spawnPoint.x + 200, spawnPoint.y, itemList.I01000);
 
         // Smoothly follow the player
         const controlConfig = {

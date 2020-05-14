@@ -1,6 +1,6 @@
 import ProjectileBase from './projectile-base';
-import { ProjectileData, projectileList } from '../item/item-data';
 import { Particle } from './particles';
+import { projectileList } from './projectile-list';
 
 export default class KunaiProjectile extends ProjectileBase {
     speed = 50;

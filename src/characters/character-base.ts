@@ -1,5 +1,5 @@
-import ProjectileBase from '../projectiles/projectile-base';
-import { Weapon } from '../item/itemmeta';
+import ProjectileBase from "../projectiles/projectile-base";
+import Weapon from "../item/weapon";
 
 export default abstract class CharacterBase {
     scene: Phaser.Scene;

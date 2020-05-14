@@ -1,5 +1,6 @@
-import { ProjectileData } from '../item/item-data';
+
 import CharacterBase from '../characters/character-base';
+import ProjectileData from './projectile-list';
 
 interface ProjectileInterface {
     scene: Phaser.Scene;
