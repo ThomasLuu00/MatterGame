@@ -1,8 +1,6 @@
 import CharacterBase from './character-base';
 import Weapon from '../item/weapon';
 
-export default class NinjaGirl extends CharacterBase{
-
 export default class NinjaGirl extends CharacterBase {
     attackCooldownTimer: Phaser.Time.TimerEvent = null;
     canAttack = true;
