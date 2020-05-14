@@ -58,13 +58,10 @@ class Weapon implements Equipable {
         if (this.owner !== null) {
             switch (this.projectile) {
                 case 1:
-                    new KunaiProjectile(this.scene, ox, oy).fire(x, y);
+                    new KunaiProjectile(this.scene, ox, oy, this.owner).fire(x, y);
                     break;
                 case 2:
-                    new VortexProjectile(this.scene, ox + (this.owner?.sprite?.flipX ? -100 : 100), oy).fire(
-                        x + (this.owner?.sprite?.flipX ? -101 : 101),
-                        y,
-                    );
+                    new VortexProjectile(this.scene, ox + ((this.owner?.sprite?.flipX ? -100 : 100)), oy, this.owner).fire(x + ((this.owner?.sprite?.flipX ? -101 : 101)), y);
                     break;
             }
         }

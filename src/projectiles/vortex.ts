@@ -40,7 +40,7 @@ export default class VortexProjectile extends ProjectileBase {
     }
 
     onHit(event: any): void {
-        //
+        this.destroy();
     }
 
     onUpdate(event: any): void {

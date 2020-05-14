@@ -37,6 +37,7 @@ export default class KunaiProjectile extends ProjectileBase {
             effect.destroy();
         });
         effect.play(Particle.Magic8);
+        this.destroy();
     }
 
     onUpdate(event: any): void {
