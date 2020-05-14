@@ -1,6 +1,6 @@
 import ProjectileBase from './projectile-base';
-import { ProjectileData, projectileList } from '../item/item-data';
 import { Particle } from './particles';
+import { projectileList } from './projectile-list';
 
 export default class KunaiProjectile extends ProjectileBase {
     speed = 50;
@@ -37,6 +37,7 @@ export default class KunaiProjectile extends ProjectileBase {
             effect.destroy();
         });
         effect.play(Particle.Magic8);
+        this.destroy();
     }
 
     onUpdate(event: any): void {

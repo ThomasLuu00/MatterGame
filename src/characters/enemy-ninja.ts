@@ -1,6 +1,6 @@
-import NewGirl from './ninja-girl';
+import NinjaGirl from './ninja-girl';
 
-export default class EnemyNinja extends NewGirl {
+export default class EnemyNinja extends NinjaGirl {
     delay = 2000;
     movementFlag = true;
 

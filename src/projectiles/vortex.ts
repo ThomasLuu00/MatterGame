@@ -1,6 +1,6 @@
 import ProjectileBase from './projectile-base';
-import { ProjectileData, projectileList } from '../item/item-data';
 import { Particle } from './particles';
+import { projectileList } from './projectile-list';
 
 export default class VortexProjectile extends ProjectileBase {
     speed = 5;
@@ -40,7 +40,7 @@ export default class VortexProjectile extends ProjectileBase {
     }
 
     onHit(event: any): void {
-        //
+        this.destroy();
     }
 
     onUpdate(event: any): void {

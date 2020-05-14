@@ -1,5 +1,5 @@
-import ProjectileBase from '../projectiles/projectile-base';
-import { Weapon } from '../item/itemmeta';
+import ProjectileBase from "../projectiles/projectile-base";
+import Weapon from "../item/weapon";
 
 export default abstract class CharacterBase {
     scene: Phaser.Scene;
@@ -73,17 +73,20 @@ export default abstract class CharacterBase {
         this.sensors.right.onCollideCallback = (event) => this.collide(event, this.sensors.right);
     }
 
-    collide(event: any, side: MatterJS.BodyType) {
-        //const thisData = (event.bodyB.gameObject.data && event.bodyB.gameObject.data.values) || null ;// this shold be this
-        if (this.destroyed) return;
+    collide(event: any, side: MatterJS.BodyType){
 
+        if (this.destroyed) return;
+        const thisData = event.bodyA.gameObject.data?.values;
         const thatData = event.bodyB.gameObject.data?.values;
+
+        if (thisData?.class !== this) return;
+        if (thatData?.class?.owner === this) return;
 
         if (thatData?.class instanceof ProjectileBase) {
             const projectile: ProjectileBase = thatData.class;
             this.characterData.health -= projectile.projectileData.damage;
-            projectile.destroy();
-        }
+            projectile.onHit();
+        };
     }
 
     update(event?: any): void {
