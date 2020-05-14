@@ -22,11 +22,12 @@ export default abstract class ProjectileBase implements ProjectileInterface{
         this.setSprite(x, y);
         this.setData();
         this.sprite.setData({class: this});
+        this.sprite.setSensor(true);
         //.setActive(false).setVisible(false);
 
 
         this.sprite.setCollisionGroup(this.projectileData.collisionGroup);
-
+        
         /*
         this.sprite.setOnCollide((event)=>{
             if (this.destroyed) return;
@@ -37,7 +38,7 @@ export default abstract class ProjectileBase implements ProjectileInterface{
         this.scene.events.on('update', this.update, this);
         this.scene.events.once('shutdown', this.destroy, this);
         this.scene.events.once('destroy', this.destroy, this);
-    }
+    };
 
     fire(x: number, y: number){
         this.onFire(x, y);
