@@ -75,15 +75,18 @@ export default abstract class CharacterBase{
 
 
     collide(event: any, side: MatterJS.BodyType){
-        //const thisData = (event.bodyB.gameObject.data && event.bodyB.gameObject.data.values) || null ;// this shold be this
-        if (this.destroyed) return;
 
+        if (this.destroyed) return;
+        const thisData = event.bodyA.gameObject.data?.values;
         const thatData = event.bodyB.gameObject.data?.values;
-        
+
+        if (thisData?.class !== this) return;
+        if (thatData?.class?.owner === this) return;
+
         if (thatData?.class instanceof ProjectileBase) {
             let projectile: ProjectileBase = thatData.class;
             this.characterData.health -= projectile.projectileData.damage;
-            projectile.destroy();
+            projectile.onHit();
         };
     }
 
