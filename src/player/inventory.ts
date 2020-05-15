@@ -1,3 +1,5 @@
+import Tags from "../meta/tags";
+
 export default class Inventory implements ItemList{
     [index: number]: InventorySlot<Item>;
     head = null;
@@ -63,6 +65,7 @@ interface ItemList{
     head: InventorySlot<Item>;
     tail: InventorySlot<Item>;
 }
+
 interface InventorySlot<T>{
     item: T;
     next: InventorySlot<T>;
@@ -72,5 +75,7 @@ interface InventorySlot<T>{
 interface Item{
     id: string;
     name: string;
+    description?: string;
+    tags: Tags[];
 }
 

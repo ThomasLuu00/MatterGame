@@ -4,7 +4,7 @@ import Attributes from '../meta/attributes';
 import CharacterBase from '../characters/character-base';
 import KunaiProjectile from '../projectiles/kunai';
 import VortexProjectile from '../projectiles/vortex';
-import { Equipable } from './itemmeta';
+import { Equipable } from './item-meta';
 
 export default class Weapon implements Equipable {
     data: ItemData;

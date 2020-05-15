@@ -1,5 +1,5 @@
 import Character from '../characters/character-base';
-import { Weapon } from '../item/itemmeta';
+import { Weapon } from '../item/item-meta';
 
 export default class Equipment {
     owner: Character;
