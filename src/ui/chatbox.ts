@@ -24,9 +24,9 @@ const addText = (text: string) => {
     chatIndex++;
 };
 
-function onClosed(textObject) {
+const onClosed = (textObject) => {
     addText(textObject.text);
-}
+};
 
 class ChatBox extends Phaser.GameObjects.Image {
     isOpened: boolean;

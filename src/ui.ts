@@ -3,11 +3,12 @@ import { HealthBar, preloadHealthBar } from './ui/healthbar';
 import { ChatBox, preloadChatBox, addText } from './ui/chatbox';
 import { Button, preloadButton } from './ui/button';
 import { Toolbar, preloadToolbar } from './ui/toolbar';
+import Player from './player/player';
 
 export let isOpened;
 
 export default class UI extends Phaser.Scene {
-    health = 100;
+    player: Player;
     mainScene: Phaser.Scene;
     chatbox: ChatBox;
     toolbar: Toolbar;
@@ -26,14 +27,20 @@ export default class UI extends Phaser.Scene {
         preloadToolbar(this);
     }
 
-    create() {
+    create(data) {
         this.mainScene = this.scene.get('myGame');
+
+        // Getting player reference
+        this.player = data.player;
 
         this.chatbox = new ChatBox(this, 400, 1000);
         this.toolbar = new Toolbar(this, 1000, 870);
 
         //  Our Text object to display the Score
-        const healthText = this.add.text(840, 925, 'Health: ' + this.health, { font: '48px Arial', fill: '#000000' });
+        const healthText = this.add.text(840, 925, 'Health: ' + this.player.sprite.characterData.health, {
+            font: '48px Arial',
+            fill: '#000000',
+        });
 
         const healthbar = new HealthBar(this, 960, 1000, 'healthbar');
         healthbar.health = 100;
@@ -70,8 +77,8 @@ export default class UI extends Phaser.Scene {
         this.events.on(
             'addScore',
             () => {
-                this.health += 10;
-                healthText.setText('Health: ' + this.health);
+                this.player.sprite.characterData.health += 10;
+                healthText.setText('Health: ' + this.player.sprite.characterData.health);
             },
             this,
         );
@@ -79,9 +86,9 @@ export default class UI extends Phaser.Scene {
         this.events.on(
             'subtractHealth',
             () => {
-                this.health -= 10;
-                healthbar.health = this.health;
-                healthText.setText('Health: ' + this.health);
+                this.player.sprite.characterData.health -= 10;
+                healthbar.health = this.player.sprite.characterData.health;
+                healthText.setText('Health: ' + this.player.sprite.characterData.health);
                 addText('Button clicked');
             },
             this,
@@ -90,9 +97,9 @@ export default class UI extends Phaser.Scene {
         this.events.on(
             'addHealth',
             () => {
-                this.health += 10;
-                healthbar.health = this.health;
-                healthText.setText('Health: ' + this.health);
+                this.player.sprite.characterData.health += 10;
+                healthbar.health = this.player.sprite.characterData.health;
+                healthText.setText('Health: ' + this.player.sprite.characterData.health);
             },
             this,
         );
@@ -108,5 +115,16 @@ export default class UI extends Phaser.Scene {
 
     update() {
         isOpened = this.chatbox.isOpened;
+
+        const isWep1Down = this.player.input.weapon1.isDown;
+        const isWep2Down = this.player.input.weapon2.isDown;
+
+        if (isWep1Down) {
+            this.toolbar.selectCell(0);
+        }
+
+        if (isWep2Down) {
+            this.toolbar.selectCell(1);
+        }
     }
 }

@@ -1,4 +1,3 @@
-
 import CharacterBase from '../characters/character-base';
 import ProjectileData from './projectile-list';
 
@@ -10,35 +9,35 @@ interface ProjectileInterface {
     owner: CharacterBase;
 }
 
-export default abstract class ProjectileBase implements ProjectileInterface{
+export default abstract class ProjectileBase implements ProjectileInterface {
     scene: Phaser.Scene;
     projectileData: ProjectileData;
     destroyed = false;
     sprite: Phaser.Physics.Matter.Sprite;
     owner: CharacterBase;
 
-    constructor(scene: Phaser.Scene, x: number, y: number, owner: CharacterBase){
+    constructor(scene: Phaser.Scene, x: number, y: number, owner: CharacterBase) {
         this.scene = scene;
         this.owner = owner;
         this.setSprite(x, y);
         this.setData();
-        this.sprite.setData({class: this});
+        this.sprite.setData({ class: this });
         this.sprite.setSensor(true);
         //.setActive(false).setVisible(false);
 
         this.sprite.setCollisionGroup(this.projectileData.collisionGroup);
-        
+
         /*
         this.sprite.setOnCollide((event)=>{
             if (this.destroyed) return;
             this.onHit(event)
         }); 
         */
-        
+
         this.scene.events.on('update', this.update, this);
         this.scene.events.once('shutdown', this.destroy, this);
         this.scene.events.once('destroy', this.destroy, this);
-    };
+    }
 
     fire(x: number, y: number) {
         this.onFire(x, y);

@@ -8,6 +8,8 @@ import CharacterBase from './characters/character-base';
 import NinjaGirl, { preloadNinjaGirl, addNinjaGirlAnimations } from './characters/ninja-girl';
 import Loot from './loot';
 import { itemList } from './item/item-data';
+import Background from './background';
+import { GAME_WIDTH, GAME_HEIGHT } from './utils/constants';
 
 export default class MyGame extends Phaser.Scene {
     player: Player;
@@ -79,6 +81,9 @@ export default class MyGame extends Phaser.Scene {
         this.test = new NinjaGirl(this, spawnPoint.x, spawnPoint.y);
         this.player = new Player(this, this.test);
 
+        // Add UI scene
+        this.scene.add('UIScene', UI, true, { player: this.player });
+
         this.enemy = new EnemyNinja(this, spawnPoint.x + 100, spawnPoint.y);
         new Loot(this.matter.world, spawnPoint.x + 200, spawnPoint.y, itemList.I01000);
 
@@ -97,6 +102,13 @@ export default class MyGame extends Phaser.Scene {
         this.controls = new Phaser.Cameras.Controls.FixedKeyControl(controlConfig);
         this.cameras.main.startFollow(this.player.sprite.sprite, false, 0.5, 0.5).setZoom(0.5);
         this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+
+        // Add background scene
+        this.scene.add('BackgroundScene', Background, true, {
+            camera: this.cameras.main,
+            mapWidth: map.widthInPixels,
+            mapHeight: map.heightInPixels,
+        });
 
         // Setting the boolean to check if the player is typing
         this.isTyping = isOpened;
@@ -137,7 +149,7 @@ export default class MyGame extends Phaser.Scene {
 
         const handle = 'window' + this.count++;
 
-        const win = this.add.zone(x, y, 1920, 1080).setInteractive({ draggable: true }).setOrigin(0);
+        const win = this.add.zone(x, y, GAME_WIDTH, GAME_HEIGHT).setInteractive({ draggable: true }).setOrigin(0);
         const demo = new func(handle, win);
 
         const scene = this.scene.add(handle, demo, true);
@@ -149,9 +161,9 @@ export default class MyGame extends Phaser.Scene {
 const config: Phaser.Types.Core.GameConfig = {
     type: Phaser.AUTO,
     backgroundColor: '#125555',
-    width: 1920,
-    height: 1080,
-    scene: [MyGame, UI],
+    width: GAME_WIDTH,
+    height: GAME_HEIGHT,
+    scene: [MyGame],
     physics: {
         default: 'matter',
         matter: {
