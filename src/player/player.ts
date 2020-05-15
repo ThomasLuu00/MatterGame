@@ -1,9 +1,9 @@
 import 'phaser';
-import MyGame from '../game.js';
+import MyGame from '../game';
 import InputManager from './input-manager';
-import Inventory from '../ui/inventoryUI.js';
-import CharacterBase from '../characters/character-base.js';
-import Weapon from '../item/weapon.js';
+import Inventory from './inventory';
+import CharacterBase from '../characters/character-base';
+import Weapon from '../item/weapon';
 
 export default class Player {
     scene: MyGame;
@@ -27,6 +27,8 @@ export default class Player {
         const wep = new Weapon(this.scene.matter.world, 'I01000', 1);
         wep.owner = this.sprite;
         this.sprite.equip(wep);
+
+        this.inventory = new Inventory(20);
     }
 
     update() {
