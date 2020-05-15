@@ -1,7 +1,8 @@
 import Tags from "../meta/tags";
+import { ItemType } from "../item/item";
 
 export default class Inventory implements ItemList{
-    [index: number]: InventorySlot<Item>;
+    [index: number]: InventorySlot<ItemType>;
     head = null;
     tail = null;
     count = 0;
@@ -12,8 +13,8 @@ export default class Inventory implements ItemList{
         }
     }
 
-    push(item: Item = null){
-        let node: InventorySlot<Item> = {
+    push(item: ItemType = null){
+        let node: InventorySlot<ItemType> = {
             item: item,
             prev: this.tail,
             next: null,
@@ -24,15 +25,15 @@ export default class Inventory implements ItemList{
         this.count += 1;
     }
 
-    setItem(index: number, item: Item): Item{
-        let oldItem: Item = null;
+    setItem(index: number, item: ItemType): ItemType{
+        let oldItem: ItemType = null;
         if (index < this.count && index >= 0) {
 
         }
         return oldItem;
     }
 
-    popItem(index: number): Item{
+    popItem(index: number): ItemType{
         let oldItem = this[index].item;
         this[index].item = null;
         return oldItem;
@@ -40,7 +41,7 @@ export default class Inventory implements ItemList{
     
     swapItems(index1: number, index2: number){
         if (index1 < this.count && index1 >= 0 && index2 < this.count && index2 >= 0) {
-            let temp: Item = this[index1].item;
+            let temp: ItemType = this[index1].item;
             this[index1].item = this[index2].item;
             this[index2].item = temp;
         }
@@ -61,9 +62,9 @@ export default class Inventory implements ItemList{
 }
 
 interface ItemList{
-    [index: number]: InventorySlot<Item>;
-    head: InventorySlot<Item>;
-    tail: InventorySlot<Item>;
+    [index: number]: InventorySlot<ItemType>;
+    head: InventorySlot<ItemType>;
+    tail: InventorySlot<ItemType>;
 }
 
 interface InventorySlot<T>{
@@ -72,10 +73,4 @@ interface InventorySlot<T>{
     prev: InventorySlot<T>;
 }
 
-interface Item{
-    id: string;
-    name: string;
-    description?: string;
-    tags: Tags[];
-}
 

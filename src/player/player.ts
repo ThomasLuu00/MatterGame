@@ -4,6 +4,7 @@ import InputManager from './input-manager';
 import Inventory from './inventory';
 import CharacterBase from '../characters/character-base';
 import Weapon from '../item/weapon';
+import { Items } from '../item/item-data';
 
 export default class Player {
     scene: MyGame;
@@ -24,7 +25,7 @@ export default class Player {
         this.scene.events.once('destroy', this.destroy, this);
 
         // Equipping weapon
-        const wep = new Weapon(this.scene.matter.world, 'I01000', 1);
+        const wep = new Weapon(this.scene, Items.KUNAI, 1);
         wep.owner = this.sprite;
         this.sprite.equip(wep);
 
@@ -66,7 +67,7 @@ export default class Player {
 
     switchWeapon(slot: integer) {
         if (slot > 0 && slot < 3) {
-            const wep = new Weapon(this.scene.matter.world, 'I01000', slot);
+            const wep = new Weapon(this.scene, Items.KUNAI, slot);
             wep.owner = this.sprite;
             this.sprite.equip(wep);
         }

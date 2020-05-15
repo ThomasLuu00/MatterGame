@@ -1,23 +1,29 @@
-export default interface ItemData {
-    id: string;
-    name: string;
-    description?: string;
-    iconKey: string;
-    imageKey: string;
-    projectileId: string;
+import { ItemType } from "./item";
+import Tags from "../meta/tags";
+
+export enum Items {
+    KUNAI = 'kunai',
+    VORTEX = 'vortex',
 }
 
-export interface ItemList {
-    readonly [index: string]: ItemData;
+type ItemList = {
+    readonly [index in Items]: ItemType;
 }
+
 export const itemList: ItemList = {
-    I01000: {
+    kunai: {
         id: 'I01000',
-        projectileId: 'P01000',
         name: 'Kunai',
-        description: '',
+        description: 'A sharp knife used by ninjas',
         iconKey: 'item-kunai',
-        imageKey: 'item-kunai',
+        tags: [Tags.EQUIPABLE, Tags.RANGED]
+    },
+    vortex: {
+        id: 'I01001',
+        name: 'Vortex',
+        description: 'Spawn the void.',
+        iconKey: 'vortex',
+        tags: [Tags.EQUIPABLE, Tags.RANGED]
     },
 };
 

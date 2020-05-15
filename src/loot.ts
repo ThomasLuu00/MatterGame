@@ -1,20 +1,20 @@
 import 'phaser';
-import ItemData from './item/item-data';
-import { Data } from 'phaser';
+
 import CharacterBase from './characters/character-base';
+import { ItemType } from './item/item';
 
 export default class Loot {
     scene: Phaser.Scene;
     sprite: Phaser.Physics.Matter.Sprite;
-    itemData: ItemData;
+    item: ItemType;
     destroyed = false;
     onGround = false;
     showLoot = false;
 
-    constructor(world: Phaser.Physics.Matter.World, x: number, y: number, item: ItemData) {
-        this.itemData = item;
+    constructor(world: Phaser.Physics.Matter.World, x: number, y: number, item: ItemType) {
+        this.item = item;
         this.scene = world.scene;
-        this.sprite = this.scene.matter.add.sprite(x, y, this.itemData.imageKey, 0);
+        this.sprite = this.scene.matter.add.sprite(x, y, this.item.iconKey, 0);
         this.sprite.setData({ class: this });
         this.sprite.setSensor(true);
         this.sprite.setOnCollideActive((e) => this.onSensorCollide(e, this));
@@ -70,7 +70,7 @@ export default class Loot {
         this.scene.events.off('destroy', this.destroy, this);
         this.destroyed = true;
         this.scene = null;
-        this.itemData = null;
+        this.item = null;
         this.sprite.destroy();
     }
 }

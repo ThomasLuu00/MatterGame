@@ -85,7 +85,7 @@ export default class MyGame extends Phaser.Scene {
         this.scene.add('UIScene', UI, true, { player: this.player });
 
         this.enemy = new EnemyNinja(this, spawnPoint.x + 100, spawnPoint.y);
-        new Loot(this.matter.world, spawnPoint.x + 200, spawnPoint.y, itemList.I01000);
+        new Loot(this.matter.world, spawnPoint.x + 200, spawnPoint.y, itemList.kunai);
 
         // Smoothly follow the player
         const controlConfig = {
