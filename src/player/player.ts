@@ -30,6 +30,9 @@ export default class Player {
         this.sprite.equip(wep);
 
         this.inventory = new Inventory(20);
+        this.inventory.setItem(0, wep)
+        this.inventory.setItem(3, new Weapon(this.scene, Items.VORTEX, 2))
+        console.log(this.inventory[0])
     }
 
     update() {

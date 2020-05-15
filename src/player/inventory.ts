@@ -28,7 +28,7 @@ export default class Inventory implements ItemList{
     setItem(index: number, item: ItemType): ItemType{
         let oldItem: ItemType = null;
         if (index < this.count && index >= 0) {
-
+            this[index].item = item;
         }
         return oldItem;
     }
