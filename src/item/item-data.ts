@@ -20,3 +20,4 @@ export const itemList: ItemList = {
         imageKey: 'item-kunai',
     },
 };
+
