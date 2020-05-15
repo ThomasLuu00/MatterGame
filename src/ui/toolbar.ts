@@ -6,6 +6,7 @@ const cellCount = 6;
 
 class Toolbar extends Phaser.GameObjects.Image {
     cellCount: number;
+    selectedCellIndex: number;
     selectedCells: Phaser.GameObjects.Image[];
 
     constructor(scene: Phaser.Scene, x: number, y: number) {
@@ -13,6 +14,7 @@ class Toolbar extends Phaser.GameObjects.Image {
         this.setVisible(false);
         this.scene.add.existing(this);
         this.selectedCells = [];
+        this.selectedCellIndex = 0;
 
         for (let i = 0; i < cellCount; i++) {
             this.scene.add.image(x - (cellCount / 2) * cellOffset + i * cellOffset, y, 'tile').setScale(4, 4);
@@ -35,6 +37,12 @@ class Toolbar extends Phaser.GameObjects.Image {
         this.scene.add.image(x - (cellCount / 2) * cellOffset + 1 * cellOffset, y, Particle.Vortex).setScale(0.5, 0.5);
 
         this.scene.events.on('update', this.update, this);
+    }
+
+    selectCell(index: number) {
+        this.selectedCells[this.selectedCellIndex].setVisible(false);
+        this.selectedCells[index].setVisible(true);
+        this.selectedCellIndex = index;
     }
 }
 
