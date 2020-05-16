@@ -22,7 +22,7 @@ export const itemList: ItemList = {
         id: 'I01001',
         name: 'Vortex',
         description: 'Spawn the void.',
-        iconKey: 'vortex',
+        iconKey: 'Vortex',
         tags: [Tags.EQUIPABLE, Tags.RANGED]
     },
 };

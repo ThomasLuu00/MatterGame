@@ -114,7 +114,7 @@ export default class MyGame extends Phaser.Scene {
         this.isTyping = isOpened;
 
         this.matter.world.createDebugGraphic(); // Shows the hitboxes
-        this.createWindow(Inventory);
+        //this.createWindow(Inventory);
 
         addNinjaGirlAnimations(this);
         addParticleAnimations(this);
@@ -142,7 +142,7 @@ export default class MyGame extends Phaser.Scene {
             }
         }
     }
-
+    /*
     createWindow(func) {
         const x = 50;
         const y = 50;
@@ -156,6 +156,7 @@ export default class MyGame extends Phaser.Scene {
         this.inv = demo;
         return scene;
     }
+    */
 }
 
 const config: Phaser.Types.Core.GameConfig = {
