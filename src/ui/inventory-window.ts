@@ -20,7 +20,17 @@ export default class InventoryWindow extends Phaser.GameObjects.Container{
         this.numSlots = this.inventory.count;
         this.setVisible(this.player.UI.showInventory);
         this.setActive(this.player.UI.showInventory);
-        
+
+        this.setInteractive(new Phaser.Geom.Rectangle(-50, -50, 500, 400), Phaser.Geom.Rectangle.Contains);
+        this.scene.input.setDraggable(this);
+        this.scene.input.enableDebug(this);
+
+        this.scene.input.on('drag', function (pointer, gameObject, dragX, dragY) {
+
+            gameObject.x = dragX;
+            gameObject.y = dragY;
+    
+        });
         const config = {
             width: 100,
             height: 100,
@@ -31,8 +41,17 @@ export default class InventoryWindow extends Phaser.GameObjects.Container{
         for (let r = 0; r < this.rows; r++){
             for (let c = 0; c < this.cols; c++){
                 this.cells[count] = this.createIcon('tile', c * config.width, r * config.width, config.width);
-                this.items[count] = (this.inventory[count].item) ? this.createIcon(this.inventory[count].item.iconKey, c * config.width, r * config.width, config.width) : null;
-                
+                if (this.inventory[count].item) {
+                    this.items[count] = this.createIcon(this.inventory[count].item.iconKey, c * config.width, r * config.width, config.width);
+                    /*
+                    this.items[count].setInteractive(new Phaser.Geom.Rectangle(0, 0, config.width, config.width), Phaser.Geom.Rectangle.Contains);
+                    this.scene.input.setDraggable(this.items[count]);
+                    this.scene.input.enableDebug(this.items[count]);
+                    */
+                }
+                else {
+                    this.cells[count] = null
+                }
                 this.inventory[count] = new Proxy(this.inventory[count], {
                     set: (target, key, value, receiver)=>{
                         let result = Reflect.set(target, key, receiver);
