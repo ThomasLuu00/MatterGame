@@ -15,6 +15,10 @@ export default class Player {
 
     destroyed: boolean;
 
+    UI = {
+        showInventory: false,
+    };
+
     constructor(scene, sprite) {
         this.scene = scene;
         this.input = new InputManager(this.scene);
@@ -74,6 +78,10 @@ export default class Player {
             wep.owner = this.sprite;
             this.sprite.equip(wep);
         }
+    }
+
+    toggleInventory(){
+        this.UI.showInventory = !this.UI.showInventory;
     }
 
     destroy() {

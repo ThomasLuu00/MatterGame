@@ -109,14 +109,6 @@ export default class UI extends Phaser.Scene {
             },
             this,
         );
-
-        this.events.on(
-            'toggleInventory',
-            () => {
-                this.inventory.toggle();
-            },
-            this,
-        );
     }
 
     update() {

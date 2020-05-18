@@ -129,7 +129,7 @@ export default class MyGame extends Phaser.Scene {
             this.controls.update(); // needed for camera controls
 
             if (Phaser.Input.Keyboard.JustDown(this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.I))) {
-                this.events.emit('toggleInventory');
+                this.player.toggleInventory();
                 this.player.inventory.setItem(5, new Weapon(this, Items.VORTEX, 2));
             }
 
