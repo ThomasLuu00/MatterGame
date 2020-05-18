@@ -4,6 +4,7 @@ import { ChatBox, preloadChatBox, addText } from './ui/chatbox';
 import { Button, preloadButton } from './ui/button';
 import { Toolbar, preloadToolbar } from './ui/toolbar';
 import Player from './player/player';
+import { GAME_WIDTH } from './utils/constants';
 
 export let isOpened;
 
@@ -21,6 +22,7 @@ export default class UI extends Phaser.Scene {
     }
 
     preload() {
+        this.load.bitmapFont('kenvector_future', '../assets/ui/fonts/font.png', '../assets/ui/fonts/font.fnt');
         preloadButton(this);
         preloadHealthBar(this);
         preloadChatBox(this);
@@ -33,7 +35,7 @@ export default class UI extends Phaser.Scene {
         // Getting player reference
         this.player = data.player;
 
-        this.chatbox = new ChatBox(this, 400, 1000);
+        this.chatbox = new ChatBox(this, 300, 1000);
         this.toolbar = new Toolbar(this, 1000, 870);
 
         //  Our Text object to display the Score
@@ -42,7 +44,9 @@ export default class UI extends Phaser.Scene {
             fill: '#000000',
         });
 
-        const healthbar = new HealthBar(this, 960, 1000, 'healthbar');
+        // this.add.bitmapText(840, 825, 'kenvector_future', 'asfsfsdfsdfa', 64);
+
+        const healthbar = new HealthBar(this, GAME_WIDTH / 2, 1000, 'healthbar');
         healthbar.health = 100;
 
         const buttonXPos = 1400;
@@ -73,15 +77,6 @@ export default class UI extends Phaser.Scene {
                 },
             );
         }
-
-        this.events.on(
-            'addScore',
-            () => {
-                this.player.sprite.characterData.health += 10;
-                healthText.setText('Health: ' + this.player.sprite.characterData.health);
-            },
-            this,
-        );
 
         this.events.on(
             'subtractHealth',
