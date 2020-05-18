@@ -5,8 +5,8 @@ import { Label } from 'phaser3-rex-plugins/templates/ui/ui-components.js';
 import { Button } from './button';
 
 const textInputOffset = 20;
-const chatHistoryYOffset = 150;
-const expandButtonOffset = 240;
+const chatHistoryYOffset = 125;
+const expandButtonOffset = 325;
 
 let chatHistory: any[];
 let chatIndex = 0;
@@ -40,9 +40,11 @@ class ChatBox extends Phaser.GameObjects.Image {
     constructor(scene: Phaser.Scene, x: number, y: number) {
         super(scene, x, y, 'chatbox');
         this.scene.add.existing(this);
+        this.width = 600;
+        this.displayWidth = 600;
 
         // Expand chatbox button
-        new Button(scene, x + expandButtonOffset, y, 'menuGrid', () => {
+        new Button(scene, x + expandButtonOffset, y, 'expandButton', () => {
             scene.events.emit('expandChatbox');
         });
 
@@ -52,7 +54,7 @@ class ChatBox extends Phaser.GameObjects.Image {
         panel = new GridTable(this.scene, {
             x: x,
             y: y - chatHistoryYOffset,
-            width: 800,
+            width: this.width,
             height: 200,
 
             scrollMode: 0,
@@ -124,17 +126,12 @@ class ChatBox extends Phaser.GameObjects.Image {
 
         panel.visible = false;
 
-        this.info = this.scene.add.text(
-            x - this.width / 2 + textInputOffset,
-            y - this.height / 2 + textInputOffset,
-            'Type here',
-            {
-                font: '48px Arial',
-                fixedWidth: this.width,
-                valign: 'center',
-                color: 'black',
-            },
-        );
+        this.info = this.scene.add.text(x - this.width / 2, y - this.height / 2, 'Type here', {
+            font: '48px Arial',
+            fixedWidth: this.width,
+            valign: 'center',
+            color: 'black',
+        });
         this.info.setInteractive({ useHandCursor: true });
         this.info.on('pointerdown', () => {
             this.info.setText('');
@@ -155,7 +152,8 @@ class ChatBox extends Phaser.GameObjects.Image {
 }
 
 const preloadChatBox = (scene: Phaser.Scene) => {
-    scene.load.image('chatbox', '../assets/ui/panel_Example1.png');
+    scene.load.image('chatbox', '../assets/ui/menu/grey_button05.png');
+    scene.load.image('expandButton', '../assets/ui/menu/grey_expand_box.png');
 };
 
 export { ChatBox, preloadChatBox, addText };
