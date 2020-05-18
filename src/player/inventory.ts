@@ -67,7 +67,7 @@ interface ItemList{
     tail: InventorySlot<ItemType>;
 }
 
-interface InventorySlot<T>{
+export interface InventorySlot<T>{
     item: T;
     next: InventorySlot<T>;
     prev: InventorySlot<T>;

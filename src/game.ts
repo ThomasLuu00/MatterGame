@@ -7,9 +7,10 @@ import { Particle, ParticleTextures, addParticleAnimations } from './projectiles
 import CharacterBase from './characters/character-base';
 import NinjaGirl, { preloadNinjaGirl, addNinjaGirlAnimations } from './characters/ninja-girl';
 import Loot from './loot';
-import { itemList } from './item/item-data';
+import { itemList, Items } from './item/item-data';
 import Background from './background';
 import { GAME_WIDTH, GAME_HEIGHT } from './utils/constants';
+import Weapon from './item/weapon';
 
 export default class MyGame extends Phaser.Scene {
     player: Player;
@@ -129,6 +130,7 @@ export default class MyGame extends Phaser.Scene {
 
             if (Phaser.Input.Keyboard.JustDown(this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.I))) {
                 this.events.emit('toggleInventory');
+                this.player.inventory.setItem(5, new Weapon(this, Items.VORTEX, 2));
             }
 
             if (Phaser.Input.Keyboard.JustDown(this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.L))) {
