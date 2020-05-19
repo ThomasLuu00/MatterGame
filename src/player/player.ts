@@ -1,31 +1,42 @@
 import 'phaser';
-import MyGame from '../game.js';
+import MyGame from '../game';
 import InputManager from './input-manager';
-import Inventory from '../ui/inventoryUI.js';
-import CharacterBase from '../characters/character-base.js';
-import Weapon from '../item/weapon.js';
+import Inventory from './inventory';
+import CharacterBase from '../characters/character-base';
+import Weapon from '../item/weapon';
+import { Items } from '../item/item-data';
+import Loot from '../loot';
 
 export default class Player {
     scene: MyGame;
     sprite: CharacterBase;
     input: InputManager;
-
     inventory: Inventory;
-
+    loot: Loot = null;
     destroyed: boolean;
+
+    UI = {
+        showInventory: false,
+    };
 
     constructor(scene, sprite) {
         this.scene = scene;
         this.input = new InputManager(this.scene);
         this.sprite = sprite;
+        sprite.owner = this;
         this.scene.events.on('update', this.update, this);
         this.scene.events.once('shutdown', this.destroy, this);
         this.scene.events.once('destroy', this.destroy, this);
 
         // Equipping weapon
-        const wep = new Weapon(this.scene.matter.world, 'I01000', 1);
+        const wep = new Weapon(this.scene, Items.KUNAI, 1);
         wep.owner = this.sprite;
         this.sprite.equip(wep);
+
+        this.inventory = new Inventory(20);
+        this.inventory.setItem(0, wep)
+        this.inventory.setItem(3, new Weapon(this.scene, Items.VORTEX, 2))
+        
     }
 
     update() {
@@ -39,6 +50,7 @@ export default class Player {
         //const isOnGround = this.sprite.isTouching.ground;
         const isWep1Down = this.input.weapon1.isDown;
         const isWep2Down = this.input.weapon2.isDown;
+        const isPickUpDown = Phaser.Input.Keyboard.JustDown(this.input.pickUp);
 
         if (isWep1Down) {
             this.switchWeapon(1);
@@ -46,6 +58,10 @@ export default class Player {
 
         if (isWep2Down) {
             this.switchWeapon(2);
+        }
+
+        if (isPickUpDown){
+            this.pickUp();
         }
 
         if (isJumpKeyDown) {
@@ -63,10 +79,23 @@ export default class Player {
 
     switchWeapon(slot: integer) {
         if (slot > 0 && slot < 3) {
-            const wep = new Weapon(this.scene.matter.world, 'I01000', slot);
+            const wep = new Weapon(this.scene, Items.KUNAI, slot);
             wep.owner = this.sprite;
             this.sprite.equip(wep);
         }
+    }
+
+    pickUp(){
+        if (this.loot){
+            this.inventory.addItem(this.loot.pickUp());
+            //this.loot.destroy();
+            this.loot = null;
+        }
+
+    }
+
+    toggleInventory(){
+        this.UI.showInventory = !this.UI.showInventory;
     }
 
     destroy() {

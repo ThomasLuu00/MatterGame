@@ -7,9 +7,10 @@ import { Particle, ParticleTextures, addParticleAnimations } from './projectiles
 import CharacterBase from './characters/character-base';
 import NinjaGirl, { preloadNinjaGirl, addNinjaGirlAnimations } from './characters/ninja-girl';
 import Loot from './loot';
-import { itemList } from './item/item-data';
+import { itemList, Items } from './item/item-data';
 import Background from './background';
 import { GAME_WIDTH, GAME_HEIGHT } from './utils/constants';
+import Weapon from './item/weapon';
 
 export default class MyGame extends Phaser.Scene {
     player: Player;
@@ -85,8 +86,8 @@ export default class MyGame extends Phaser.Scene {
         this.scene.add('UIScene', UI, true, { player: this.player });
 
         this.enemy = new EnemyNinja(this, spawnPoint.x + 100, spawnPoint.y);
-        new Loot(this.matter.world, spawnPoint.x + 200, spawnPoint.y, itemList.I01000);
-
+        new Loot(this.matter.world, spawnPoint.x + 200, spawnPoint.y, itemList.kunai);
+        new Loot(this.matter.world, spawnPoint.x + 400, spawnPoint.y, itemList.vortex);
         // Smoothly follow the player
         const controlConfig = {
             camera: this.cameras.main,
@@ -114,7 +115,7 @@ export default class MyGame extends Phaser.Scene {
         this.isTyping = isOpened;
 
         this.matter.world.createDebugGraphic(); // Shows the hitboxes
-        this.createWindow(Inventory);
+        //this.createWindow(Inventory);
 
         addNinjaGirlAnimations(this);
         addParticleAnimations(this);
@@ -128,7 +129,8 @@ export default class MyGame extends Phaser.Scene {
             this.controls.update(); // needed for camera controls
 
             if (Phaser.Input.Keyboard.JustDown(this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.I))) {
-                this.events.emit('toggleInventory');
+                this.player.toggleInventory();
+                //this.player.inventory.setItem(5, new Weapon(this, Items.VORTEX, 2));
             }
 
             if (Phaser.Input.Keyboard.JustDown(this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.L))) {
@@ -142,7 +144,7 @@ export default class MyGame extends Phaser.Scene {
             }
         }
     }
-
+    /*
     createWindow(func) {
         const x = 50;
         const y = 50;
@@ -156,6 +158,7 @@ export default class MyGame extends Phaser.Scene {
         this.inv = demo;
         return scene;
     }
+    */
 }
 
 const config: Phaser.Types.Core.GameConfig = {

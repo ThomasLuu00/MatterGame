@@ -5,6 +5,7 @@ import { Button, preloadButton } from './ui/button';
 import { Toolbar, preloadToolbar } from './ui/toolbar';
 import Player from './player/player';
 import { GAME_WIDTH } from './utils/constants';
+import InventoryWindow from './ui/inventory-window';
 
 export let isOpened;
 
@@ -13,6 +14,7 @@ export default class UI extends Phaser.Scene {
     mainScene: Phaser.Scene;
     chatbox: ChatBox;
     toolbar: Toolbar;
+    inventory: InventoryWindow;
 
     constructor() {
         super({
@@ -37,6 +39,7 @@ export default class UI extends Phaser.Scene {
 
         this.chatbox = new ChatBox(this, 300, 1000);
         this.toolbar = new Toolbar(this, 1000, 870);
+        this.inventory = new InventoryWindow(this, 200, 200, this.player);
 
         //  Our Text object to display the Score
         const healthText = this.add.text(840, 925, 'Health: ' + this.player.sprite.characterData.health, {

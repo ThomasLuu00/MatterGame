@@ -25,6 +25,7 @@ export default class InputManager {
     crouch: Phaser.Input.Keyboard.Key;
     jump: Phaser.Input.Keyboard.Key;
 
+    pickUp: Phaser.Input.Keyboard.Key;
     attack: Phaser.Input.Keyboard.Key;
     throw: Phaser.Input.Keyboard.Key;
     inventory: Phaser.Input.Keyboard.Key;
@@ -35,7 +36,7 @@ export default class InputManager {
         this.scene = scene;
 
         // Track the keys
-        const { A, D, W, S, F, G, I, ONE, TWO } = Phaser.Input.Keyboard.KeyCodes;
+        const { A, D, W, S, F, G, I, Z, ONE, TWO } = Phaser.Input.Keyboard.KeyCodes;
         this.moveLeft = this.scene.input.keyboard.addKey(A);
         this.moveRight = this.scene.input.keyboard.addKey(D);
         this.jump = this.scene.input.keyboard.addKey(W);
@@ -46,5 +47,7 @@ export default class InputManager {
         this.inventory = this.scene.input.keyboard.addKey(I);
         this.weapon1 = this.scene.input.keyboard.addKey(ONE);
         this.weapon2 = this.scene.input.keyboard.addKey(TWO);
+
+        this.pickUp = this.scene.input.keyboard.addKey(Z);
     }
 }
