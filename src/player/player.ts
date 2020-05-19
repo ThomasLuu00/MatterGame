@@ -5,14 +5,14 @@ import Inventory from './inventory';
 import CharacterBase from '../characters/character-base';
 import Weapon from '../item/weapon';
 import { Items } from '../item/item-data';
+import Loot from '../loot';
 
 export default class Player {
     scene: MyGame;
     sprite: CharacterBase;
     input: InputManager;
-
     inventory: Inventory;
-
+    loot: Loot = null;
     destroyed: boolean;
 
     UI = {
@@ -50,6 +50,7 @@ export default class Player {
         //const isOnGround = this.sprite.isTouching.ground;
         const isWep1Down = this.input.weapon1.isDown;
         const isWep2Down = this.input.weapon2.isDown;
+        const isPickUpDown = Phaser.Input.Keyboard.JustDown(this.input.pickUp);
 
         if (isWep1Down) {
             this.switchWeapon(1);
@@ -57,6 +58,10 @@ export default class Player {
 
         if (isWep2Down) {
             this.switchWeapon(2);
+        }
+
+        if (isPickUpDown){
+            this.pickUp();
         }
 
         if (isJumpKeyDown) {
@@ -78,6 +83,15 @@ export default class Player {
             wep.owner = this.sprite;
             this.sprite.equip(wep);
         }
+    }
+
+    pickUp(){
+        if (this.loot){
+            this.inventory.addItem(this.loot.pickUp());
+            //this.loot.destroy();
+            this.loot = null;
+        }
+
     }
 
     toggleInventory(){

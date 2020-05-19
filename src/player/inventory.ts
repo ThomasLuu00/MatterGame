@@ -59,6 +59,20 @@ export default class Inventory implements ItemList{
             } 
         }
     }
+
+    addItem(item: ItemType): boolean{
+        if (item){
+            let i = 0;
+            while (i < this.count){
+                if (!this[i].item && this[i].item !== item){
+                    this[i].item = item;
+                    return true;
+                }
+                i++;
+            }
+            return false;
+        }
+    }
 }
 
 interface ItemList{

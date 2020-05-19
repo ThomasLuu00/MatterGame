@@ -2,6 +2,7 @@ import 'phaser';
 
 import CharacterBase from './characters/character-base';
 import { ItemType } from './item/item';
+import Player from './player/player';
 
 export default class Loot {
     scene: Phaser.Scene;
@@ -42,16 +43,15 @@ export default class Loot {
             // TODO: Ground should lhave tile property, will need a better way of checking in the future.
             context.sprite.setIgnoreGravity(true);
             context.sprite.setVelocityY(0);
-            context.sprite.y -= 10;
             context.onGround = true;
         } else if (thatData?.data?.values?.class instanceof CharacterBase) {
             const character: CharacterBase = thatData.data.values.class;
             context.showLoot = true;
-            if (character.owner) console.log('loot me');
+            if (character.owner != null && character.owner instanceof Player) {
+                const player: Player = character.owner;
+                if (!player.loot) player.loot = this;
+            }
         }
-        //console.log(event.bodyA?.gameObject?.data)
-        //if (event.bodyB.isSensor) return; // We only care about collisions with physical objects
-        //console.log(event);
     }
     onSensorCollideEnd(event, context) {
         const thatData = event.bodyA.gameObject || null;
@@ -60,6 +60,14 @@ export default class Loot {
             context.onGround = false;
         }
     }
+
+    pickUp(): ItemType {
+        if (this.destroyed) return;
+        const temp = this.item;
+        this.destroy();
+        return temp;
+    }
+    d;
     update() {
         if (this.destroyed) return;
     }
@@ -71,6 +79,9 @@ export default class Loot {
         this.destroyed = true;
         this.scene = null;
         this.item = null;
+        this.sprite.setOnCollideActive(null);
+        this.sprite.setOnCollideEnd(null);
+        this.sprite.setCollisionGroup(0);
         this.sprite.destroy();
     }
 }

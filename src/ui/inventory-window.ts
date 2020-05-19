@@ -26,37 +26,34 @@ export default class InventoryWindow extends Phaser.GameObjects.Container{
         this.scene.input.enableDebug(this);
 
         this.scene.input.on('drag', function (pointer, gameObject, dragX, dragY) {
-
             gameObject.x = dragX;
             gameObject.y = dragY;
-    
         });
+        
         const config = {
             width: 100,
             height: 100,
         }
 
         let count = 0;
-        //console.log(this.player.inventory[count].item)
         for (let r = 0; r < this.rows; r++){
             for (let c = 0; c < this.cols; c++){
                 this.cells[count] = this.createIcon('tile', c * config.width, r * config.width, config.width);
                 if (this.inventory[count].item) {
                     this.items[count] = this.createIcon(this.inventory[count].item.iconKey, c * config.width, r * config.width, config.width);
-                    /*
-                    this.items[count].setInteractive(new Phaser.Geom.Rectangle(0, 0, config.width, config.width), Phaser.Geom.Rectangle.Contains);
-                    this.scene.input.setDraggable(this.items[count]);
-                    this.scene.input.enableDebug(this.items[count]);
-                    */
                 }
                 else {
                     this.cells[count] = null
                 }
-                this.inventory[count] = new Proxy(this.inventory[count], {
+
+                const i = count;
+                this.inventory[i] = new Proxy(this.inventory[i], {
                     set: (target, key, value, receiver)=>{
                         let result = Reflect.set(target, key, receiver);
-                        this.items[count]?.destroy();
-                        this.items[count] = (value) ? this.createIcon(value.iconKey, c * config.width, r * config.width, config.width) : null;
+                        if (key === 'item'){
+                            this.items[i]?.destroy();
+                            this.items[i] = (value) ? this.createIcon(value.iconKey, c * config.width, r * config.width, config.width) : null;
+                        }
                         return result;
                     }
                 });
@@ -82,7 +79,7 @@ export default class InventoryWindow extends Phaser.GameObjects.Container{
 
     }
 
-    private createIcon(texture: string, x: number, y: number, width: number){
+    private createIcon(texture: string, x: number, y: number, width: number): Phaser.GameObjects.Image{
         let icon = this.scene.add.image(x, y, texture);
         icon.setScale(width/icon.width);
         this.add(icon);

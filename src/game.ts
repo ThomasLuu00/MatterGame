@@ -87,7 +87,7 @@ export default class MyGame extends Phaser.Scene {
 
         this.enemy = new EnemyNinja(this, spawnPoint.x + 100, spawnPoint.y);
         new Loot(this.matter.world, spawnPoint.x + 200, spawnPoint.y, itemList.kunai);
-
+        new Loot(this.matter.world, spawnPoint.x + 400, spawnPoint.y, itemList.vortex);
         // Smoothly follow the player
         const controlConfig = {
             camera: this.cameras.main,
@@ -130,7 +130,7 @@ export default class MyGame extends Phaser.Scene {
 
             if (Phaser.Input.Keyboard.JustDown(this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.I))) {
                 this.player.toggleInventory();
-                this.player.inventory.setItem(5, new Weapon(this, Items.VORTEX, 2));
+                //this.player.inventory.setItem(5, new Weapon(this, Items.VORTEX, 2));
             }
 
             if (Phaser.Input.Keyboard.JustDown(this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.L))) {
