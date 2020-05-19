@@ -75,10 +75,6 @@ export default class InventoryWindow extends Phaser.GameObjects.Container{
         this.scene.add.existing(this);
     }
 
-    update(){
-
-    }
-
     private createIcon(texture: string, x: number, y: number, width: number): Phaser.GameObjects.Image{
         let icon = this.scene.add.image(x, y, texture);
         icon.setScale(width/icon.width);
