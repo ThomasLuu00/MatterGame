@@ -9,7 +9,6 @@ export default class Background extends Phaser.Scene {
 
     constructor() {
         super({
-            key: 'BackgroundScene',
             active: true,
         });
     }

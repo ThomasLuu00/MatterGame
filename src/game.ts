@@ -21,6 +21,7 @@ export default class MyGame extends Phaser.Scene {
     curAnim: any;
     controls: any;
     count = 0;
+    currentLevel = 1;
     isInventoryOpen = false;
     inv: any;
     isTyping = false;
@@ -83,7 +84,7 @@ export default class MyGame extends Phaser.Scene {
         this.player = new Player(this, this.test);
 
         // Add UI scene
-        this.scene.add('UIScene', UI, true, { player: this.player });
+        this.scene.add('UIScene' + this.currentLevel, UI, true, { player: this.player });
 
         this.enemy = new EnemyNinja(this, spawnPoint.x + 100, spawnPoint.y);
         new Loot(this.matter.world, spawnPoint.x + 200, spawnPoint.y, itemList.kunai);
@@ -105,7 +106,7 @@ export default class MyGame extends Phaser.Scene {
         this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
 
         // Add background scene
-        this.scene.add('BackgroundScene', Background, true, {
+        this.scene.add('BackgroundScene' + this.currentLevel, Background, true, {
             camera: this.cameras.main,
             mapWidth: map.widthInPixels,
             mapHeight: map.heightInPixels,
@@ -131,6 +132,11 @@ export default class MyGame extends Phaser.Scene {
             if (Phaser.Input.Keyboard.JustDown(this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.I))) {
                 this.player.toggleInventory();
                 //this.player.inventory.setItem(5, new Weapon(this, Items.VORTEX, 2));
+            }
+
+            if (Phaser.Input.Keyboard.JustDown(this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R))) {
+                this.currentLevel += 1;
+                this.scene.restart({ currentLevel: this.currentLevel });
             }
 
             if (Phaser.Input.Keyboard.JustDown(this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.L))) {
