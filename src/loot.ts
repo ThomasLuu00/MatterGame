@@ -23,7 +23,7 @@ export default class Loot {
         this.sprite.setCollisionGroup(-10);
         this.sprite.setMass(1);
         this.scene.events.on('update', this.update, this);
-        this.scene.events.on('shutdown', this.destroy, this);
+        // this.scene.events.on('shutdown', this.destroy, this);
         this.scene.events.on('destroy', this.destroy, this);
     }
 
@@ -74,7 +74,7 @@ export default class Loot {
     destroy() {
         if (this.destroyed) return;
         this.scene.events.off('update', this.update, this);
-        this.scene.events.off('shutdown', this.destroy, this);
+        // this.scene.events.off('shutdown', this.destroy, this);
         this.scene.events.off('destroy', this.destroy, this);
         this.destroyed = true;
         this.scene = null;
